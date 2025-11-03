@@ -1,0 +1,86 @@
+{
+  "common": {
+    "search": "Search",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "back": "Back",
+    "next": "Next",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "success": "Operation successful",
+    "currency": "SAR"
+  },
+  "nav": {
+    "home": "Home",
+    "hotels": "Hotels",
+    "myTrips": "My Trips",
+    "admin": "Admin",
+    "signIn": "Sign In",
+    "signOut": "Sign Out"
+  },
+  "home": {
+    "title": "YoRight - Book Your Next Trip",
+    "subtitle": "Discover the best hotels at competitive prices",
+    "searchPlaceholder": "Where do you want to go?",
+    "checkIn": "Check-in",
+    "checkOut": "Check-out",
+    "guests": "Guests",
+    "popularDestinations": "Popular Destinations",
+    "exploreByMonth": "Explore by Month"
+  },
+  "search": {
+    "results": "Results",
+    "filters": "Filters",
+    "sort": "Sort",
+    "map": "Map",
+    "priceRange": "Price Range",
+    "stars": "Stars",
+    "rating": "Rating",
+    "freeCancellation": "Free Cancellation",
+    "breakfast": "Free Breakfast",
+    "propertyType": "Property Type",
+    "sortBy": {
+      "recommended": "Recommended",
+      "priceLowToHigh": "Price: Low to High",
+      "priceHighToLow": "Price: High to Low",
+      "rating": "Rating",
+      "distance": "Distance from Center"
+    }
+  },
+  "hotel": {
+    "details": "Hotel Details",
+    "amenities": "Amenities",
+    "rooms": "Rooms",
+    "reviews": "Reviews",
+    "location": "Location",
+    "policies": "Policies",
+    "selectRoom": "Select Room",
+    "perNight": "per night",
+    "bookNow": "Book Now"
+  },
+  "checkout": {
+    "title": "Complete Booking",
+    "guestDetails": "Guest Details",
+    "paymentDetails": "Payment Details",
+    "fullName": "Full Name",
+    "email": "Email",
+    "phone": "Phone",
+    "vatNumber": "VAT Number (Optional)",
+    "total": "Total",
+    "vat": "VAT",
+    "subtotal": "Subtotal",
+    "completeBooking": "Complete Booking"
+  },
+  "booking": {
+    "confirmation": "Booking Confirmation",
+    "reference": "Reference Number",
+    "status": "Status",
+    "manage": "Manage Booking",
+    "cancel": "Cancel Booking",
+    "addToCalendar": "Add to Calendar",
+    "share": "Share"
+  }
+}
