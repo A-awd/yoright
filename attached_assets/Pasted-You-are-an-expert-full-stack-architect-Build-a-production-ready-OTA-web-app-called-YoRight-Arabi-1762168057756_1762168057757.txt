@@ -1,0 +1,123 @@
+You are an expert full-stack architect. Build a production-ready OTA web app called “YoRight” (Arabic/English) similar to Almosafer/Trip.com with hotel search & booking (Phase 1) and a pluggable architecture for flights/tours later. Use a clean, modern UI.
+
+TECH STACK
+- Web: Next.js (App Router) + TypeScript + React Server Components + Tailwind CSS + shadcn/ui.
+- Server: Next.js API routes (REST). Node 20+.
+- DB: PostgreSQL via Prisma ORM.
+- Auth: NextAuth (email/password + Google/Apple optional).
+- Payments: Tap Payments (Apple Pay + mada + cards). Add webhooks.
+- Maps: Google Maps JavaScript API + Places Autocomplete.
+- i18n & RTL: next-intl (ar default, en secondary), full RTL support.
+- SEO: metadata, OpenGraph, sitemap.xml, robots.txt.
+- PWA: installable, offline shell for key pages.
+- Email: Resend (or Nodemailer fallback).
+- Deploy: ready for Replit (dotenv), include “npm run seed”.
+
+BUSINESS REQUIREMENTS
+- Default currency SAR with multi-currency display (SAR, USD, EUR); live FX via pluggable rate provider (simple daily cron + fallback static table).
+- Modules: Hotels (live rates via suppliers), Bookings, Users, Payments, My Trips, Admin.
+- Supplier layer v1: integrate RateHawk sandbox (hotels availability/pricing/booking). Prepare adapters for Hotelbeds in v2.
+- City Intelligence (shown on city page and hotel SRP header): monthly weather averages, cost-of-living index, local public holidays, and “daily flights count” placeholder. Implement via modular providers:
+  - Weather: OpenWeather (or static seed for demo).
+  - Holidays: Calendarific (or static seed).
+  - Cost of living: seed JSON.
+  - Flights-per-day: placeholder provider returning mock counts; design interface to swap in Aviationstack later.
+- B2C first; add B2B-ready flags on user/org for corporate rates later.
+
+PAGES (App Router)
+1) / (Home):
+   - City/date/guests search bar with Places Autocomplete.
+   - Quick chips for popular destinations.
+   - “Explore by month” using City Intelligence.
+2) /search/hotels:
+   - SSR result list + map toggle. Sticky bottom bar on mobile (“Map”, “Sort & Filter”).
+   - Filters: price range (SAR), stars, rating, free cancellation, breakfast, property type, neighborhoods (polygon from Maps).
+   - Sort: recommended, price low-high, rating, distance from center.
+3) /hotel/[id]:
+   - Gallery, badges, location on map, amenities, room cards with live pricing from RateHawk, policies, reviews (mock).
+   - “Select room” → checkout.
+4) /checkout:
+   - Guest details, extras, payment via Tap (Apple Pay/mada/cards), terms, ZATCA VAT number field (optional).
+   - Create pending booking → pay → confirm → email itinerary/invoice (PDF).
+5) /bookings/[reference] (confirmation):
+   - Booking summary, manage (cancel if allowed), share, add to Apple/Google Wallet (ICS).
+6) /my-trips (auth):
+   - Past/upcoming trips with filters.
+7) /admin (protected):
+   - Dashboard, supplier health, bookings table, refunds, content (featured cities), FX rates, City Intelligence cache.
+
+API CONTRACTS (REST)
+- GET /api/hotels/search?cityId&checkIn&checkOut&guests&filters…
+- GET /api/hotels/:id (hydrate with supplier data)
+- POST /api/bookings (body: selectedRoom, guest, totals, currency) → returns bookingId, paymentIntent
+- POST /api/payments/tap/create-intent
+- POST /api/payments/tap/webhook (verify signature, update booking → PAID/FAILED)
+- GET /api/bookings/:ref (auth if user-owned)
+- GET /api/city-intel?cityId&month
+- GET /api/fx/latest
+
+DATA MODEL (Prisma)
+Model User { id, name, email, phone, role, locale, currency, createdAt }
+Model Booking { id, reference, userId?, status (PENDING/PAID/CANCELLED), supplier (RATEHAWK), supplierRef,
+  checkIn, checkOut, cityId, hotelId, roomJson, guestJson, currency, total, vat, createdAt, paidAt? }
+Model Payment { id, bookingId, provider (TAP), providerIntentId, status, amount, currency, raw Json, createdAt }
+Model City { id, nameAr, nameEn, countryCode, centerLat, centerLng, slug }
+Model FxRate { id, base, quote, rate, asOf }
+Model CityIntelCache { id, cityId, month, weatherJson, holidaysJson, colIndexJson, flightsJson, refreshedAt }
+Model SupplierCredential { id, name, apiKey, sandbox, metaJson }
+(Include indexes and relations.)
+
+UI/UX
+- Clean, luxury travel vibe. Tailwind + shadcn/ui cards, shadows, rounded-2xl, ample spacing.
+- Hotel list item: image, name, rating, location distance, perks badges (Breakfast, Free Cancel), price in SAR with “≈” converted currency small.
+- Sticky bottom actions on mobile.
+- RTL-perfect for Arabic. Numerals: Arabic-Indic in ar, Latin in en.
+- Loading states & skeletons. Empty states with helpful copy.
+
+PAYMENTS (Tap)
+- Environment variables for keys, store customer email/phone for receipts.
+- Create intent server-side; client confirms. Support Apple Pay/mada/cards.
+- Webhook updates Payment + Booking; idempotent handling; signature verification.
+- Refund endpoint stub in /admin.
+
+SUPPLIER ADAPTER (RateHawk)
+- .env for RATEHAWK credentials (sandbox).
+- Adapter functions: searchHotels(), getHotelDetails(), createBooking().
+- Map supplier responses to internal DTOs. Include retry/backoff and error normalization.
+
+GOOGLE MAPS
+- Use Places Autocomplete in search bar.
+- SRP map with markers & cluster. Draw simple center-radius filter.
+- Hotel details page: map with hotel pin and nearby POIs (placeholder list).
+
+CITY INTELLIGENCE
+- Cache per city+month for 24h. Graceful fallback to seeds if providers fail.
+
+INTERNATIONALIZATION
+- Arabic default, English optional toggle. Full RTL/LTR switch. All dates in user locale/timezone (Asia/Riyadh); currency default SAR.
+
+EMAILS & DOCS
+- Transactional emails (order confirmation, receipt) via Resend.
+- Generate PDF invoice/itinerary (server) with branding and ZATCA-compliant VAT fields (basic).
+
+TEST DATA & SEED
+- Seed cities (Riyadh, Dubai, Jeddah, London, Paris, Bangkok), a few hotels with static fallback images, sample rates (if supplier is unavailable), FX rates, and one admin user.
+- Include “npm run seed”.
+
+ENV & SCRIPTS
+- .env.example: DATABASE_URL, NEXTAUTH_SECRET, TAP_SECRET, TAP_PUBLIC, RATEHAWK_KEY, GOOGLE_MAPS_KEY, RESEND_KEY.
+- Scripts: dev, build, start, lint, seed.
+
+ACCEPTANCE CRITERIA
+- I can search “Dubai” with dates, see SRP with filters/map, open a hotel, select a room, checkout, pay (Tap sandbox), then see a confirmation page and receive an email.
+- Arabic as default, perfect RTL, SAR prices with optional USD/EUR display.
+- Admin page shows bookings & webhook logs.
+- Code is clean, typed, modular; supplier/payment Map/Adapter patterns.
+- Provide a brief README with setup steps and how to swap in Hotelbeds/Flights later.
+
+IMPORTANT
+- Do NOT ask clarifying questions. If something is ambiguous, choose sensible defaults and proceed.
+- Optimize for Replit: one Next.js app with API routes + Prisma. Provide Prisma schema and migration on first run.
+- Include unit tests for core mappers (supplier → internal DTO) and payment webhook handler.
+
+Deliver now: full project scaffold, prisma schema, key pages/components, API endpoints, seed script, README, and minimal tests.
