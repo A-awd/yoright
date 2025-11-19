@@ -73,8 +73,44 @@ export class RatehawkMockService {
     let results = this.mockHotels.filter(h => !params.cityId || h.cityId === params.cityId);
     
     return results.map(hotel => ({
-      ...hotel,
+      id: hotel.id,
+      nameAr: hotel.name,
+      nameEn: hotel.nameEn,
+      cityId: hotel.cityId,
+      stars: hotel.stars,
+      rating: hotel.rating,
+      reviewCount: hotel.reviewCount,
+      location: {
+        lat: hotel.lat,
+        lng: hotel.lng,
+        addressAr: hotel.address,
+        addressEn: hotel.address.includes('،') ? hotel.nameEn + ' Area' : hotel.address,
+        distanceToCenterKm: 5.2,
+      },
+      thumbnail: hotel.image,
+      images: [hotel.image, hotel.image, hotel.image],
+      amenitiesAr: hotel.amenities,
+      amenitiesEn: hotel.amenities.map(a => {
+        const translations: Record<string, string> = {
+          'مسبح': 'Swimming Pool',
+          'سبا': 'Spa',
+          'مطعم': 'Restaurant',
+          'واي فاي مجاني': 'Free WiFi',
+          'موقف سيارات': 'Parking',
+          'صالة رياضية': 'Gym',
+          'إطلالة على البحر': 'Sea View',
+          'شاطئ خاص': 'Private Beach',
+          'مطاعم فاخرة': 'Fine Dining',
+          'سبا عالمي': 'World-class Spa',
+          'مسبح لا متناهي': 'Infinity Pool',
+        };
+        return translations[a] || a;
+      }),
+      pricePerNight: hotel.pricePerNight,
       totalPrice: hotel.pricePerNight * 3,
+      currency: hotel.currency,
+      freeCancellation: true,
+      breakfastIncluded: hotel.stars >= 4,
     }));
   }
 
@@ -85,13 +121,49 @@ export class RatehawkMockService {
     }
 
     return {
-      ...hotel,
-      description: 'فندق فاخر في قلب المدينة مع خدمات من الدرجة الأولى',
+      id: hotel.id,
+      nameAr: hotel.name,
+      nameEn: hotel.nameEn,
+      cityId: hotel.cityId,
+      stars: hotel.stars,
+      rating: hotel.rating,
+      reviewCount: hotel.reviewCount,
+      location: {
+        lat: hotel.lat,
+        lng: hotel.lng,
+        addressAr: hotel.address,
+        addressEn: hotel.address.includes('،') ? hotel.nameEn + ' Area' : hotel.address,
+        distanceToCenterKm: 5.2,
+      },
+      thumbnail: hotel.image,
+      images: [hotel.image, hotel.image, hotel.image],
+      amenitiesAr: hotel.amenities,
+      amenitiesEn: hotel.amenities.map(a => {
+        const translations: Record<string, string> = {
+          'مسبح': 'Swimming Pool',
+          'سبا': 'Spa',
+          'مطعم': 'Restaurant',
+          'واي فاي مجاني': 'Free WiFi',
+          'موقف سيارات': 'Parking',
+          'صالة رياضية': 'Gym',
+          'إطلالة على البحر': 'Sea View',
+          'شاطئ خاص': 'Private Beach',
+          'مطاعم فاخرة': 'Fine Dining',
+          'سبا عالمي': 'World-class Spa',
+          'مسبح لا متناهي': 'Infinity Pool',
+        };
+        return translations[a] || a;
+      }),
+      descriptionAr: 'فندق فاخر في قلب المدينة مع خدمات من الدرجة الأولى',
       descriptionEn: 'Luxury hotel in the heart of the city with world-class services',
+      pricePerNight: hotel.pricePerNight,
+      currency: hotel.currency,
+      freeCancellation: true,
+      breakfastIncluded: hotel.stars >= 4,
       rooms: [
         {
           id: `${id}-room-1`,
-          name: 'غرفة ديلوكس',
+          nameAr: 'غرفة ديلوكس',
           nameEn: 'Deluxe Room',
           priceSar: hotel.pricePerNight,
           refundable: true,
@@ -101,7 +173,7 @@ export class RatehawkMockService {
         },
         {
           id: `${id}-room-2`,
-          name: 'جناح تنفيذي',
+          nameAr: 'جناح تنفيذي',
           nameEn: 'Executive Suite',
           priceSar: hotel.pricePerNight * 1.5,
           refundable: true,
@@ -111,7 +183,7 @@ export class RatehawkMockService {
         },
         {
           id: `${id}-room-3`,
-          name: 'غرفة قياسية',
+          nameAr: 'غرفة قياسية',
           nameEn: 'Standard Room',
           priceSar: hotel.pricePerNight * 0.7,
           refundable: false,
