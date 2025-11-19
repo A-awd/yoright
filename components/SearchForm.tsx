@@ -10,6 +10,15 @@ interface SearchFormProps {
   locale: string;
 }
 
+const POPULAR_CITIES = [
+  { slug: 'riyadh', nameEn: 'Riyadh', nameAr: 'الرياض' },
+  { slug: 'dubai', nameEn: 'Dubai', nameAr: 'دبي' },
+  { slug: 'jeddah', nameEn: 'Jeddah', nameAr: 'جدة' },
+  { slug: 'london', nameEn: 'London', nameAr: 'لندن' },
+  { slug: 'paris', nameEn: 'Paris', nameAr: 'باريس' },
+  { slug: 'bangkok', nameEn: 'Bangkok', nameAr: 'بانكوك' },
+];
+
 export default function SearchForm({ locale }: SearchFormProps) {
   const router = useRouter();
   const [city, setCity] = useState('');
@@ -40,13 +49,20 @@ export default function SearchForm({ locale }: SearchFormProps) {
                 <MapPin className="inline w-4 h-4 mr-1" />
                 {locale === 'ar' ? 'الوجهة' : 'Destination'}
               </label>
-              <input
-                type="text"
+              <select
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
-                placeholder={locale === 'ar' ? 'إلى أين تريد الذهاب؟' : 'Where are you going?'}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent focus:outline-none transition"
-              />
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent focus:outline-none transition cursor-pointer"
+              >
+                <option value="">
+                  {locale === 'ar' ? 'اختر مدينة' : 'Select a city'}
+                </option>
+                {POPULAR_CITIES.map((cityOption) => (
+                  <option key={cityOption.slug} value={cityOption.slug}>
+                    {locale === 'ar' ? cityOption.nameAr : cityOption.nameEn}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="md:col-span-3">
               <label className="block text-sm font-medium mb-2 text-gray-700">

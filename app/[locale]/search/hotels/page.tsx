@@ -1,6 +1,18 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Star, MapPin, Wifi, Coffee, Car, Dumbbell, Utensils, CheckCircle, Map, Filter, ChevronDown } from 'lucide-react';
+import { Star, MapPin, Wifi, Coffee, Car, Dumbbell, Utensils, CheckCircle, Map, Filter, ChevronDown, AlertCircle } from 'lucide-react';
+import Link from 'next/link';
+
+const VALID_CITIES = ['riyadh', 'dubai', 'jeddah', 'london', 'paris', 'bangkok'];
+
+const CITY_NAMES = {
+  riyadh: { en: 'Riyadh', ar: 'الرياض' },
+  dubai: { en: 'Dubai', ar: 'دبي' },
+  jeddah: { en: 'Jeddah', ar: 'جدة' },
+  london: { en: 'London', ar: 'لندن' },
+  paris: { en: 'Paris', ar: 'باريس' },
+  bangkok: { en: 'Bangkok', ar: 'بانكوك' },
+};
 
 export default async function HotelsSearchPage({ 
   params,
@@ -11,26 +23,128 @@ export default async function HotelsSearchPage({
 }) {
   const locale = params.locale;
   const city = searchParams.city || 'riyadh';
+  
+  const isValidCity = VALID_CITIES.includes(city);
+  
+  if (!isValidCity) {
+    return (
+      <main className="min-h-screen bg-gradient-to-b from-purple-50/50 to-white">
+        <div className="container mx-auto px-4 py-16">
+          <Card className="max-w-2xl mx-auto rounded-xl shadow-lg border-0">
+            <CardContent className="p-8 text-center">
+              <AlertCircle className="w-16 h-16 text-purple-600 mx-auto mb-4" />
+              <h1 className="text-3xl font-bold mb-4 text-gray-900">
+                {locale === 'ar' ? 'مدينة غير صالحة' : 'Invalid City'}
+              </h1>
+              <p className="text-gray-600 mb-6">
+                {locale === 'ar' 
+                  ? 'المدينة المحددة غير متاحة. الرجاء اختيار مدينة من القائمة المتاحة.' 
+                  : 'The selected city is not available. Please choose a city from the available list.'}
+              </p>
+              <Link href={`/${locale}`}>
+                <Button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700">
+                  {locale === 'ar' ? 'العودة للرئيسية' : 'Back to Home'}
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+        </div>
+      </main>
+    );
+  }
 
-  const response = await fetch(`${process.env.NEXTAUTH_URL || 'http://localhost:5000'}/api/hotels/search?cityId=${city}&guests=${searchParams.guests || '2'}`, {
-    cache: 'no-store',
-  });
+  let hotels = [];
+  let error = false;
+  
+  try {
+    const queryParams = new URLSearchParams({
+      cityId: city,
+      guests: searchParams.guests || '2',
+    });
+    
+    if (searchParams.checkIn) {
+      queryParams.set('checkIn', searchParams.checkIn);
+    }
+    if (searchParams.checkOut) {
+      queryParams.set('checkOut', searchParams.checkOut);
+    }
 
-  const data = await response.json();
-  const hotels = data.hotels || [];
+    const response = await fetch(`${process.env.NEXTAUTH_URL || 'http://localhost:5000'}/api/hotels/search?${queryParams.toString()}`, {
+      cache: 'no-store',
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch hotels');
+    }
+
+    const data = await response.json();
+    hotels = data.hotels || [];
+  } catch (err) {
+    console.error('Error fetching hotels:', err);
+    error = true;
+  }
+  
+  const cityName = CITY_NAMES[city as keyof typeof CITY_NAMES];
+  const displayCityName = locale === 'ar' ? cityName.ar : cityName.en;
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-purple-50/50 to-white">
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
           <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-            {locale === 'ar' ? 'نتائج البحث' : 'Search Results'}
+            {locale === 'ar' ? `نتائج البحث - ${displayCityName}` : `Search Results - ${displayCityName}`}
           </h1>
           <p className="text-gray-600">
-            {hotels.length} {locale === 'ar' ? 'فندق متاح' : 'hotels available'}
+            {error 
+              ? (locale === 'ar' ? 'حدث خطأ أثناء البحث' : 'An error occurred while searching')
+              : `${hotels.length} ${locale === 'ar' ? 'فندق متاح' : 'hotels available'}`
+            }
           </p>
         </div>
 
+        {error && (
+          <Card className="max-w-2xl mx-auto rounded-xl shadow-lg border-0 mb-8">
+            <CardContent className="p-8 text-center">
+              <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
+              <h2 className="text-2xl font-bold mb-4 text-gray-900">
+                {locale === 'ar' ? 'عذراً، حدث خطأ' : 'Sorry, an error occurred'}
+              </h2>
+              <p className="text-gray-600 mb-6">
+                {locale === 'ar' 
+                  ? 'لم نتمكن من جلب الفنادق في الوقت الحالي. الرجاء المحاولة مرة أخرى لاحقاً.' 
+                  : 'We could not fetch hotels at this time. Please try again later.'}
+              </p>
+              <Link href={`/${locale}`}>
+                <Button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700">
+                  {locale === 'ar' ? 'العودة للرئيسية' : 'Back to Home'}
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+        )}
+
+        {!error && hotels.length === 0 && (
+          <Card className="max-w-2xl mx-auto rounded-xl shadow-lg border-0 mb-8">
+            <CardContent className="p-8 text-center">
+              <MapPin className="w-16 h-16 text-purple-600 mx-auto mb-4" />
+              <h2 className="text-2xl font-bold mb-4 text-gray-900">
+                {locale === 'ar' ? 'لا توجد فنادق متاحة' : 'No Hotels Available'}
+              </h2>
+              <p className="text-gray-600 mb-6">
+                {locale === 'ar' 
+                  ? `لم نجد أي فنادق متاحة في ${displayCityName} للتواريخ المحددة. جرب تواريخ مختلفة أو مدينة أخرى.` 
+                  : `We couldn't find any available hotels in ${displayCityName} for the selected dates. Try different dates or another city.`}
+              </p>
+              <Link href={`/${locale}`}>
+                <Button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700">
+                  {locale === 'ar' ? 'ابحث عن وجهة أخرى' : 'Search Another Destination'}
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+        )}
+
+        {!error && hotels.length > 0 && (
         <div className="flex flex-col lg:flex-row gap-6">
           <aside className="lg:w-80 flex-shrink-0">
             <Card className="sticky top-24 rounded-xl shadow-lg border-0">
@@ -163,7 +277,7 @@ export default async function HotelsSearchPage({
                             </h3>
                             <div className="flex items-center gap-2 mb-3 text-gray-600">
                               <MapPin className="w-4 h-4" />
-                              <span className="text-sm">{hotel.location || city}</span>
+                              <span className="text-sm">{hotel.location?.address || displayCityName}</span>
                             </div>
                             <div className="flex items-center gap-2 mb-4">
                               <span className="text-yellow-500 font-semibold">★ {hotel.rating || 4.5}</span>
@@ -217,6 +331,7 @@ export default async function HotelsSearchPage({
             </div>
           </div>
         </div>
+        )}
       </div>
     </main>
   );
