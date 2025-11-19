@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>YoRight: Find Your Perfect Stay</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              serif: ['Cinzel', 'serif'],
+              arabic: ['Cairo', 'sans-serif'],
+            },
+            colors: {
+              primary: {
+                50: '#f0f7f8',
+                100: '#e0eff1',
+                500: '#37666B', // Muted Teal
+                600: '#0C484B', // Dark Teal (Brand Primary)
+                700: '#09383b',
+                900: '#062628',
+              },
+              secondary: {
+                500: '#577A7D', // Light Teal
+                600: '#37666B',
+              },
+              accent: {
+                500: '#E1A66F', // Gold (Brand Identity)
+                600: '#c68e59',
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <!-- Google Fonts: Cairo for Arabic, Inter/Cinzel for English -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Inter:wght@300;400;500;600&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+      body {
+        font-family: 'Cairo', sans-serif;
+        background-color: #f8fafc;
+        color: #0C484B; /* Dark Teal Text */
+      }
+      .ltr { font-family: 'Inter', sans-serif; }
+      .ltr h1, .ltr h2, .ltr h3 { font-family: 'Cinzel', serif; }
+      .rtl { font-family: 'Cairo', sans-serif; }
+      
+      /* Smooth Scrolling */
+      html { scroll-behavior: smooth; }
+      
+      /* Hide scrollbar for clean UI */
+      .no-scrollbar::-webkit-scrollbar {
+          display: none;
+      }
+      .no-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.9.6",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
+    "@prisma/client": "https://aistudiocdn.com/@prisma/client@^6.19.0",
+    "@nestjs/common": "https://aistudiocdn.com/@nestjs/common@^11.1.9"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+    <!-- Google Maps Placeholder - In prod, inject key via env -->
+    <script>
+       // Mock Google Maps for demo purposes if key missing
+       window.initMap = function() {};
+    </script>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
