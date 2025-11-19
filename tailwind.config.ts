@@ -18,6 +18,8 @@ const config: Config = {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
+          dark: "#0A3642",
+          light: "#1A6F84",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -43,11 +45,30 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        brand: {
+          primary: {
+            DEFAULT: "#0F4C5C",
+            dark: "#0A3642",
+            light: "#1A6F84",
+          },
+          secondary: "#E8B449",
+          accent: "#D4AF37",
+          dark: "#1F2937",
+          light: "#F9FAFB",
+        },
+        success: "#10B981",
+        error: "#EF4444",
+        warning: "#F59E0B",
+        info: "#3B82F6",
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      fontFamily: {
+        heading: ["Georgia", "serif"],
+        body: ["system-ui", "sans-serif"],
       },
     },
   },

@@ -52,7 +52,7 @@ export default function SearchForm({ locale }: SearchFormProps) {
               <select
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent focus:outline-none transition cursor-pointer"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-primary focus:border-transparent focus:outline-none transition cursor-pointer"
               >
                 <option value="">
                   {locale === 'ar' ? 'اختر مدينة' : 'Select a city'}
@@ -74,7 +74,7 @@ export default function SearchForm({ locale }: SearchFormProps) {
                 value={checkIn}
                 onChange={(e) => setCheckIn(e.target.value)}
                 min={new Date().toISOString().split('T')[0]}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent focus:outline-none transition"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-primary focus:border-transparent focus:outline-none transition"
               />
             </div>
             <div className="md:col-span-3">
@@ -87,7 +87,7 @@ export default function SearchForm({ locale }: SearchFormProps) {
                 value={checkOut}
                 onChange={(e) => setCheckOut(e.target.value)}
                 min={checkIn || new Date().toISOString().split('T')[0]}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent focus:outline-none transition"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-primary focus:border-transparent focus:outline-none transition"
               />
             </div>
             <div className="md:col-span-2">
@@ -98,7 +98,7 @@ export default function SearchForm({ locale }: SearchFormProps) {
               <select
                 value={guests}
                 onChange={(e) => setGuests(Number(e.target.value))}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent focus:outline-none transition"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-brand-primary focus:border-transparent focus:outline-none transition"
               >
                 {[1, 2, 3, 4, 5, 6].map((num) => (
                   <option key={num} value={num}>
@@ -110,7 +110,7 @@ export default function SearchForm({ locale }: SearchFormProps) {
           </div>
           <Button 
             type="submit" 
-            className="w-full mt-6 py-6 text-lg bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 transition-all shadow-lg hover:shadow-xl"
+            className="w-full mt-6 py-6 text-lg bg-brand-secondary hover:bg-brand-accent transition-all shadow-lg hover:shadow-xl text-white"
             size="lg"
           >
             <Search className="w-5 h-5 mr-2" />

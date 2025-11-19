@@ -24,7 +24,7 @@ export default async function HomePage({ params }: { params: { locale: string } 
 
   return (
     <main>
-      <div className="relative bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 overflow-hidden">
+      <div className="relative bg-gradient-to-br from-brand-primary via-brand-primary-dark to-brand-primary-light overflow-hidden">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48cGF0aCBkPSJNMzYgMzRoLTJsLTItMnYtMmgydjJoMnYyem0wLTEwdi0yaDJ2MmgtmnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-30"></div>
         <div className="container mx-auto px-4 py-20 relative z-10">
           <div className="text-center mb-12">
@@ -47,8 +47,8 @@ export default async function HomePage({ params }: { params: { locale: string } 
             const Icon = feature.icon;
             return (
               <div key={index} className="text-center">
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-purple-100 to-pink-100 mb-4">
-                  <Icon className="w-8 h-8 text-purple-600" />
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-brand-primary/10 to-brand-secondary/20 mb-4">
+                  <Icon className="w-8 h-8 text-brand-primary" />
                 </div>
                 <h3 className="font-semibold text-lg mb-2">
                   {locale === 'ar' ? feature.titleAr : feature.titleEn}
@@ -63,7 +63,7 @@ export default async function HomePage({ params }: { params: { locale: string } 
 
         <div className="mb-16">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+            <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-brand-primary to-brand-primary-light bg-clip-text text-transparent">
               {locale === 'ar' ? 'وجهات شائعة' : 'Popular Destinations'}
             </h2>
             <p className="text-gray-600">
@@ -96,7 +96,7 @@ export default async function HomePage({ params }: { params: { locale: string } 
           </div>
         </div>
 
-        <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl p-12 text-center text-white">
+        <div className="bg-gradient-to-r from-brand-primary to-brand-primary-light rounded-3xl p-12 text-center text-white">
           <h2 className="text-3xl font-bold mb-4">
             {locale === 'ar' ? 'جاهز لبدء رحلتك؟' : 'Ready to Start Your Journey?'}
           </h2>
@@ -104,7 +104,7 @@ export default async function HomePage({ params }: { params: { locale: string } 
             {locale === 'ar' ? 'انضم إلى ملايين المسافرين الذين يثقون بنا لحجز فنادقهم' : 'Join millions of travelers who trust us for their hotel bookings'}
           </p>
           <Link href={`/${locale}/search/hotels`}>
-            <button className="px-8 py-4 bg-white text-purple-600 rounded-xl font-semibold hover:bg-gray-50 transition-colors shadow-lg">
+            <button className="px-8 py-4 bg-brand-secondary text-white rounded-xl font-semibold hover:bg-brand-accent transition-colors shadow-lg">
               {locale === 'ar' ? 'ابدأ البحث الآن' : 'Start Searching Now'}
             </button>
           </Link>

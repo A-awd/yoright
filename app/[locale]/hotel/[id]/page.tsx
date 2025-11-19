@@ -36,19 +36,19 @@ export default async function HotelDetailsPage({
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-purple-50/30 to-white">
+    <main className="min-h-screen bg-gradient-to-b from-brand-primary/5 to-white">
       <div className="container mx-auto px-4 py-8">
-        <Link href={`/${locale}/search/hotels`} className="inline-flex items-center gap-2 text-purple-600 hover:text-purple-700 mb-6 transition">
+        <Link href={`/${locale}/search/hotels`} className="inline-flex items-center gap-2 text-brand-primary hover:text-brand-primary mb-6 transition">
           <ArrowLeft className="w-4 h-4" />
           <span className="font-medium">{locale === 'ar' ? 'العودة إلى النتائج' : 'Back to Results'}</span>
         </Link>
 
         <div className="mb-6">
-          <h1 className="text-4xl font-bold mb-3 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+          <h1 className="text-4xl font-bold mb-3 bg-gradient-to-r from-brand-primary to-brand-primary-light bg-clip-text text-transparent">
             {hotel.name}
           </h1>
           <div className="flex flex-wrap items-center gap-4">
-            <div className="flex items-center gap-1.5 bg-gradient-to-r from-purple-50 to-pink-50 px-3 py-1.5 rounded-full">
+            <div className="flex items-center gap-1.5 bg-gradient-to-r from-brand-primary/10 to-brand-secondary/10 px-3 py-1.5 rounded-full">
               <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
               <span className="font-bold text-lg">{hotel.rating || 4.5}</span>
             </div>
@@ -62,12 +62,12 @@ export default async function HotelDetailsPage({
         <div className="mb-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-3 rounded-xl overflow-hidden">
             {hotel.images.slice(0, 1).map((img, i) => (
-              <div key={i} className="md:col-span-2 md:row-span-2 h-96 md:h-full bg-gradient-to-br from-purple-400 via-pink-400 to-orange-400 overflow-hidden group">
+              <div key={i} className="md:col-span-2 md:row-span-2 h-96 md:h-full bg-gradient-to-br from-brand-primary via-brand-primary-light to-brand-secondary overflow-hidden group">
                 <img src={img} alt={hotel.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
               </div>
             ))}
             {hotel.images.slice(1, 5).map((img, i) => (
-              <div key={i} className="h-48 bg-gradient-to-br from-purple-300 to-pink-300 overflow-hidden group">
+              <div key={i} className="h-48 bg-gradient-to-br from-brand-primary/30 to-brand-secondary/30 overflow-hidden group">
                 <img src={img} alt={hotel.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
               </div>
             ))}
@@ -94,9 +94,9 @@ export default async function HotelDetailsPage({
                   {hotel.amenities.map((amenity, i) => {
                     const Icon = getAmenityIcon(amenity);
                     return (
-                      <div key={i} className="flex items-center gap-3 p-3 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg">
+                      <div key={i} className="flex items-center gap-3 p-3 bg-gradient-to-r from-brand-primary/10 to-brand-secondary/10 rounded-lg">
                         <div className="p-2 bg-white rounded-lg shadow-sm">
-                          <Icon className="w-5 h-5 text-purple-600" />
+                          <Icon className="w-5 h-5 text-brand-primary" />
                         </div>
                         <span className="font-medium text-gray-700">{amenity}</span>
                       </div>
@@ -107,7 +107,7 @@ export default async function HotelDetailsPage({
             </Card>
 
             <div>
-              <h2 className="text-3xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+              <h2 className="text-3xl font-bold mb-6 bg-gradient-to-r from-brand-primary to-brand-primary-light bg-clip-text text-transparent">
                 {locale === 'ar' ? 'اختر غرفتك' : 'Choose Your Room'}
               </h2>
               <div className="space-y-6">
@@ -116,12 +116,12 @@ export default async function HotelDetailsPage({
                     <div className="p-6">
                       <div className="flex flex-col lg:flex-row gap-6">
                         <div className="flex-1">
-                          <h3 className="text-2xl font-bold mb-3 group-hover:text-purple-600 transition">{room.name}</h3>
+                          <h3 className="text-2xl font-bold mb-3 group-hover:text-brand-primary transition">{room.name}</h3>
                           <p className="text-gray-600 mb-4 leading-relaxed">{room.description}</p>
                           
                           <div className="flex flex-wrap gap-2 mb-4">
                             {room.amenities.map((amenity, i) => (
-                              <span key={i} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-purple-50 to-pink-50 text-purple-700 text-sm font-medium rounded-full">
+                              <span key={i} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-brand-primary/10 to-brand-secondary/10 text-brand-primary text-sm font-medium rounded-full">
                                 <CheckCircle className="w-3.5 h-3.5" />
                                 {amenity}
                               </span>
@@ -135,17 +135,17 @@ export default async function HotelDetailsPage({
                         </div>
                         
                         <div className="lg:text-right space-y-4">
-                          <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-xl">
+                          <div className="bg-gradient-to-br from-brand-primary/10 to-brand-secondary/10 p-6 rounded-xl">
                             <p className="text-sm text-gray-600 mb-1">{locale === 'ar' ? 'السعر لليلة' : 'Price per night'}</p>
                             <div className="flex items-baseline gap-2 lg:justify-end">
-                              <span className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                              <span className="text-4xl font-bold bg-gradient-to-r from-brand-primary to-brand-primary-light bg-clip-text text-transparent">
                                 {room.price}
                               </span>
                               <span className="text-gray-600 font-semibold">{locale === 'ar' ? 'ر.س' : 'SAR'}</span>
                             </div>
                           </div>
                           
-                          <Button asChild className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 rounded-lg shadow-lg hover:shadow-xl transition-all" size="lg">
+                          <Button asChild className="w-full bg-gradient-to-r from-brand-primary to-brand-primary-light hover:from-purple-700 hover:to-pink-700 rounded-lg shadow-lg hover:shadow-xl transition-all" size="lg">
                             <a href={`/${locale}/checkout?hotelId=${hotel.id}&roomId=${room.id}&checkIn=${checkIn}&checkOut=${checkOut}`}>
                               <Calendar className="w-4 h-4 mr-2" />
                               {locale === 'ar' ? 'احجز الآن' : 'Book Now'}
@@ -164,11 +164,11 @@ export default async function HotelDetailsPage({
             <Card className="sticky top-24 rounded-xl shadow-lg border-0">
               <CardContent className="p-6">
                 <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-                  <MapPin className="w-5 h-5 text-purple-600" />
+                  <MapPin className="w-5 h-5 text-brand-primary" />
                   {locale === 'ar' ? 'الموقع' : 'Location'}
                 </h3>
-                <div className="aspect-square bg-gradient-to-br from-purple-100 to-pink-100 rounded-xl mb-4 flex items-center justify-center">
-                  <MapPin className="w-12 h-12 text-purple-400" />
+                <div className="aspect-square bg-gradient-to-br from-brand-primary/10 to-brand-secondary/10 rounded-xl mb-4 flex items-center justify-center">
+                  <MapPin className="w-12 h-12 text-brand-primary/40" />
                 </div>
                 <p className="text-sm text-gray-600 leading-relaxed">{hotel.location.address}</p>
               </CardContent>

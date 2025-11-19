@@ -59,11 +59,11 @@ export default async function BookingDetailsPage({
     : (locale === 'ar' ? 'ملغي' : 'Cancelled');
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-purple-50/30 to-white">
+    <main className="min-h-screen bg-gradient-to-b from-brand-primary/5 to-white">
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
-            <div className={`w-24 h-24 ${isConfirmed ? 'bg-gradient-to-br from-green-400 to-emerald-500' : 'bg-gradient-to-br from-yellow-400 to-orange-500'} rounded-full flex items-center justify-center mx-auto mb-6 shadow-2xl animate-bounce`}>
+            <div className={`w-24 h-24 ${isConfirmed ? 'bg-gradient-to-br from-green-400 to-emerald-500' : 'bg-gradient-to-br from-warning to-warning'} rounded-full flex items-center justify-center mx-auto mb-6 shadow-2xl animate-bounce`}>
               {isConfirmed ? (
                 <CheckCircle2 className="w-14 h-14 text-white" strokeWidth={3} />
               ) : (
@@ -71,7 +71,7 @@ export default async function BookingDetailsPage({
               )}
             </div>
             
-            <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+            <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-brand-primary to-brand-primary-light bg-clip-text text-transparent">
               {isConfirmed 
                 ? (locale === 'ar' ? '🎉 تم تأكيد حجزك!' : '🎉 Booking Confirmed!')
                 : (locale === 'ar' ? 'حجزك قيد المعالجة' : 'Booking Processing')}
@@ -83,22 +83,22 @@ export default async function BookingDetailsPage({
                 : (locale === 'ar' ? 'سنرسل تأكيد الحجز قريباً' : "We'll send confirmation shortly")}
             </p>
             
-            <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-50 to-pink-50 rounded-full border-2 border-purple-200">
+            <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-brand-primary/10 to-brand-secondary/10 rounded-full border-2 border-brand-primary/30">
               <span className="text-sm font-medium text-gray-600">{locale === 'ar' ? 'رقم المرجع:' : 'Reference:'}</span>
-              <span className="font-mono font-bold text-lg bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">{booking.reference}</span>
+              <span className="font-mono font-bold text-lg bg-gradient-to-r from-brand-primary to-brand-primary-light bg-clip-text text-transparent">{booking.reference}</span>
             </div>
           </div>
 
           <div className="mb-6">
             <div className="flex items-center gap-4 mb-6">
-              <div className="flex-1 h-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full"></div>
+              <div className="flex-1 h-1 bg-gradient-to-r from-brand-primary to-brand-primary-light rounded-full"></div>
               <span className="text-sm font-semibold text-gray-500">{locale === 'ar' ? 'تفاصيل الحجز' : 'Booking Details'}</span>
-              <div className="flex-1 h-1 bg-gradient-to-r from-pink-600 to-orange-400 rounded-full"></div>
+              <div className="flex-1 h-1 bg-gradient-to-r from-brand-secondary to-brand-accent rounded-full"></div>
             </div>
           </div>
 
           <Card className="mb-8 rounded-xl shadow-2xl border-0 overflow-hidden">
-            <CardHeader className="bg-gradient-to-r from-purple-600 to-pink-600 text-white">
+            <CardHeader className="bg-gradient-to-r from-brand-primary to-brand-primary-light text-white">
               <CardTitle className="text-2xl flex items-center gap-2">
                 <Building className="w-6 h-6" />
                 {locale === 'ar' ? 'معلومات الحجز' : 'Booking Information'}
@@ -106,9 +106,9 @@ export default async function BookingDetailsPage({
             </CardHeader>
             <CardContent className="p-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                <div className="flex items-start gap-4 p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl">
+                <div className="flex items-start gap-4 p-4 bg-gradient-to-r from-brand-primary/10 to-brand-secondary/10 rounded-xl">
                   <div className="p-3 bg-white rounded-lg shadow-sm">
-                    <Building className="w-6 h-6 text-purple-600" />
+                    <Building className="w-6 h-6 text-brand-primary" />
                   </div>
                   <div>
                     <p className="text-sm text-gray-500 mb-1">{locale === 'ar' ? 'الفندق' : 'Hotel'}</p>
@@ -116,9 +116,9 @@ export default async function BookingDetailsPage({
                   </div>
                 </div>
                 
-                <div className="flex items-start gap-4 p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl">
+                <div className="flex items-start gap-4 p-4 bg-gradient-to-r from-brand-primary/10 to-brand-secondary/10 rounded-xl">
                   <div className="p-3 bg-white rounded-lg shadow-sm">
-                    <MapPin className="w-6 h-6 text-purple-600" />
+                    <MapPin className="w-6 h-6 text-brand-primary" />
                   </div>
                   <div>
                     <p className="text-sm text-gray-500 mb-1">{locale === 'ar' ? 'المدينة' : 'City'}</p>
@@ -126,9 +126,9 @@ export default async function BookingDetailsPage({
                   </div>
                 </div>
                 
-                <div className="flex items-start gap-4 p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl">
+                <div className="flex items-start gap-4 p-4 bg-gradient-to-r from-brand-primary/10 to-brand-secondary/10 rounded-xl">
                   <div className="p-3 bg-white rounded-lg shadow-sm">
-                    <Calendar className="w-6 h-6 text-purple-600" />
+                    <Calendar className="w-6 h-6 text-brand-primary" />
                   </div>
                   <div>
                     <p className="text-sm text-gray-500 mb-1">{locale === 'ar' ? 'تاريخ الوصول' : 'Check-in'}</p>
@@ -136,9 +136,9 @@ export default async function BookingDetailsPage({
                   </div>
                 </div>
                 
-                <div className="flex items-start gap-4 p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl">
+                <div className="flex items-start gap-4 p-4 bg-gradient-to-r from-brand-primary/10 to-brand-secondary/10 rounded-xl">
                   <div className="p-3 bg-white rounded-lg shadow-sm">
-                    <Calendar className="w-6 h-6 text-purple-600" />
+                    <Calendar className="w-6 h-6 text-brand-primary" />
                   </div>
                   <div>
                     <p className="text-sm text-gray-500 mb-1">{locale === 'ar' ? 'تاريخ المغادرة' : 'Check-out'}</p>
@@ -146,9 +146,9 @@ export default async function BookingDetailsPage({
                   </div>
                 </div>
                 
-                <div className="flex items-start gap-4 p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl">
+                <div className="flex items-start gap-4 p-4 bg-gradient-to-r from-brand-primary/10 to-brand-secondary/10 rounded-xl">
                   <div className="p-3 bg-white rounded-lg shadow-sm">
-                    <User className="w-6 h-6 text-purple-600" />
+                    <User className="w-6 h-6 text-brand-primary" />
                   </div>
                   <div>
                     <p className="text-sm text-gray-500 mb-1">{locale === 'ar' ? 'اسم الضيف' : 'Guest Name'}</p>
@@ -156,9 +156,9 @@ export default async function BookingDetailsPage({
                   </div>
                 </div>
                 
-                <div className="flex items-start gap-4 p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl">
+                <div className="flex items-start gap-4 p-4 bg-gradient-to-r from-brand-primary/10 to-brand-secondary/10 rounded-xl">
                   <div className="p-3 bg-white rounded-lg shadow-sm">
-                    <Mail className="w-6 h-6 text-purple-600" />
+                    <Mail className="w-6 h-6 text-brand-primary" />
                   </div>
                   <div>
                     <p className="text-sm text-gray-500 mb-1">{locale === 'ar' ? 'البريد الإلكتروني' : 'Email'}</p>
@@ -168,9 +168,9 @@ export default async function BookingDetailsPage({
               </div>
 
               <div className="border-t-2 border-dashed pt-6">
-                <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-6">
+                <div className="bg-gradient-to-br from-brand-primary/10 to-brand-secondary/10 rounded-xl p-6">
                   <div className="flex items-center gap-2 mb-4">
-                    <CreditCard className="w-5 h-5 text-purple-600" />
+                    <CreditCard className="w-5 h-5 text-brand-primary" />
                     <h3 className="font-bold text-lg">{locale === 'ar' ? 'ملخص الفاتورة' : 'Payment Summary'}</h3>
                   </div>
                   
@@ -186,7 +186,7 @@ export default async function BookingDetailsPage({
                     <div className="flex justify-between items-center pt-3 border-t-2 border-white">
                       <span className="text-xl font-bold">{locale === 'ar' ? 'المجموع الكلي' : 'Total Paid'}</span>
                       <div className="text-right">
-                        <div className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                        <div className="text-3xl font-bold bg-gradient-to-r from-brand-primary to-brand-primary-light bg-clip-text text-transparent">
                           {booking.total.toFixed(2)}
                         </div>
                         <div className="text-sm text-gray-500">{booking.currency}</div>

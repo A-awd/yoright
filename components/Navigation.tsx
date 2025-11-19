@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter, usePathname } from 'next/navigation';
 import { Globe, User, Menu } from 'lucide-react';
 import { useState } from 'react';
@@ -24,28 +25,33 @@ export default function Navigation({ locale }: NavigationProps) {
     <nav className="border-b bg-white/95 backdrop-blur-md sticky top-0 z-50 shadow-sm">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <Link href={`/${locale}`}>
-            <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent cursor-pointer hover:opacity-80 transition">
-              YoRight
-            </h1>
+          <Link href={`/${locale}`} className="cursor-pointer hover:opacity-80 transition">
+            <Image 
+              src="/images/logo.png" 
+              alt="YoRight" 
+              width={300} 
+              height={300} 
+              className="h-10 w-auto"
+              priority
+            />
           </Link>
           
           <div className="hidden md:flex items-center gap-6">
             <Link 
               href={`/${locale}`} 
-              className="text-sm font-medium hover:text-purple-600 transition"
+              className="text-sm font-medium hover:text-brand-primary-light transition"
             >
               {locale === 'ar' ? 'الرئيسية' : 'Home'}
             </Link>
             <Link 
               href={`/${locale}/search/hotels`} 
-              className="text-sm font-medium hover:text-purple-600 transition"
+              className="text-sm font-medium hover:text-brand-primary-light transition"
             >
               {locale === 'ar' ? 'الفنادق' : 'Hotels'}
             </Link>
             <Link 
               href={`/${locale}/my-trips`} 
-              className="text-sm font-medium hover:text-purple-600 transition"
+              className="text-sm font-medium hover:text-brand-primary-light transition"
             >
               {locale === 'ar' ? 'رحلاتي' : 'My Trips'}
             </Link>
@@ -59,7 +65,7 @@ export default function Navigation({ locale }: NavigationProps) {
             </button>
 
             <Link href={`/${locale}/auth/signin`}>
-              <button className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:shadow-lg transition">
+              <button className="flex items-center gap-2 px-4 py-2 bg-brand-secondary text-white rounded-lg hover:bg-brand-accent hover:shadow-lg transition">
                 <User className="w-4 h-4" />
                 <span className="text-sm font-medium">{locale === 'ar' ? 'تسجيل الدخول' : 'Sign In'}</span>
               </button>
@@ -78,31 +84,31 @@ export default function Navigation({ locale }: NavigationProps) {
           <div className="md:hidden mt-4 pb-4 border-t pt-4 space-y-3">
             <Link 
               href={`/${locale}`} 
-              className="block text-sm font-medium hover:text-purple-600 transition"
+              className="block text-sm font-medium hover:text-brand-primary-light transition"
             >
               {locale === 'ar' ? 'الرئيسية' : 'Home'}
             </Link>
             <Link 
               href={`/${locale}/search/hotels`} 
-              className="block text-sm font-medium hover:text-purple-600 transition"
+              className="block text-sm font-medium hover:text-brand-primary-light transition"
             >
               {locale === 'ar' ? 'الفنادق' : 'Hotels'}
             </Link>
             <Link 
               href={`/${locale}/my-trips`} 
-              className="block text-sm font-medium hover:text-purple-600 transition"
+              className="block text-sm font-medium hover:text-brand-primary-light transition"
             >
               {locale === 'ar' ? 'رحلاتي' : 'My Trips'}
             </Link>
             <button
               onClick={toggleLocale}
-              className="flex items-center gap-2 w-full text-left text-sm font-medium hover:text-purple-600 transition"
+              className="flex items-center gap-2 w-full text-left text-sm font-medium hover:text-brand-primary-light transition"
             >
               <Globe className="w-4 h-4" />
               {locale === 'ar' ? 'English' : 'العربية'}
             </button>
             <Link href={`/${locale}/auth/signin`} className="block">
-              <button className="w-full px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:shadow-lg transition text-sm font-medium">
+              <button className="w-full px-4 py-2 bg-brand-secondary text-white rounded-lg hover:bg-brand-accent hover:shadow-lg transition text-sm font-medium">
                 {locale === 'ar' ? 'تسجيل الدخول' : 'Sign In'}
               </button>
             </Link>
