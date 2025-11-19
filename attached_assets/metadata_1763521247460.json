@@ -1,7 +1,0 @@
-{
-  "name": "YoRight",
-  "description": "A production-ready OTA web app offering hotel search and bookings with a luxury Arabic-first experience.",
-  "requestFramePermissions": [
-    "geolocation"
-  ]
-}
