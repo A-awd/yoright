@@ -20,7 +20,13 @@ export default function SearchForm({ locale }: SearchFormProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (city && checkIn && checkOut) {
-      router.push(`/${locale}/search/hotels?city=${city}&checkIn=${checkIn}&checkOut=${checkOut}&guests=${guests}`);
+      const params = new URLSearchParams({
+        city,
+        checkIn,
+        checkOut,
+        guests: guests.toString()
+      });
+      router.push(`/${locale}/search/hotels?${params.toString()}`);
     }
   };
 

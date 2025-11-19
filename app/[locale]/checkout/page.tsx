@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
+import { User, Mail, Phone, FileText, CreditCard, Calendar, Building, ShieldCheck, Loader2 } from 'lucide-react';
 
 export default function CheckoutPage({ params }: { params: { locale: string } }) {
   const locale = params.locale;
@@ -55,125 +56,192 @@ export default function CheckoutPage({ params }: { params: { locale: string } })
   };
 
   return (
-    <main className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">
-        {locale === 'ar' ? 'إتمام الحجز' : 'Complete Booking'}
-      </h1>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2">
-          <Card>
-            <CardHeader>
-              <CardTitle>{locale === 'ar' ? 'بيانات الضيف' : 'Guest Details'}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-2">
-                      {locale === 'ar' ? 'الاسم الأول' : 'First Name'}
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      className="w-full px-4 py-2 border rounded-lg"
-                      value={formData.firstName}
-                      onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-2">
-                      {locale === 'ar' ? 'اسم العائلة' : 'Last Name'}
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      className="w-full px-4 py-2 border rounded-lg"
-                      value={formData.lastName}
-                      onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    {locale === 'ar' ? 'البريد الإلكتروني' : 'Email'}
-                  </label>
-                  <input
-                    type="email"
-                    required
-                    className="w-full px-4 py-2 border rounded-lg"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    {locale === 'ar' ? 'رقم الهاتف' : 'Phone Number'}
-                  </label>
-                  <input
-                    type="tel"
-                    required
-                    className="w-full px-4 py-2 border rounded-lg"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    {locale === 'ar' ? 'الرقم الضريبي (اختياري)' : 'VAT Number (Optional)'}
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full px-4 py-2 border rounded-lg"
-                    value={formData.vatNumber}
-                    onChange={(e) => setFormData({ ...formData, vatNumber: e.target.value })}
-                  />
-                </div>
-
-                <Button type="submit" className="w-full" size="lg" disabled={loading}>
-                  {loading 
-                    ? (locale === 'ar' ? 'جاري المعالجة...' : 'Processing...') 
-                    : (locale === 'ar' ? 'تأكيد الحجز' : 'Confirm Booking')}
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
+    <main className="min-h-screen bg-gradient-to-b from-purple-50/30 to-white">
+      <div className="container mx-auto px-4 py-8">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+            {locale === 'ar' ? 'إتمام الحجز' : 'Complete Your Booking'}
+          </h1>
+          <p className="text-gray-600">
+            {locale === 'ar' ? 'نحن على بعد خطوة واحدة من تأكيد حجزك' : "We're just one step away from confirming your reservation"}
+          </p>
         </div>
 
-        <div>
-          <Card className="sticky top-24">
-            <CardHeader>
-              <CardTitle>{locale === 'ar' ? 'ملخص الحجز' : 'Booking Summary'}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div>
-                  <p className="text-sm text-gray-600 mb-1">
-                    {locale === 'ar' ? 'الفندق' : 'Hotel'}
-                  </p>
-                  <p className="font-semibold">Luxury Palace Hotel</p>
-                </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2">
+            <Card className="rounded-xl shadow-lg border-0">
+              <CardHeader className="border-b bg-gradient-to-r from-purple-50 to-pink-50">
+                <CardTitle className="flex items-center gap-2 text-2xl">
+                  <User className="w-6 h-6 text-purple-600" />
+                  {locale === 'ar' ? 'بيانات الضيف' : 'Guest Information'}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-sm font-semibold mb-3 text-gray-700 flex items-center gap-2">
+                        <User className="w-4 h-4 text-purple-600" />
+                        {locale === 'ar' ? 'الاسم الأول' : 'First Name'}
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition outline-none"
+                        placeholder={locale === 'ar' ? 'أدخل الاسم الأول' : 'Enter first name'}
+                        value={formData.firstName}
+                        onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold mb-3 text-gray-700 flex items-center gap-2">
+                        <User className="w-4 h-4 text-purple-600" />
+                        {locale === 'ar' ? 'اسم العائلة' : 'Last Name'}
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition outline-none"
+                        placeholder={locale === 'ar' ? 'أدخل اسم العائلة' : 'Enter last name'}
+                        value={formData.lastName}
+                        onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                      />
+                    </div>
+                  </div>
 
-                <div className="border-t pt-4">
-                  <div className="flex justify-between mb-2">
-                    <span className="text-gray-600">{locale === 'ar' ? 'المجموع الفرعي' : 'Subtotal'}</span>
-                    <span>1,500 {locale === 'ar' ? 'ر.س' : 'SAR'}</span>
+                  <div>
+                    <label className="block text-sm font-semibold mb-3 text-gray-700 flex items-center gap-2">
+                      <Mail className="w-4 h-4 text-purple-600" />
+                      {locale === 'ar' ? 'البريد الإلكتروني' : 'Email Address'}
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition outline-none"
+                      placeholder={locale === 'ar' ? 'أدخل البريد الإلكتروني' : 'Enter email address'}
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    />
                   </div>
-                  <div className="flex justify-between mb-2">
-                    <span className="text-gray-600">{locale === 'ar' ? 'ضريبة القيمة المضافة (15%)' : 'VAT (15%)'}</span>
-                    <span>225 {locale === 'ar' ? 'ر.س' : 'SAR'}</span>
+
+                  <div>
+                    <label className="block text-sm font-semibold mb-3 text-gray-700 flex items-center gap-2">
+                      <Phone className="w-4 h-4 text-purple-600" />
+                      {locale === 'ar' ? 'رقم الهاتف' : 'Phone Number'}
+                    </label>
+                    <input
+                      type="tel"
+                      required
+                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition outline-none"
+                      placeholder={locale === 'ar' ? 'أدخل رقم الهاتف' : 'Enter phone number'}
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    />
                   </div>
-                  <div className="flex justify-between text-lg font-bold border-t pt-2">
-                    <span>{locale === 'ar' ? 'المجموع' : 'Total'}</span>
-                    <span>1,725 {locale === 'ar' ? 'ر.س' : 'SAR'}</span>
+
+                  <div>
+                    <label className="block text-sm font-semibold mb-3 text-gray-700 flex items-center gap-2">
+                      <FileText className="w-4 h-4 text-purple-600" />
+                      {locale === 'ar' ? 'الرقم الضريبي (اختياري)' : 'VAT Number (Optional)'}
+                    </label>
+                    <input
+                      type="text"
+                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition outline-none"
+                      placeholder={locale === 'ar' ? 'أدخل الرقم الضريبي' : 'Enter VAT number'}
+                      value={formData.vatNumber}
+                      onChange={(e) => setFormData({ ...formData, vatNumber: e.target.value })}
+                    />
+                  </div>
+
+                  <div className="flex items-start gap-3 p-4 bg-blue-50 rounded-lg border border-blue-100">
+                    <ShieldCheck className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                    <div className="text-sm text-blue-800">
+                      <p className="font-semibold mb-1">{locale === 'ar' ? 'معلوماتك آمنة' : 'Your information is secure'}</p>
+                      <p className="text-blue-600">{locale === 'ar' ? 'نستخدم تشفير SSL لحماية بياناتك الشخصية والمالية' : 'We use SSL encryption to protect your personal and financial data'}</p>
+                    </div>
+                  </div>
+
+                  <Button 
+                    type="submit" 
+                    className="w-full py-6 text-lg bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 rounded-lg shadow-lg hover:shadow-xl transition-all" 
+                    size="lg" 
+                    disabled={loading}
+                  >
+                    {loading ? (
+                      <>
+                        <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                        {locale === 'ar' ? 'جاري المعالجة...' : 'Processing...'}
+                      </>
+                    ) : (
+                      <>
+                        <CreditCard className="w-5 h-5 mr-2" />
+                        {locale === 'ar' ? 'تأكيد الحجز والدفع' : 'Confirm Booking & Pay'}
+                      </>
+                    )}
+                  </Button>
+                </form>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div>
+            <Card className="sticky top-24 rounded-xl shadow-lg border-0">
+              <CardHeader className="border-b bg-gradient-to-r from-purple-50 to-pink-50">
+                <CardTitle className="flex items-center gap-2">
+                  <Building className="w-5 h-5 text-purple-600" />
+                  {locale === 'ar' ? 'ملخص الحجز' : 'Booking Summary'}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-6">
+                <div className="space-y-5">
+                  <div className="pb-4 border-b">
+                    <p className="text-sm text-gray-500 mb-1.5">
+                      {locale === 'ar' ? 'الفندق' : 'Hotel'}
+                    </p>
+                    <p className="font-bold text-lg">Luxury Palace Hotel</p>
+                  </div>
+
+                  <div className="space-y-3 pb-4 border-b">
+                    <div className="flex items-center gap-3 text-sm">
+                      <Calendar className="w-4 h-4 text-purple-600" />
+                      <div>
+                        <p className="text-gray-500">{locale === 'ar' ? 'تاريخ الوصول' : 'Check-in'}</p>
+                        <p className="font-semibold">{new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString()}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3 text-sm">
+                      <Calendar className="w-4 h-4 text-purple-600" />
+                      <div>
+                        <p className="text-gray-500">{locale === 'ar' ? 'تاريخ المغادرة' : 'Check-out'}</p>
+                        <p className="font-semibold">{new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toLocaleDateString()}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3 pb-4 border-b">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600">{locale === 'ar' ? 'المجموع الفرعي' : 'Subtotal'}</span>
+                      <span className="font-semibold">1,500 {locale === 'ar' ? 'ر.س' : 'SAR'}</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600">{locale === 'ar' ? 'ضريبة القيمة المضافة (15%)' : 'VAT (15%)'}</span>
+                      <span className="font-semibold">225 {locale === 'ar' ? 'ر.س' : 'SAR'}</span>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-between items-center pt-2">
+                    <span className="text-xl font-bold">{locale === 'ar' ? 'المجموع الكلي' : 'Total Amount'}</span>
+                    <div className="text-right">
+                      <div className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                        1,725
+                      </div>
+                      <div className="text-sm text-gray-500">{locale === 'ar' ? 'ر.س' : 'SAR'}</div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
     </main>

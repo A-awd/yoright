@@ -1,10 +1,9 @@
 import type { Metadata } from 'next';
-import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import '@/app/globals.css';
 import { locales } from '@/i18n';
-import Navigation from '@/components/Navigation';
+import LocaleShell from '@/components/LocaleShell';
 
 export const metadata: Metadata = {
   title: 'YoRight - احجز رحلتك القادمة | Book Your Next Trip',
@@ -32,12 +31,9 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} dir={direction}>
       <body className="bg-gray-50">
-        <NextIntlClientProvider messages={messages}>
-          <div className="min-h-screen">
-            <Navigation locale={locale} />
-            {children}
-          </div>
-        </NextIntlClientProvider>
+        <LocaleShell locale={locale} messages={messages}>
+          {children}
+        </LocaleShell>
       </body>
     </html>
   );

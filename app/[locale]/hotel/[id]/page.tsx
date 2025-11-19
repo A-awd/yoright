@@ -1,6 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { rateHawkAdapter } from '@/lib/adapters/ratehawk';
+import { Star, MapPin, Wifi, Coffee, Car, Dumbbell, Users, Bed, CheckCircle, Calendar, ArrowLeft } from 'lucide-react';
+import Link from 'next/link';
 
 export default async function HotelDetailsPage({ 
   params 
@@ -13,105 +15,165 @@ export default async function HotelDetailsPage({
 
   const { hotel, rooms } = await rateHawkAdapter.getHotelDetails(params.id, checkIn, checkOut);
 
-  return (
-    <main className="container mx-auto px-4 py-8">
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold mb-2">{hotel.name}</h1>
-        <div className="flex items-center gap-4">
-          <span className="text-yellow-500 text-lg">★ {hotel.rating || 4.5}</span>
-          <span className="text-gray-600">{hotel.location.address}</span>
-        </div>
-      </div>
+  const amenityIcons: any = {
+    'wifi': Wifi,
+    'free wifi': Wifi,
+    'parking': Car,
+    'gym': Dumbbell,
+    'breakfast': Coffee,
+    'restaurant': Coffee,
+    'default': CheckCircle
+  };
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2">
-          <div className="mb-8">
-            <div className="grid grid-cols-2 gap-2 mb-4">
-              {hotel.images.slice(0, 4).map((img, i) => (
-                <div key={i} className="h-64 bg-gradient-to-br from-purple-400 to-pink-400 rounded-lg overflow-hidden">
-                  <img src={img} alt={hotel.name} className="w-full h-full object-cover" />
-                </div>
-              ))}
+  const getAmenityIcon = (amenity: string) => {
+    const lower = amenity.toLowerCase();
+    for (const key in amenityIcons) {
+      if (lower.includes(key)) {
+        return amenityIcons[key];
+      }
+    }
+    return amenityIcons.default;
+  };
+
+  return (
+    <main className="min-h-screen bg-gradient-to-b from-purple-50/30 to-white">
+      <div className="container mx-auto px-4 py-8">
+        <Link href={`/${locale}/search/hotels`} className="inline-flex items-center gap-2 text-purple-600 hover:text-purple-700 mb-6 transition">
+          <ArrowLeft className="w-4 h-4" />
+          <span className="font-medium">{locale === 'ar' ? 'العودة إلى النتائج' : 'Back to Results'}</span>
+        </Link>
+
+        <div className="mb-6">
+          <h1 className="text-4xl font-bold mb-3 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+            {hotel.name}
+          </h1>
+          <div className="flex flex-wrap items-center gap-4">
+            <div className="flex items-center gap-1.5 bg-gradient-to-r from-purple-50 to-pink-50 px-3 py-1.5 rounded-full">
+              <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+              <span className="font-bold text-lg">{hotel.rating || 4.5}</span>
+            </div>
+            <div className="flex items-center gap-2 text-gray-600">
+              <MapPin className="w-4 h-4" />
+              <span>{hotel.location.address}</span>
             </div>
           </div>
+        </div>
 
-          <Card className="mb-6">
-            <CardHeader>
-              <CardTitle>{locale === 'ar' ? 'عن الفندق' : 'About'}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-700">{hotel.description}</p>
-            </CardContent>
-          </Card>
-
-          <Card className="mb-6">
-            <CardHeader>
-              <CardTitle>{locale === 'ar' ? 'المرافق' : 'Amenities'}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 gap-3">
-                {hotel.amenities.map((amenity, i) => (
-                  <div key={i} className="flex items-center gap-2">
-                    <span className="text-purple-600">✓</span>
-                    <span>{amenity}</span>
-                  </div>
-                ))}
+        <div className="mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-3 rounded-xl overflow-hidden">
+            {hotel.images.slice(0, 1).map((img, i) => (
+              <div key={i} className="md:col-span-2 md:row-span-2 h-96 md:h-full bg-gradient-to-br from-purple-400 via-pink-400 to-orange-400 overflow-hidden group">
+                <img src={img} alt={hotel.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
               </div>
-            </CardContent>
-          </Card>
+            ))}
+            {hotel.images.slice(1, 5).map((img, i) => (
+              <div key={i} className="h-48 bg-gradient-to-br from-purple-300 to-pink-300 overflow-hidden group">
+                <img src={img} alt={hotel.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+              </div>
+            ))}
+          </div>
+        </div>
 
-          <div>
-            <h2 className="text-2xl font-bold mb-4">
-              {locale === 'ar' ? 'اختر غرفتك' : 'Choose Your Room'}
-            </h2>
-            <div className="space-y-4">
-              {rooms.map((room) => (
-                <Card key={room.id}>
-                  <div className="p-6">
-                    <div className="flex justify-between items-start">
-                      <div className="flex-1">
-                        <h3 className="text-xl font-semibold mb-2">{room.name}</h3>
-                        <p className="text-gray-600 mb-4">{room.description}</p>
-                        <div className="flex gap-2 flex-wrap mb-4">
-                          {room.amenities.map((amenity, i) => (
-                            <span key={i} className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full">
-                              {amenity}
-                            </span>
-                          ))}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 space-y-6">
+            <Card className="rounded-xl shadow-lg border-0">
+              <CardHeader>
+                <CardTitle className="text-2xl font-bold">{locale === 'ar' ? 'عن الفندق' : 'About This Hotel'}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-700 leading-relaxed">{hotel.description}</p>
+              </CardContent>
+            </Card>
+
+            <Card className="rounded-xl shadow-lg border-0">
+              <CardHeader>
+                <CardTitle className="text-2xl font-bold">{locale === 'ar' ? 'المرافق والخدمات' : 'Amenities & Services'}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {hotel.amenities.map((amenity, i) => {
+                    const Icon = getAmenityIcon(amenity);
+                    return (
+                      <div key={i} className="flex items-center gap-3 p-3 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg">
+                        <div className="p-2 bg-white rounded-lg shadow-sm">
+                          <Icon className="w-5 h-5 text-purple-600" />
                         </div>
-                        <div className="text-sm text-gray-600">
-                          <p>{locale === 'ar' ? 'سياسة الإلغاء:' : 'Cancellation:'} {room.policies.cancellation}</p>
-                        </div>
+                        <span className="font-medium text-gray-700">{amenity}</span>
                       </div>
-                      <div className="text-right ml-6">
-                        <div className="text-2xl font-bold text-purple-600 mb-2">
-                          {room.price} {locale === 'ar' ? 'ر.س' : 'SAR'}
+                    );
+                  })}
+                </div>
+              </CardContent>
+            </Card>
+
+            <div>
+              <h2 className="text-3xl font-bold mb-6 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                {locale === 'ar' ? 'اختر غرفتك' : 'Choose Your Room'}
+              </h2>
+              <div className="space-y-6">
+                {rooms.map((room) => (
+                  <Card key={room.id} className="group rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border-0 overflow-hidden">
+                    <div className="p-6">
+                      <div className="flex flex-col lg:flex-row gap-6">
+                        <div className="flex-1">
+                          <h3 className="text-2xl font-bold mb-3 group-hover:text-purple-600 transition">{room.name}</h3>
+                          <p className="text-gray-600 mb-4 leading-relaxed">{room.description}</p>
+                          
+                          <div className="flex flex-wrap gap-2 mb-4">
+                            {room.amenities.map((amenity, i) => (
+                              <span key={i} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-purple-50 to-pink-50 text-purple-700 text-sm font-medium rounded-full">
+                                <CheckCircle className="w-3.5 h-3.5" />
+                                {amenity}
+                              </span>
+                            ))}
+                          </div>
+                          
+                          <div className="flex items-center gap-2 text-sm text-gray-600 bg-green-50 px-3 py-2 rounded-lg inline-flex">
+                            <CheckCircle className="w-4 h-4 text-green-600" />
+                            <span className="text-green-700 font-medium">{locale === 'ar' ? 'سياسة الإلغاء:' : 'Cancellation:'} {room.policies.cancellation}</span>
+                          </div>
                         </div>
-                        <div className="text-sm text-gray-500 mb-4">
-                          {locale === 'ar' ? 'لليلة' : 'per night'}
+                        
+                        <div className="lg:text-right space-y-4">
+                          <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-xl">
+                            <p className="text-sm text-gray-600 mb-1">{locale === 'ar' ? 'السعر لليلة' : 'Price per night'}</p>
+                            <div className="flex items-baseline gap-2 lg:justify-end">
+                              <span className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                                {room.price}
+                              </span>
+                              <span className="text-gray-600 font-semibold">{locale === 'ar' ? 'ر.س' : 'SAR'}</span>
+                            </div>
+                          </div>
+                          
+                          <Button asChild className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 rounded-lg shadow-lg hover:shadow-xl transition-all" size="lg">
+                            <a href={`/${locale}/checkout?hotelId=${hotel.id}&roomId=${room.id}&checkIn=${checkIn}&checkOut=${checkOut}`}>
+                              <Calendar className="w-4 h-4 mr-2" />
+                              {locale === 'ar' ? 'احجز الآن' : 'Book Now'}
+                            </a>
+                          </Button>
                         </div>
-                        <Button asChild>
-                          <a href={`/${locale}/checkout?hotelId=${hotel.id}&roomId=${room.id}&checkIn=${checkIn}&checkOut=${checkOut}`}>
-                            {locale === 'ar' ? 'احجز الآن' : 'Book Now'}
-                          </a>
-                        </Button>
                       </div>
                     </div>
-                  </div>
-                </Card>
-              ))}
+                  </Card>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
 
-        <div>
-          <Card className="sticky top-24">
-            <CardContent className="p-6">
-              <h3 className="font-semibold mb-4">{locale === 'ar' ? 'الموقع' : 'Location'}</h3>
-              <div className="aspect-square bg-gray-200 rounded-lg mb-4"></div>
-              <p className="text-sm text-gray-600">{hotel.location.address}</p>
-            </CardContent>
-          </Card>
+          <div>
+            <Card className="sticky top-24 rounded-xl shadow-lg border-0">
+              <CardContent className="p-6">
+                <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                  <MapPin className="w-5 h-5 text-purple-600" />
+                  {locale === 'ar' ? 'الموقع' : 'Location'}
+                </h3>
+                <div className="aspect-square bg-gradient-to-br from-purple-100 to-pink-100 rounded-xl mb-4 flex items-center justify-center">
+                  <MapPin className="w-12 h-12 text-purple-400" />
+                </div>
+                <p className="text-sm text-gray-600 leading-relaxed">{hotel.location.address}</p>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
     </main>

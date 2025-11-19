@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { Globe, User, Menu } from 'lucide-react';
 import { useState } from 'react';
 
@@ -10,13 +10,14 @@ interface NavigationProps {
 }
 
 export default function Navigation({ locale }: NavigationProps) {
+  const router = useRouter();
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const toggleLocale = () => {
     const newLocale = locale === 'ar' ? 'en' : 'ar';
     const newPath = pathname.replace(`/${locale}`, `/${newLocale}`);
-    window.location.href = newPath;
+    router.replace(newPath);
   };
 
   return (
