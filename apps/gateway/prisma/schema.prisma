@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  phone     String   @unique
+  email     String?
+  name      String?
+  role      String   @default("customer")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  bookings Booking[]
+}
+
+model Booking {
+  id         String   @id @default(cuid())
+  reference  String   @unique
+  status     String   @default("PENDING")
+  
+  hotelId    String
+  roomId     String
+  checkIn    DateTime
+  checkOut   DateTime
+  
+  subtotal   Float
+  vat        Float
+  total      Float
+  currency   String   @default("SAR")
+  
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id])
+  
+  guestInfo  Json
+  
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  
+  payments   Payment[]
+}
+
+model Payment {
+  id           String   @id @default(cuid())
+  intentId     String   @unique
+  status       String   @default("PENDING")
+  
+  bookingId    String
+  booking      Booking  @relation(fields: [bookingId], references: [id])
+  
+  amount       Float
+  currency     String   @default("SAR")
+  method       String?
+  
+  metadata     Json?
+  
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model WebhookLog {
+  id        String   @id @default(cuid())
+  source    String
+  eventType String
+  payload   Json
+  status    String   @default("received")
+  error     String?
+  createdAt DateTime @default(now())
+}
+
+model FeatureFlag {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  enabled   Boolean  @default(false)
+  metadata  Json?
+  updatedAt DateTime @updatedAt
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  action    String
+  userId    String?
+  metadata  Json?
+  createdAt DateTime @default(now())
+}

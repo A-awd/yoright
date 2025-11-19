@@ -2,6 +2,9 @@
 /node_modules
 /.pnp
 .pnp.js
+apps/*/node_modules
+packages/*/node_modules
+tools/*/node_modules
 
 # testing
 /coverage
@@ -12,6 +15,9 @@
 
 # production
 /build
+/dist
+apps/*/dist
+apps/gateway/dist
 
 # misc
 .DS_Store
@@ -21,6 +27,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+*.log
 
 # local env files
 .env
@@ -35,3 +42,13 @@ next-env.d.ts
 
 # prisma
 prisma/migrations/migration_lock.toml
+apps/gateway/prisma/migrations
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# NestJS
+apps/gateway/.nest-cli.json

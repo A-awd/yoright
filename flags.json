@@ -1,0 +1,8 @@
+{
+  "mockProviders": true,
+  "mapEnabled": true,
+  "installments": false,
+  "experimentalRanking": false,
+  "webhooksEnabled": true,
+  "pdfInvoices": true
+}

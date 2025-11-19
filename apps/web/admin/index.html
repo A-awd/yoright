@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YoRight Admin - لوحة الإدارة</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f8f9fa;
+      color: #333;
+    }
+    
+    .header {
+      background: #0F4C5C;
+      color: white;
+      padding: 1.5rem 2rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .header h1 {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    .nav-tabs {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      border-bottom: 2px solid #e0e0e0;
+    }
+    
+    .tab {
+      padding: 1rem 2rem;
+      background: white;
+      border: none;
+      border-bottom: 3px solid transparent;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+    
+    .tab.active {
+      border-bottom-color: #E8B449;
+      color: #0F4C5C;
+      font-weight: bold;
+    }
+    
+    .tab:hover {
+      background: #f8f9fa;
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      margin-bottom: 2rem;
+    }
+    
+    .card-title {
+      color: #0F4C5C;
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #E8B449 0%, #D4AF37 100%);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(232, 180, 73, 0.4);
+    }
+    
+    .btn-secondary {
+      background: #6c757d;
+      color: white;
+    }
+    
+    .table-container {
+      overflow-x: auto;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    th, td {
+      padding: 1rem;
+      text-align: right;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    
+    th {
+      background: #f8f9fa;
+      color: #0F4C5C;
+      font-weight: 600;
+    }
+    
+    tr:hover {
+      background: #f8f9fa;
+    }
+    
+    .status-badge {
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    
+    .status-success {
+      background: #d4edda;
+      color: #155724;
+    }
+    
+    .status-warning {
+      background: #fff3cd;
+      color: #856404;
+    }
+    
+    .status-danger {
+      background: #f8d7da;
+      color: #721c24;
+    }
+    
+    .flag-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem;
+      background: #f8f9fa;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+    
+    .flag-toggle label {
+      font-weight: 600;
+      color: #0F4C5C;
+    }
+    
+    .toggle-switch {
+      position: relative;
+      width: 60px;
+      height: 30px;
+    }
+    
+    .toggle-switch input {
+      display: none;
+    }
+    
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-color: #ccc;
+      transition: 0.4s;
+      border-radius: 30px;
+    }
+    
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 22px;
+      width: 22px;
+      right: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+    
+    input:checked + .slider {
+      background-color: #E8B449;
+    }
+    
+    input:checked + .slider:before {
+      transform: translateX(-30px);
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .stat-card {
+      background: linear-gradient(135deg, #0F4C5C 0%, #1A6F84 100%);
+      color: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+    
+    .stat-label {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <h1>⚙️ لوحة إدارة YoRight</h1>
+  </header>
+
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value" id="totalBookings">0</div>
+        <div class="stat-label">إجمالي الحجوزات</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="totalRevenue">0 ر.س</div>
+        <div class="stat-label">الإيرادات</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="activeHotels">4</div>
+        <div class="stat-label">الفنادق النشطة</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">🎭</div>
+        <div class="stat-label">وضع التجربة مفعّل</div>
+      </div>
+    </div>
+
+    <div class="nav-tabs">
+      <button class="tab active" onclick="showTab('bookings')">الحجوزات</button>
+      <button class="tab" onclick="showTab('webhooks')">سجل Webhooks</button>
+      <button class="tab" onclick="showTab('flags')">إعدادات النظام</button>
+      <button class="tab" onclick="showTab('cache')">ذاكرة التخزين المؤقت</button>
+    </div>
+
+    <div id="bookings" class="tab-content active">
+      <div class="card">
+        <div class="card-title">
+          <span>📋 قائمة الحجوزات</span>
+          <button class="btn btn-primary" onclick="loadBookings()">🔄 تحديث</button>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>رقم الحجز</th>
+                <th>الفندق</th>
+                <th>التاريخ</th>
+                <th>المبلغ</th>
+                <th>الحالة</th>
+                <th>الإجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="bookingsTable">
+              <tr>
+                <td colspan="6" style="text-align:center;color:#888;">لا توجد حجوزات حالياً</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div id="webhooks" class="tab-content">
+      <div class="card">
+        <div class="card-title">
+          <span>🔔 سجل Webhooks</span>
+          <button class="btn btn-primary" onclick="loadWebhooks()">🔄 تحديث</button>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>المصدر</th>
+                <th>نوع الحدث</th>
+                <th>الحالة</th>
+                <th>التاريخ</th>
+                <th>الإجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="webhooksTable">
+              <tr>
+                <td colspan="5" style="text-align:center;color:#888;">لا توجد webhooks مسجلة</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div id="flags" class="tab-content">
+      <div class="card">
+        <div class="card-title">⚙️ إعدادات النظام (Feature Flags)</div>
+        
+        <div id="flagsContainer">
+          <p style="text-align:center;color:#888;">جاري التحميل...</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="cache" class="tab-content">
+      <div class="card">
+        <div class="card-title">
+          <span>💾 ذاكرة التخزين المؤقت</span>
+        </div>
+        
+        <div style="display:grid;gap:1rem;">
+          <button class="btn btn-secondary" onclick="refreshCache('fx')">
+            🔄 تحديث أسعار الصرف
+          </button>
+          <button class="btn btn-secondary" onclick="refreshCache('cityintel')">
+            🔄 تحديث معلومات المدن
+          </button>
+          <button class="btn btn-secondary" onclick="refreshCache('hotels')">
+            🔄 تحديث بيانات الفنادق
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showTab(tabName) {
+      const tabs = document.querySelectorAll('.tab');
+      const contents = document.querySelectorAll('.tab-content');
+      
+      tabs.forEach(tab => tab.classList.remove('active'));
+      contents.forEach(content => content.classList.remove('active'));
+      
+      event.target.classList.add('active');
+      document.getElementById(tabName).classList.add('active');
+    }
+    
+    async function loadBookings() {
+      try {
+        const response = await fetch('/api/admin/bookings');
+        const data = await response.json();
+        
+        const tbody = document.getElementById('bookingsTable');
+        if (data.bookings && data.bookings.length > 0) {
+          tbody.innerHTML = data.bookings.map(booking => `
+            <tr>
+              <td>${booking.reference}</td>
+              <td>${booking.hotelId}</td>
+              <td>${new Date(booking.createdAt).toLocaleDateString('ar-SA')}</td>
+              <td>${booking.total} ${booking.currency}</td>
+              <td><span class="status-badge status-${booking.status === 'CONFIRMED' ? 'success' : 'warning'}">${booking.status}</span></td>
+              <td><button class="btn btn-secondary" style="padding:0.3rem 0.8rem;font-size:0.85rem;">عرض</button></td>
+            </tr>
+          `).join('');
+        }
+      } catch (error) {
+        console.error('Error loading bookings:', error);
+      }
+    }
+    
+    async function loadWebhooks() {
+      try {
+        const response = await fetch('/api/admin/webhooks');
+        const data = await response.json();
+        
+        const tbody = document.getElementById('webhooksTable');
+        if (data.logs && data.logs.length > 0) {
+          tbody.innerHTML = data.logs.map(log => `
+            <tr>
+              <td>${log.source}</td>
+              <td>${log.eventType}</td>
+              <td><span class="status-badge status-${log.status === 'success' ? 'success' : 'danger'}">${log.status}</span></td>
+              <td>${new Date(log.createdAt).toLocaleDateString('ar-SA')}</td>
+              <td><button class="btn btn-secondary" style="padding:0.3rem 0.8rem;font-size:0.85rem;">إعادة المحاولة</button></td>
+            </tr>
+          `).join('');
+        }
+      } catch (error) {
+        console.error('Error loading webhooks:', error);
+      }
+    }
+    
+    async function loadFlags() {
+      try {
+        const response = await fetch('/api/admin/flags');
+        const flags = await response.json();
+        
+        const container = document.getElementById('flagsContainer');
+        container.innerHTML = Object.entries(flags).map(([key, value]) => `
+          <div class="flag-toggle">
+            <label>${getFlagLabel(key)}</label>
+            <label class="toggle-switch">
+              <input type="checkbox" ${value ? 'checked' : ''} onchange="toggleFlag('${key}', this.checked)">
+              <span class="slider"></span>
+            </label>
+          </div>
+        `).join('');
+      } catch (error) {
+        console.error('Error loading flags:', error);
+      }
+    }
+    
+    function getFlagLabel(key) {
+      const labels = {
+        mockProviders: '🎭 وضع التجربة (Mock Providers)',
+        mapEnabled: '🗺️ تفعيل الخرائط',
+        installments: '💳 الدفع بالتقسيط',
+        experimentalRanking: '🔬 الترتيب التجريبي',
+        webhooksEnabled: '🔔 تفعيل Webhooks',
+        pdfInvoices: '📄 الفواتير PDF'
+      };
+      return labels[key] || key;
+    }
+    
+    async function toggleFlag(flag, value) {
+      try {
+        const response = await fetch('/api/admin/flags/toggle', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ flag, value })
+        });
+        
+        if (response.ok) {
+          alert(`تم تحديث إعداد ${getFlagLabel(flag)}`);
+        }
+      } catch (error) {
+        console.error('Error toggling flag:', error);
+        alert('حدث خطأ في التحديث');
+      }
+    }
+    
+    async function refreshCache(type) {
+      alert(`جاري تحديث ${type}...`);
+      if (type === 'fx') {
+        const response = await fetch('/api/fx/latest');
+        const data = await response.json();
+        alert(`تم تحديث أسعار الصرف: ${JSON.stringify(data.rates)}`);
+      } else if (type === 'cityintel') {
+        const response = await fetch('/api/cityintel/riyadh');
+        const data = await response.json();
+        alert(`تم تحديث معلومات ${data.name}`);
+      }
+    }
+    
+    loadFlags();
+    loadBookings();
+  </script>
+</body>
+</html>
