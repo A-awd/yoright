@@ -19,12 +19,13 @@ export class HotelsController {
     @Query('checkOut') checkOut?: string,
     @Query('adults') adults?: string,
   ) {
-    return this.hotelsService.searchHotels({
+    const result = await this.hotelsService.searchHotels({
       cityId: cityId || 'riyadh',
       checkIn: checkIn || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
       checkOut: checkOut || new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
       adults: parseInt(adults || '2'),
     });
+    return result;
   }
 
   @Get(':id')
