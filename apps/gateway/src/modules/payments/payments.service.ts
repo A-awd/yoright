@@ -1,35 +1,74 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { PaymentStatus, BookingStatus } from '@prisma/client';
 import { FlagsService } from '../../core/flags/flags.service';
 import { TapMockService } from './tap-mock.service';
 import { BookingsService } from '../bookings/bookings.service';
+import { DatabaseService } from '../../core/database/database.service';
 
 @Injectable()
 export class PaymentsService {
   private readonly logger = new Logger(PaymentsService.name);
-  private paymentsStore: Map<string, any> = new Map();
 
   constructor(
     private flags: FlagsService,
     private tapMock: TapMockService,
     private bookingsService: BookingsService,
+    private db: DatabaseService,
   ) {}
 
   async createIntent(data: any) {
-    if (this.flags.isEnabled('mockProviders')) {
-      return this.tapMock.createIntent(data);
+    const booking = await this.db.booking.findUnique({
+      where: { reference: data.bookingReference }
+    });
+    
+    if (!booking) {
+      throw new NotFoundException(`Booking ${data.bookingReference} not found`);
     }
-    return this.tapMock.createIntent(data);
+
+    const intentResponse = await this.tapMock.createIntent(data);
+
+    await this.db.payment.create({
+      data: {
+        providerIntentId: intentResponse.intentId,
+        bookingId: booking.id,
+        amount: data.amount,
+        currency: data.currency || 'SAR',
+        provider: 'TAP',
+        rawJson: data.metadata || null,
+      },
+    });
+
+    return intentResponse;
   }
 
   async getPayment(id: string) {
-    return this.paymentsStore.get(id) || this.tapMock.getPayment(id);
+    const payment = await this.db.payment.findFirst({
+      where: { providerIntentId: id },
+    });
+
+    return payment || this.tapMock.getPayment(id);
   }
 
   async handleWebhook(payload: any) {
     this.logger.log(`Webhook received: ${JSON.stringify(payload)}`);
     
-    if (payload.bookingId && payload.status === 'PAID') {
-      await this.bookingsService.updateBookingStatus(payload.bookingId, 'CONFIRMED');
+    if (payload.intentId && payload.status === 'PAID') {
+      const payment = await this.db.payment.findFirst({
+        where: { providerIntentId: payload.intentId },
+        include: { booking: true }
+      });
+
+      if (payment) {
+        await this.db.payment.update({
+          where: { id: payment.id },
+          data: { status: PaymentStatus.SUCCEEDED },
+        });
+
+        await this.bookingsService.updateBookingStatus(
+          payment.booking.reference,
+          BookingStatus.PAID
+        );
+      }
     }
 
     return { received: true };

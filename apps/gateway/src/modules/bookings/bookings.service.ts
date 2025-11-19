@@ -1,45 +1,52 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { DatabaseService } from '../../core/database/database.service';
+import { BookingStatus } from '@prisma/client';
 
 @Injectable()
 export class BookingsService {
   private readonly logger = new Logger(BookingsService.name);
-  private bookingsStore: Map<string, any> = new Map();
 
   constructor(private db: DatabaseService) {}
 
   async createBooking(data: any) {
     const reference = this.generateReference();
-    const booking = {
-      id: reference,
-      reference,
-      status: 'PENDING',
-      currency: 'SAR',
-      ...data,
-      createdAt: new Date().toISOString(),
-    };
+    const booking = await this.db.booking.create({
+      data: {
+        reference,
+        cityId: data.cityId || 'c1',
+        hotelId: data.hotelId,
+        roomJson: data.roomData || {},
+        guestJson: data.guestInfo || {},
+        checkIn: new Date(data.checkIn),
+        checkOut: new Date(data.checkOut),
+        total: data.total,
+        vat: data.vat || 0,
+        currency: data.currency || 'SAR',
+        userId: data.userId || undefined,
+      },
+    });
 
-    this.bookingsStore.set(reference, booking);
     this.logger.log(`Booking created: ${reference}`);
-
     return booking;
   }
 
   async getBookingByReference(reference: string) {
-    const booking = this.bookingsStore.get(reference);
+    const booking = await this.db.booking.findUnique({
+      where: { reference },
+    });
+
     if (!booking) {
       throw new NotFoundException('Booking not found');
     }
     return booking;
   }
 
-  async updateBookingStatus(reference: string, status: string) {
-    const booking = this.bookingsStore.get(reference);
-    if (booking) {
-      booking.status = status;
-      booking.updatedAt = new Date().toISOString();
-      this.bookingsStore.set(reference, booking);
-    }
+  async updateBookingStatus(reference: string, status: BookingStatus) {
+    const booking = await this.db.booking.update({
+      where: { reference },
+      data: { status },
+    });
+
     return booking;
   }
 

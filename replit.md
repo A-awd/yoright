@@ -11,6 +11,15 @@ YoRight is a production-ready bilingual (Arabic/English) OTA (Online Travel Agen
 
 ## Recent Changes (November 19, 2025)
 
+### ✅ Production Blocker Fixes (v2.1)
+- **Database Migration Complete**: All bookings and payments now persist to PostgreSQL via Prisma
+- **Prisma Schema Unified**: Resolved dual schema issue, using root schema as source of truth
+- **Payment-Booking Linkage Fixed**: Webhook handler correctly maps payment intents to bookings
+- **Type Safety**: All services use proper BookingStatus and PaymentStatus enums
+- **Google Maps Integration**: Interactive maps on SearchResults and HotelDetails pages
+- **React Error #310 Fixed**: Map component uses useLoadScript hook (not LoadScript wrapper)
+- **Security Fix**: Removed exposed Google Maps API key from version control
+
 ### ✅ Complete Frontend Integration (v2.0)
 - **React SPA Integration**: Complete React frontend integrated with NestJS gateway
 - **Single-Process Deployment**: Gateway serves React build on port 5000
@@ -220,15 +229,21 @@ npm run db:studio        # Open Prisma Studio
 
 Required for production:
 ```
-PORT=5000                      # Server port
-DATABASE_URL=postgres://...    # PostgreSQL connection
-NODE_ENV=production            # Environment
+PORT=5000                         # Server port
+DATABASE_URL=postgres://...       # PostgreSQL connection (Replit provides this)
+NODE_ENV=production               # Environment
 
 # Optional (for real APIs)
-MOCK_MODE=1                    # Enable mock providers
-RATEHAWK_API_KEY=...          # RateHawk hotel API
-TAP_SECRET_KEY=...            # Tap Payments API
+MOCK_MODE=1                       # Enable mock providers
+RATEHAWK_API_KEY=...             # RateHawk hotel API
+TAP_SECRET_KEY=...               # Tap Payments API
+VITE_GOOGLE_MAPS_API_KEY=...     # Google Maps API key (frontend)
 ```
+
+**Important Security Notes:**
+- NEVER commit `.env` files to version control
+- Use deployment secrets for API keys
+- Google Maps API key should be restricted to production domain only
 
 ### Security Implementation
 
@@ -267,16 +282,20 @@ open http://localhost:5000/api-docs
 - API documentation auto-generated
 - Arabic RTL layout
 - Build system functional
+- ✅ **NEW:** Bookings persisted to PostgreSQL via Prisma
+- ✅ **NEW:** Payments persisted to PostgreSQL via Prisma
+- ✅ **NEW:** Payment webhook integration complete
+- ✅ **NEW:** Google Maps integration on search and details pages
 
 **Future Enhancements 📋:**
-- Replace in-memory booking storage with Prisma
-- Complete payment webhook integration
-- Persist feature flag changes to database
+- Add Google Maps API key to deployment secrets
+- Persist feature flag changes to database (currently using defaults)
 - Add automated tests (Jest, Playwright)
 - Real API integration (RateHawk, Tap)
 - Email notifications
 - Admin analytics dashboard
 - Advanced search filters
+- Map markers clustering for better UX
 
 ## User Preferences
 
@@ -305,5 +324,5 @@ open http://localhost:5000/api-docs
 
 ---
 Last Updated: November 19, 2025  
-Version: 2.0.0 (NestJS + React SPA Integration Complete)  
-Status: Production-Ready MVP
+Version: 2.1.0 (Production Blockers Resolved + Database Migration Complete)  
+Status: Production-Ready with Google Maps Integration
