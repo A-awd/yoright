@@ -11,6 +11,7 @@ import { AdminModule } from './modules/admin/admin.module';
 import { DatabaseModule } from './core/database/database.module';
 import { LoggerModule } from './core/logger/logger.module';
 import { FlagsModule } from './core/flags/flags.module';
+import { SpaFallbackController } from './spa-fallback.controller';
 
 @Module({
   imports: [
@@ -30,5 +31,6 @@ import { FlagsModule } from './core/flags/flags.module';
     CityIntelModule,
     AdminModule,
   ],
+  controllers: [SpaFallbackController],
 })
 export class AppModule {}

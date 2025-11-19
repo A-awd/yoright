@@ -36,11 +36,14 @@ async function bootstrap() {
   }
 
   if (existsSync(webClientDistPath)) {
-    await fastify.register(require('@fastify/static'), {
-      root: webClientDistPath,
-      prefix: '/',
-      decorateReply: false,
-    });
+    const assetsPath = join(webClientDistPath, 'assets');
+    if (existsSync(assetsPath)) {
+      await fastify.register(require('@fastify/static'), {
+        root: assetsPath,
+        prefix: '/assets/',
+        decorateReply: false,
+      });
+    }
 
     logger.log(`📱 React App: Serving from ${webClientDistPath}`);
   } else {
