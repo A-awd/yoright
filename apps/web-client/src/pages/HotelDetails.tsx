@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Language, Hotel } from '../types';
 import { api } from '../services/api';
 import { AMENITIES } from '../utils/constants';
+import Map, { MapMarker } from '../components/Map';
 
 interface HotelDetailsProps {
   lang: Language;
@@ -48,6 +49,24 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ lang }) => {
     );
   }
 
+  const mapMarker: MapMarker = useMemo(
+    () => ({
+      lat: hotel.location.lat,
+      lng: hotel.location.lng,
+      title: isArabic ? hotel.nameAr : hotel.nameEn,
+      address: isArabic ? hotel.location.addressAr : hotel.location.addressEn,
+    }),
+    [hotel, isArabic]
+  );
+
+  const mapCenter = useMemo(
+    () => ({
+      lat: hotel.location.lat,
+      lng: hotel.location.lng,
+    }),
+    [hotel]
+  );
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="w-full h-96 relative overflow-hidden">
@@ -88,6 +107,19 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ lang }) => {
           <p className="text-gray-700 mb-6">
             {isArabic ? hotel.descriptionAr : hotel.descriptionEn}
           </p>
+
+          <div className="mb-6">
+            <h3 className="text-xl font-bold text-primary-600 mb-3">
+              {isArabic ? 'الموقع' : 'Location'}
+            </h3>
+            <Map
+              center={mapCenter}
+              markers={[mapMarker]}
+              zoom={15}
+              height="500px"
+              className="rounded-lg shadow-md overflow-hidden"
+            />
+          </div>
 
           <div className="mb-6">
             <h3 className="text-xl font-bold text-primary-600 mb-3">

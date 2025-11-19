@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Language, Hotel } from '../types';
 import { api } from '../services/api';
+import Map, { MapMarker } from '../components/Map';
 
 interface SearchResultsProps {
   lang: Language;
@@ -46,11 +47,44 @@ const SearchResults: React.FC<SearchResultsProps> = ({ lang }) => {
     );
   }
 
+  const mapMarkers: MapMarker[] = useMemo(
+    () =>
+      hotels.map((hotel) => ({
+        lat: hotel.location.lat,
+        lng: hotel.location.lng,
+        title: isArabic ? hotel.nameAr : hotel.nameEn,
+        address: isArabic ? hotel.location.addressAr : hotel.location.addressEn,
+      })),
+    [hotels, isArabic]
+  );
+
+  const mapCenter = useMemo(() => {
+    if (hotels.length === 0) {
+      return { lat: 24.7136, lng: 46.6753 }; // Default to Riyadh
+    }
+    return {
+      lat: hotels[0].location.lat,
+      lng: hotels[0].location.lng,
+    };
+  }, [hotels]);
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6 text-primary-600">
         {isArabic ? `${total} فندق متاح` : `${total} Hotels Available`}
       </h1>
+
+      {hotels.length > 0 && (
+        <div className="mb-6">
+          <Map
+            center={mapCenter}
+            markers={mapMarkers}
+            zoom={12}
+            height="400px"
+            className="rounded-lg shadow-md overflow-hidden"
+          />
+        </div>
+      )}
 
       <div className="grid grid-cols-1 gap-6">
         {hotels.map((hotel) => (
