@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { GoogleMap, useLoadScript, Marker, InfoWindow } from '@react-google-maps/api';
+import { GoogleMap, Marker, InfoWindow } from '@react-google-maps/api';
+import { useMaps } from '../contexts/MapsContext';
 
 export interface MapMarker {
   lat: number;
@@ -21,11 +22,8 @@ interface MapProps {
 
 const Map: React.FC<MapProps> = ({ center, markers, zoom = 12, height = '400px', className = '' }) => {
   const [selectedMarker, setSelectedMarker] = useState<MapMarker | null>(null);
+  const { isLoaded, loadError } = useMaps();
   const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-
-  const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: apiKey || '',
-  });
 
   if (loadError) {
     return (

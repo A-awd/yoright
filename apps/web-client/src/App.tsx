@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { Language } from './types';
 import { Navbar } from './components/layout/Navbar';
+import { MapsProvider } from './contexts/MapsContext';
 import Home from './pages/Home';
 import SearchResults from './pages/SearchResults';
 import HotelDetails from './pages/HotelDetails';
@@ -96,26 +97,28 @@ const App: React.FC = () => {
   }, [lang]);
 
   return (
-    <Router>
-      <div className="min-h-screen flex flex-col">
-        <Navbar lang={lang} setLang={setLang} />
-        <main className="flex-grow">
-          <Routes>
-            <Route path="/" element={<Home lang={lang} />} />
-            <Route path="/search" element={<SearchResults lang={lang} />} />
-            <Route path="/hotel/:id" element={<HotelDetails lang={lang} />} />
-            <Route path="/checkout" element={<Checkout lang={lang} />} />
-            <Route path="/confirmation/:ref" element={<Confirmation lang={lang} />} />
-            <Route path="/my-trips" element={<MyTrips lang={lang} />} />
-            <Route path="/offers" element={<Offers lang={lang} />} />
-            <Route path="/profile" element={<Profile lang={lang} />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </main>
-        
-        <BottomNavigation lang={lang} />
-      </div>
-    </Router>
+    <MapsProvider>
+      <Router>
+        <div className="min-h-screen flex flex-col">
+          <Navbar lang={lang} setLang={setLang} />
+          <main className="flex-grow">
+            <Routes>
+              <Route path="/" element={<Home lang={lang} />} />
+              <Route path="/search" element={<SearchResults lang={lang} />} />
+              <Route path="/hotel/:id" element={<HotelDetails lang={lang} />} />
+              <Route path="/checkout" element={<Checkout lang={lang} />} />
+              <Route path="/confirmation/:ref" element={<Confirmation lang={lang} />} />
+              <Route path="/my-trips" element={<MyTrips lang={lang} />} />
+              <Route path="/offers" element={<Offers lang={lang} />} />
+              <Route path="/profile" element={<Profile lang={lang} />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </main>
+          
+          <BottomNavigation lang={lang} />
+        </div>
+      </Router>
+    </MapsProvider>
   );
 };
 
