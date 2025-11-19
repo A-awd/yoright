@@ -3,6 +3,7 @@ import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { Logger } from '@nestjs/common';
 import { join } from 'path';
+import { existsSync } from 'fs';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -22,17 +23,30 @@ async function bootstrap() {
   });
 
   const fastify = app.getHttpAdapter().getInstance();
-  
-  await fastify.register(require('@fastify/static'), {
-    root: join(__dirname, '../../web/public'),
-    prefix: '/',
-  });
-  
-  await fastify.register(require('@fastify/static'), {
-    root: join(__dirname, '../../web/admin'),
-    prefix: '/admin/',
-    decorateReply: false,
-  });
+
+  const webClientDistPath = join(__dirname, '../../web-client/dist');
+  const webAdminPath = join(__dirname, '../../web/admin');
+
+  if (existsSync(webAdminPath)) {
+    await fastify.register(require('@fastify/static'), {
+      root: webAdminPath,
+      prefix: '/admin/',
+      decorateReply: false,
+    });
+  }
+
+  if (existsSync(webClientDistPath)) {
+    await fastify.register(require('@fastify/static'), {
+      root: webClientDistPath,
+      prefix: '/',
+      decorateReply: false,
+    });
+
+    logger.log(`📱 React App: Serving from ${webClientDistPath}`);
+  } else {
+    logger.warn(`⚠️  React build not found at ${webClientDistPath}`);
+    logger.warn(`   Run: cd apps/web-client && npm install && npm run build`);
+  }
 
   const config = new DocumentBuilder()
     .setTitle('YoRight API')
@@ -58,7 +72,7 @@ async function bootstrap() {
   logger.log(`📖 API Documentation: http://0.0.0.0:${port}/api-docs`);
   logger.log(`📄 OpenAPI Spec: http://0.0.0.0:${port}/openapi.json`);
   logger.log(`🎭 Mock Mode: ${mockMode ? 'ENABLED' : 'DISABLED'}`);
-  logger.log(`🌐 Public Demo: http://0.0.0.0:${port}/`);
+  logger.log(`🌐 React App: http://0.0.0.0:${port}/`);
   logger.log(`⚙️  Admin Panel: http://0.0.0.0:${port}/admin/`);
 }
 

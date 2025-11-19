@@ -10,8 +10,12 @@
   "scripts": {
     "start": "node apps/gateway/dist/main.js",
     "dev": "cd apps/gateway && npm run dev",
-    "build": "cd apps/gateway && npm run build",
+    "dev:web": "cd apps/web-client && npm run dev",
+    "build": "npm run build:web && cd apps/gateway && npm run build",
+    "build:web": "cd apps/web-client && npm run build",
+    "build:gateway": "cd apps/gateway && npm run build",
     "build:all": "npm run build --workspaces",
+    "serve:web": "npm run build && npm start",
     "seed": "node tools/scripts/seed.js",
     "smoke": "node tools/scripts/smoke.js",
     "test": "npm test --workspaces",
@@ -19,5 +23,11 @@
   },
   "engines": {
     "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "next": "^16.0.3",
+    "next-intl": "^4.5.3",
+    "tailwindcss": "^4.1.17",
+    "tailwindcss-animate": "^1.0.7"
   }
 }
