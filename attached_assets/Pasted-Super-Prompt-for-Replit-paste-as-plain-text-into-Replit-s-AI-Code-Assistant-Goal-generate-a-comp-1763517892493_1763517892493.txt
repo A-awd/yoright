@@ -1,0 +1,156 @@
+Super-Prompt for Replit (paste as plain text into Replit’s AI/Code Assistant).
+Goal: generate a complete, runnable project on Replit that ships a production-grade gateway + web demo for “YoRight”, and scaffolds native iOS/Android repos for later. No questions. Choose sane defaults. Use $PORT from env. Use Replit Secrets for keys. Default to MOCK_MODE=1 so everything works without suppliers.
+
+ROLE
+Act as a Staff+ Native Platform Architect and Delivery Lead. Build “YoRight” — a world-class, fully NATIVE travel product (Arabic default, English optional) that will later power iOS/Android apps. On Replit now, deliver: 1) Node gateway with clean architecture, 2) lightweight Admin web, 3) public demo web that mirrors the mobile UX, 4) seeds, tests, CI-lite, docs, and Replit bootstrap. Google Maps ONLY. Saudi market first: SAR currency, VAT, Apple Pay/mada via Tap (server intents + webhooks). No scraping; only licensed APIs.
+
+REPLIT PROFILE (hard constraints)
+• Single process listening on process.env.PORT.
+• Secrets via Replit “Secrets” (RATEHAWK_KEY, TAP_PUBLIC, TAP_SECRET, GOOGLE_MAPS_KEY…).
+• Provide .replit and replit.nix to pin Node 20.
+• DB choices: if DATABASE_URL missing, use in-memory stores and JSON seeds; if present, use Postgres (Neon/Supabase) via Prisma.
+• Mock mode: MOCK_MODE=1 enables full demo without external keys; switch to 0 to use real providers.
+
+REPO LAYOUT
+/ apps/gateway        → NestJS + Fastify (API + static site + Admin)
+/ apps/web            → Public demo (served by gateway using @fastify/static)
+/ packages/contracts  → OpenAPI 3.1 spec + generated Swift/Kotlin client stubs (for native apps later)
+/ packages/design-tokens → JSON tokens → CSS variables + export hints for Swift/Kotlin later
+/ packages/quality    → eslint, prettier, commit hooks, shared test utils
+/ tools/scripts       → bootstrap, seed, smoke, changelog, screenshots (web)
+/ docs                → architecture.md, data-playbook.md, runbooks, masvs-map.md, pdpl-checklist.md
+/ _native/ios         → empty scaffold notes + README for Xcode build later
+/ _native/android     → empty scaffold notes + README for Gradle build later
+/ .replit, replit.nix, package.json, .env.example
+
+SECRETS & CONFIG (.env.example)
+MOCK_MODE=1
+PORT=8080
+DATABASE_URL=
+RATEHAWK_KEY=
+TAP_PUBLIC=
+TAP_SECRET=
+GOOGLE_MAPS_KEY=
+OPENWEATHER_KEY=
+CALENDARIFIC_KEY=
+SENTRY_DSN=
+
+DELIVERABLES ON REPLIT NOW
+	1.	Gateway (NestJS + Fastify)
+• Modules: Health, Auth (OTP stub), Users, Hotels, Search, Bookings, Payments, Suppliers, FX, CityIntel, Alerts, Admin.
+• REST first; expose OpenAPI spec at /openapi.json; generate SDKs into /packages/contracts for Swift/Kotlin later.
+• Clean architecture (controllers → services → adapters); DTO validation; pino logger; request IDs.
+• Feature flags via JSON file flags.json (tenant, experiments) with hot-reload.
+• Mock providers: RateHawkMock, TapMock; real adapters behind env flags.
+• Resilience: timeouts, retries, circuit breakers per adapter; brownout mode returns cached pages with banner.
+• Static hosting: serve /apps/web/public as the demo UI and /apps/web/admin as Admin UI.
+	2.	Public demo web (Arabic default, RTL)
+• Home with city cards (Riyadh, Dubai, Jeddah, London, Paris, Bangkok).
+• SRP grid, filters (price SAR, stars, free-cancel, breakfast, neighborhood), map toggle (Google Maps JS if key exists; fallback to static).
+• PDP with gallery, amenities, location, room cards; deep links.
+• Checkout simulator: collects guest info and posts /api/bookings; shows confirmation with VAT breakdown, SAR currency, downloadable PDF invoice (server renders).
+• Arabic-Indic numerals in AR; timezone Asia/Riyadh; high-contrast mode; keyboard navigable.
+	3.	Admin web (simple, passwordless dev login)
+• Tables: Bookings, Webhook logs, Feature flags, Coupons, Featured cities, CityIntel cache.
+• Actions: Retry webhook, toggle flags, create coupon, refresh FX/CityIntel, export booking.
+• Audit log for every admin action.
+	4.	Data strategy & mock seeds
+• Hotels: curated JSON cards with cityId, stars, lat/lng, images; room catalogs per PDP.
+• CityIntel: monthly weather averages, public holidays, cost-of-living snapshot, flights/day placeholder.
+• FX: SAR base + USD/EUR with 2h TTL; fallback snapshot.
+• All endpoints work in MOCK_MODE without external keys; real keys swap adapters.
+	5.	Payments (server-side intents, Tap)
+• Endpoints: POST /api/payments/intent, POST /api/payments/webhook, GET /api/payments/:id.
+• State machine: PENDING → AUTHORIZED → CAPTURED (PAID) → REFUNDED/VOID → FAILED.
+• Idempotency keys, signature verification, webhook reconciliation job.
+• In MOCK_MODE simply auto-advance to PAID after short delay.
+	6.	Invoicing (ZATCA simplified)
+• Generate Arabic PDF with QR payload + VAT fields; attach to confirmation; downloadable link.
+• Price breakdown in SAR with correct rounding rules.
+	7.	Security & compliance
+• TLS expected at Replit edge; sanitize logs; never log PAN/PII; PDPL checklist in docs.
+• Rate limits on OTP and payments when MOCK_MODE=0.
+• CORS open in dev; restrict origins list via env ALLOWED_ORIGINS when going live.
+	8.	Observability & SLOs
+• /health; /metrics (basic counters + histograms for SRP, PDP, bookings).
+• Log correlation IDs surfaced to client; RED dashboards JSON in docs.
+• SLOs: p95 /api/hotels/search ≤ 600ms in mock; booking success ≥ 96% in sandbox.
+• Synthetic monitor script tools/scripts/smoke that runs SRP→PDP→booking every hour (cron hint for Replit Deployments).
+	9.	Tests
+• Unit tests for mappers, pricing, VAT, webhook handler, booking state machine.
+• Contract test from OpenAPI snapshot.
+• Web e2e (Playwright) for demo flow in MOCK_MODE.
+	10.	Replit automation
+• .replit runs “npm start”.
+• replit.nix pins nodejs_20.
+• npm start boots gateway, serves UI, logs URL.
+• README top shows “How to run on Replit” and “How to add real keys”.
+
+API CONTRACT (must implement now)
+GET /health → { ok }
+GET /api/hotels/search?cityId&checkIn&checkOut&adults → { items:[HotelCard], total, currency:“SAR” }
+GET /api/hotels/:id → HotelDetail { rooms:[{id,name,refundable,priceSar}] }
+POST /api/bookings → body { hotelId, roomId, guests, totals } → { id, reference, status, currency, total, vat }
+GET /api/bookings/:reference → booking summary
+POST /api/payments/intent → { bookingId, method } → { intentId, status }
+POST /api/payments/webhook → Tap or mock payload; update booking/payment; idempotent
+GET /api/fx/latest → rates { “USD”: x, “EUR”: y, “SAR”: 1 }
+GET /api/cityintel/:cityId?month= → cached intel (weather, holidays, colIndex, flights/day)
+GET /openapi.json → full spec for mobile client generation
+
+RANKING & DISCOVERY
+• Eligibility → quality score (images, amenities) → location score (neighborhood fit) → price competitiveness → diversity.
+• Contextual personalization without PII: locale, currency, month, party size.
+• Bandit experiment (ε-greedy) guarded by flags.json; rollback in under 5 minutes.
+
+CHECKOUT & VAT
+• Always show total SAR with VAT breakdown.
+• Coupons: percent/fixed, min spend, city/hotel scope, usage caps.
+• Cancellation policy timeline on PDP and in confirmation.
+
+MAPS
+• Google Maps JavaScript SDK only; cluster markers; draggable radius filter; neighborhood polygons loaded from /apps/web/static/neighborhoods.json; fallback to non-map list if no key.
+
+ACCESSIBILITY & ARABIC QUALITY
+• dir=“rtl”, Arabic-Indic numerals, proper punctuation spacing; high-contrast theme; keyboard focus rings.
+• All interactive controls labeled; large-text snapshot page.
+
+ACCEPTANCE CRITERIA
+• Open Replit, press Run, visit the URL.
+• Health: /health returns ok.
+• Search: /api/hotels/search returns items in MOCK_MODE.
+• UI: homepage shows Arabic city cards; filter by city; open PDP; select room; complete booking; see confirmation with SAR + VAT; download PDF; deep link works.
+• Admin: toggle a feature flag, create a coupon, retry a webhook (mock), refresh FX and CityIntel caches.
+• OpenAPI served and valid; tests pass; smoke script succeeds; metrics endpoint exposes counters.
+
+NON-NEGOTIABLES
+• Single process on $PORT.
+• MOCK_MODE=1 must run end-to-end without external keys.
+• Google Maps only.
+• Arabic default with Asia/Riyadh everywhere.
+• No secrets committed; rely on Replit Secrets.
+• Idempotent webhooks; booking/payment state machine fully tested.
+
+DELIVER NOW
+• Generate the full repo per layout above, with runnable gateway, demo UI, admin UI, seeds, tests, OpenAPI, scripts, docs, and Replit bootstrap.
+• Include minimal native scaffolds in _native/ to ease future iOS/Android clients (readmes + codegen usage).
+• Populate docs: architecture, data-playbook (sources, TTLs, licensing), runbooks (incident, rollback, webhook lag), MASVS/PDPL checklists, SLO dashboards JSON.
+• Provide sample cities: Riyadh, Jeddah, Dubai, AbuDhabi, Doha, Manama, Muscat, KuwaitCity, London, Paris, Barcelona, Bangkok.
+• Provide seeded hotels and rooms per city with realistic ranges and refundable/non-refundable mix.
+• Implement VAT math and SAR formatting with correct rounding.
+• Ship with flags.json enabling: mockProviders=true, mapEnabled=true, installments=false.
+
+— Replit bootstrap files to create immediately (plain files, no questions) —
+File: .replit
+run = “npm start”
+[env]
+PORT = “8080”
+MOCK_MODE = “1”
+
+File: replit.nix
+{ pkgs }: { deps = [ pkgs.nodejs_20 pkgs.pkg-config ]; }
+
+File: package.json
+{ “name”:“yoright-replit”, “private”:true, “scripts”:{ “start”:“node apps/gateway/dist/main.js”, “dev”:“ts-node-dev –respawn –transpile-only apps/gateway/src/main.ts”, “test”:“node tools/scripts/smoke.js” }, “workspaces”:[ “apps/”, “packages/”, “tools/*” ] }
+
+Note: if TypeScript build isn’t pre-compiled, the dev script must run; otherwise add a simple build script and ensure dev starts when REPL runs.
