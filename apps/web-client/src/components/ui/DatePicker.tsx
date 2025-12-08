@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 interface DatePickerProps {
   checkInDate?: Date;
@@ -26,9 +26,9 @@ const formatDateForInput = (date?: Date): string => {
   return date.toISOString().split('T')[0];
 };
 
-const formatDateDisplay = (date?: Date): string => {
-  if (!date) return 'Select date';
-  return date.toLocaleDateString('en-US', {
+const formatDateDisplay = (date?: Date, isArabic?: boolean): string => {
+  if (!date) return isArabic ? 'اختر التاريخ' : 'Select date';
+  return date.toLocaleDateString(isArabic ? 'ar-SA' : 'en-US', {
     weekday: 'short',
     month: 'short',
     day: 'numeric',
@@ -44,18 +44,38 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   className = '',
   layout = 'horizontal',
 }) => {
+  const checkInRef = useRef<HTMLInputElement>(null);
+  const checkOutRef = useRef<HTMLInputElement>(null);
+
   const handleCheckInChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const date = new Date(e.target.value);
+    const date = new Date(e.target.value + 'T00:00:00');
     if (!isNaN(date.getTime())) {
       onCheckInChange?.(date);
+      if (!checkOutDate || checkOutDate <= date) {
+        const nextDay = new Date(date);
+        nextDay.setDate(nextDay.getDate() + 1);
+        onCheckOutChange?.(nextDay);
+      }
     }
   };
 
   const handleCheckOutChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const date = new Date(e.target.value);
+    const date = new Date(e.target.value + 'T00:00:00');
     if (!isNaN(date.getTime())) {
       onCheckOutChange?.(date);
     }
+  };
+
+  const openCheckInPicker = () => {
+    checkInRef.current?.showPicker?.();
+    checkInRef.current?.focus();
+    checkInRef.current?.click();
+  };
+
+  const openCheckOutPicker = () => {
+    checkOutRef.current?.showPicker?.();
+    checkOutRef.current?.focus();
+    checkOutRef.current?.click();
   };
 
   const checkInMin = formatDateForInput(minDate);
@@ -72,56 +92,62 @@ export const DatePicker: React.FC<DatePickerProps> = ({
         ${className}
       `}
     >
-      <div
+      <button
+        type="button"
+        onClick={openCheckInPicker}
         className={`
-          relative flex-1 group
-          ${layout === 'horizontal' ? 'border-r-2 border-charcoal-200' : 'border-b-2 border-charcoal-200'}
+          relative flex-1 text-left cursor-pointer hover:bg-cream-50 transition-colors
+          ${layout === 'horizontal' ? 'border-e-2 border-charcoal-200' : 'border-b-2 border-charcoal-200'}
         `}
       >
-        <label className="absolute left-4 top-2 text-xs font-medium text-charcoal-500">
+        <label className="absolute start-4 top-2 text-xs font-medium text-charcoal-500 pointer-events-none">
           Check-in
         </label>
         <div className="flex items-center px-4 pt-6 pb-3">
-          <span className="text-charcoal-400 mr-3">
+          <span className="text-charcoal-400 me-3">
             <CalendarIcon />
           </span>
-          <div className="relative flex-1">
-            <span className="text-charcoal-900 font-medium">
-              {formatDateDisplay(checkInDate)}
-            </span>
-            <input
-              type="date"
-              value={formatDateForInput(checkInDate)}
-              onChange={handleCheckInChange}
-              min={checkInMin}
-              className="absolute inset-0 opacity-0 cursor-pointer"
-            />
-          </div>
+          <span className="text-charcoal-900 font-medium">
+            {formatDateDisplay(checkInDate)}
+          </span>
         </div>
-      </div>
+        <input
+          ref={checkInRef}
+          type="date"
+          value={formatDateForInput(checkInDate)}
+          onChange={handleCheckInChange}
+          min={checkInMin}
+          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+          style={{ colorScheme: 'light' }}
+        />
+      </button>
 
-      <div className="relative flex-1 group">
-        <label className="absolute left-4 top-2 text-xs font-medium text-charcoal-500">
+      <button
+        type="button"
+        onClick={openCheckOutPicker}
+        className="relative flex-1 text-left cursor-pointer hover:bg-cream-50 transition-colors"
+      >
+        <label className="absolute start-4 top-2 text-xs font-medium text-charcoal-500 pointer-events-none">
           Check-out
         </label>
         <div className="flex items-center px-4 pt-6 pb-3">
-          <span className="text-charcoal-400 mr-3">
+          <span className="text-charcoal-400 me-3">
             <CalendarIcon />
           </span>
-          <div className="relative flex-1">
-            <span className="text-charcoal-900 font-medium">
-              {formatDateDisplay(checkOutDate)}
-            </span>
-            <input
-              type="date"
-              value={formatDateForInput(checkOutDate)}
-              onChange={handleCheckOutChange}
-              min={checkOutMin}
-              className="absolute inset-0 opacity-0 cursor-pointer"
-            />
-          </div>
+          <span className="text-charcoal-900 font-medium">
+            {formatDateDisplay(checkOutDate)}
+          </span>
         </div>
-      </div>
+        <input
+          ref={checkOutRef}
+          type="date"
+          value={formatDateForInput(checkOutDate)}
+          onChange={handleCheckOutChange}
+          min={checkOutMin}
+          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+          style={{ colorScheme: 'light' }}
+        />
+      </button>
     </div>
   );
 };
