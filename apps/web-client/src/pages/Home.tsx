@@ -242,6 +242,7 @@ const Home: React.FC<HomeProps> = ({ lang }) => {
                   checkOutDate={checkOutDate}
                   onCheckInChange={setCheckInDate}
                   onCheckOutChange={setCheckOutDate}
+                  lang={lang}
                 />
               </div>
 
@@ -256,6 +257,7 @@ const Home: React.FC<HomeProps> = ({ lang }) => {
                   onAdultsChange={setAdults}
                   onChildrenChange={setChildren}
                   onRoomsChange={setRooms}
+                  lang={lang}
                 />
               </div>
             </div>

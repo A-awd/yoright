@@ -1,4 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
+import { Language } from '../../types';
+import { translations } from '../../i18n/translations';
 
 interface DatePickerProps {
   checkInDate?: Date;
@@ -8,6 +11,7 @@ interface DatePickerProps {
   minDate?: Date;
   className?: string;
   layout?: 'horizontal' | 'vertical';
+  lang?: Language;
 }
 
 const CalendarIcon = () => (
@@ -33,14 +37,6 @@ const ChevronRight = () => (
   </svg>
 );
 
-const formatDateDisplay = (date?: Date): string => {
-  if (!date) return 'Select date';
-  return date.toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-  });
-};
-
 const getDaysInMonth = (year: number, month: number): number => {
   return new Date(year, month + 1, 0).getDate();
 };
@@ -63,13 +59,6 @@ const isDateBefore = (date1: Date, date2: Date): boolean => {
   return d1 < d2;
 };
 
-const MONTH_NAMES = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December'
-];
-
-const DAY_NAMES = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
-
 interface CalendarModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -77,6 +66,7 @@ interface CalendarModalProps {
   onSelectDate: (date: Date) => void;
   minDate: Date;
   title: string;
+  lang: Language;
 }
 
 const CalendarModal: React.FC<CalendarModalProps> = ({
@@ -86,29 +76,35 @@ const CalendarModal: React.FC<CalendarModalProps> = ({
   onSelectDate,
   minDate,
   title,
+  lang,
 }) => {
   const [currentMonth, setCurrentMonth] = useState(() => {
     const date = selectedDate || new Date();
     return { year: date.getFullYear(), month: date.getMonth() };
   });
+  const [isAnimating, setIsAnimating] = useState(false);
 
-  const modalRef = useRef<HTMLDivElement>(null);
+  const isArabic = lang === Language.AR;
+  const t = translations[isArabic ? 'ar' : 'en'];
+  const monthNames = t.calendar.months;
+  const dayNames = t.calendar.weekdays;
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-        onClose();
-      }
-    };
-
     if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.body.style.overflow = 'hidden';
+      setIsAnimating(true);
+    } else {
+      document.body.style.overflow = '';
     }
-
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.body.style.overflow = '';
     };
-  }, [isOpen, onClose]);
+  }, [isOpen]);
+
+  const handleClose = () => {
+    setIsAnimating(false);
+    setTimeout(() => onClose(), 200);
+  };
 
   if (!isOpen) return null;
 
@@ -137,7 +133,7 @@ const CalendarModal: React.FC<CalendarModalProps> = ({
     const date = new Date(currentMonth.year, currentMonth.month, day);
     if (!isDateBefore(date, minDate) || isSameDay(date, minDate)) {
       onSelectDate(date);
-      onClose();
+      handleClose();
     }
   };
 
@@ -151,36 +147,56 @@ const CalendarModal: React.FC<CalendarModalProps> = ({
 
   const today = new Date();
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
+  const modalContent = (
+    <div 
+      className="fixed inset-0 flex items-end md:items-center justify-center"
+      style={{ zIndex: 9999 }}
+    >
+      <div 
+        className={`
+          absolute inset-0 bg-black/60 transition-opacity duration-200
+          ${isAnimating ? 'opacity-100' : 'opacity-0'}
+        `}
+        onClick={handleClose}
+      />
       <div
-        ref={modalRef}
-        className="bg-white rounded-2xl shadow-luxury-xl p-4 w-80 animate-scale-in"
+        className={`
+          relative bg-white w-full md:max-w-sm md:mx-4 md:rounded-2xl
+          rounded-t-3xl shadow-2xl p-4
+          transition-transform duration-200 ease-out
+          ${isAnimating ? 'translate-y-0' : 'translate-y-full md:translate-y-0 md:scale-95'}
+          ${isArabic ? 'rtl' : 'ltr'}
+        `}
+        onClick={(e) => e.stopPropagation()}
       >
+        <div className="flex justify-center pt-1 pb-2 md:hidden">
+          <div className="w-12 h-1.5 bg-charcoal-300 rounded-full" />
+        </div>
+
         <div className="text-center mb-4">
           <span className="text-sm font-medium text-charcoal-500">{title}</span>
         </div>
 
         <div className="flex items-center justify-between mb-4">
           <button
-            onClick={prevMonth}
+            onClick={isArabic ? nextMonth : prevMonth}
             className="p-2 hover:bg-cream-100 rounded-full transition-colors"
           >
-            <ChevronLeft />
+            {isArabic ? <ChevronRight /> : <ChevronLeft />}
           </button>
           <span className="font-semibold text-charcoal-900">
-            {MONTH_NAMES[currentMonth.month]} {currentMonth.year}
+            {monthNames[currentMonth.month]} {currentMonth.year}
           </span>
           <button
-            onClick={nextMonth}
+            onClick={isArabic ? prevMonth : nextMonth}
             className="p-2 hover:bg-cream-100 rounded-full transition-colors"
           >
-            <ChevronRight />
+            {isArabic ? <ChevronLeft /> : <ChevronRight />}
           </button>
         </div>
 
         <div className="grid grid-cols-7 gap-1 mb-2">
-          {DAY_NAMES.map((day) => (
+          {dayNames.map((day) => (
             <div
               key={day}
               className="text-center text-xs font-medium text-charcoal-400 py-2"
@@ -207,7 +223,7 @@ const CalendarModal: React.FC<CalendarModalProps> = ({
                 onClick={() => handleDateClick(day)}
                 disabled={isDisabled}
                 className={`
-                  h-10 w-10 flex items-center justify-center rounded-full text-sm font-medium transition-all
+                  h-10 w-10 flex items-center justify-center rounded-full text-sm font-medium transition-all mx-auto
                   ${isDisabled ? 'text-charcoal-300 cursor-not-allowed' : 'hover:bg-brand-100 cursor-pointer'}
                   ${isSelected ? 'bg-brand-800 text-white hover:bg-brand-900' : ''}
                   ${isToday && !isSelected ? 'border-2 border-brand-600' : ''}
@@ -219,17 +235,19 @@ const CalendarModal: React.FC<CalendarModalProps> = ({
           })}
         </div>
 
-        <div className="mt-4 flex justify-end">
+        <div className="mt-4 pt-4 border-t border-charcoal-100">
           <button
-            onClick={onClose}
-            className="px-4 py-2 text-sm font-medium text-charcoal-600 hover:text-charcoal-900 transition-colors"
+            onClick={handleClose}
+            className="w-full py-3 bg-brand-800 hover:bg-brand-900 text-white font-semibold rounded-xl transition-colors"
           >
-            Cancel
+            {t.common.done}
           </button>
         </div>
       </div>
     </div>
   );
+
+  return createPortal(modalContent, document.body);
 };
 
 export const DatePicker: React.FC<DatePickerProps> = ({
@@ -240,9 +258,20 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   minDate = new Date(),
   className = '',
   layout = 'horizontal',
+  lang = Language.EN,
 }) => {
   const [showCheckIn, setShowCheckIn] = useState(false);
   const [showCheckOut, setShowCheckOut] = useState(false);
+
+  const isArabic = lang === Language.AR;
+  const t = translations[isArabic ? 'ar' : 'en'];
+
+  const formatDateDisplay = (date?: Date): string => {
+    if (!date) return t.search.selectDate;
+    const day = date.getDate();
+    const month = t.calendar.monthsShort[date.getMonth()];
+    return `${day} ${month}`;
+  };
 
   const handleCheckInSelect = (date: Date) => {
     onCheckInChange?.(date);
@@ -280,7 +309,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
           `}
         >
           <span className="absolute start-4 top-2 text-xs font-medium text-charcoal-500">
-            Check-in
+            {t.search.checkIn}
           </span>
           <div className="flex items-center px-4 pt-6 pb-3">
             <span className="text-charcoal-400 me-3">
@@ -298,7 +327,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
           className="relative flex-1 text-start hover:bg-cream-50 transition-colors"
         >
           <span className="absolute start-4 top-2 text-xs font-medium text-charcoal-500">
-            Check-out
+            {t.search.checkOut}
           </span>
           <div className="flex items-center px-4 pt-6 pb-3">
             <span className="text-charcoal-400 me-3">
@@ -317,7 +346,8 @@ export const DatePicker: React.FC<DatePickerProps> = ({
         selectedDate={checkInDate}
         onSelectDate={handleCheckInSelect}
         minDate={minDate}
-        title="Check-in Date"
+        title={t.search.checkIn}
+        lang={lang}
       />
 
       <CalendarModal
@@ -326,7 +356,8 @@ export const DatePicker: React.FC<DatePickerProps> = ({
         selectedDate={checkOutDate}
         onSelectDate={handleCheckOutSelect}
         minDate={checkOutMinDate}
-        title="Check-out Date"
+        title={t.search.checkOut}
+        lang={lang}
       />
     </>
   );

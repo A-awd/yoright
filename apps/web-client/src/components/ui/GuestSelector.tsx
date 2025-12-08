@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import { Language } from '../../types';
+import { translations } from '../../i18n/translations';
 
 interface GuestSelectorProps {
   adults?: number;
@@ -12,6 +14,7 @@ interface GuestSelectorProps {
   maxChildren?: number;
   maxRooms?: number;
   className?: string;
+  lang?: Language;
 }
 
 const UsersIcon = () => (
@@ -106,9 +109,13 @@ export const GuestSelector: React.FC<GuestSelectorProps> = ({
   maxChildren = 6,
   maxRooms = 5,
   className = '',
+  lang = Language.EN,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+
+  const isArabic = lang === Language.AR;
+  const t = translations[isArabic ? 'ar' : 'en'];
 
   useEffect(() => {
     if (isOpen) {
@@ -142,17 +149,25 @@ export const GuestSelector: React.FC<GuestSelectorProps> = ({
 
   const getSummaryText = () => {
     const parts: string[] = [];
-    parts.push(`${adults} Adult${adults !== 1 ? 's' : ''}`);
-    if (children > 0) {
-      parts.push(`${children} Child${children !== 1 ? 'ren' : ''}`);
+    if (isArabic) {
+      parts.push(`${adults} ${t.guestSelector.adults}`);
+      if (children > 0) {
+        parts.push(`${children} ${t.guestSelector.children}`);
+      }
+      parts.push(`${rooms} ${t.guestSelector.rooms}`);
+    } else {
+      parts.push(`${adults} Adult${adults !== 1 ? 's' : ''}`);
+      if (children > 0) {
+        parts.push(`${children} Child${children !== 1 ? 'ren' : ''}`);
+      }
+      parts.push(`${rooms} Room${rooms !== 1 ? 's' : ''}`);
     }
-    parts.push(`${rooms} Room${rooms !== 1 ? 's' : ''}`);
-    return parts.join(', ');
+    return parts.join(isArabic ? '، ' : ', ');
   };
 
   const modalContent = (
     <div 
-      className="fixed inset-0 flex flex-col justify-end md:justify-center md:items-center"
+      className={`fixed inset-0 flex flex-col justify-end md:justify-center md:items-center ${isArabic ? 'rtl' : 'ltr'}`}
       style={{ zIndex: 9999 }}
     >
       <div 
@@ -177,29 +192,29 @@ export const GuestSelector: React.FC<GuestSelectorProps> = ({
         </div>
 
         <div className="px-6 py-4 border-b border-charcoal-100">
-          <h3 className="font-semibold text-charcoal-900 text-lg text-center">Select Guests & Rooms</h3>
+          <h3 className="font-semibold text-charcoal-900 text-lg text-center">{t.guestSelector.title}</h3>
         </div>
 
         <div className="px-6 divide-y divide-charcoal-100 max-h-[60vh] overflow-y-auto">
           <CounterRow
-            label="Adults"
-            description="Ages 13 or above"
+            label={t.guestSelector.adults}
+            description={t.guestSelector.adultsDesc}
             value={adults}
             onChange={(v) => onAdultsChange?.(v)}
             min={1}
             max={maxAdults}
           />
           <CounterRow
-            label="Children"
-            description="Ages 0-12"
+            label={t.guestSelector.children}
+            description={t.guestSelector.childrenDesc}
             value={children}
             onChange={(v) => onChildrenChange?.(v)}
             min={0}
             max={maxChildren}
           />
           <CounterRow
-            label="Rooms"
-            description="Number of rooms"
+            label={t.guestSelector.rooms}
+            description={t.guestSelector.roomsDesc}
             value={rooms}
             onChange={(v) => onRoomsChange?.(v)}
             min={1}
@@ -213,7 +228,7 @@ export const GuestSelector: React.FC<GuestSelectorProps> = ({
             onClick={handleClose}
             className="w-full py-4 bg-brand-800 hover:bg-brand-900 text-white font-semibold rounded-xl transition-colors text-base"
           >
-            Done
+            {t.common.done}
           </button>
           <div className="h-safe-area-inset-bottom" />
         </div>
@@ -238,7 +253,7 @@ export const GuestSelector: React.FC<GuestSelectorProps> = ({
             <UsersIcon />
           </span>
           <div className="text-start">
-            <p className="text-xs font-medium text-charcoal-500">Guests</p>
+            <p className="text-xs font-medium text-charcoal-500">{t.search.guests}</p>
             <p className="text-charcoal-900 font-medium text-sm">{getSummaryText()}</p>
           </div>
         </div>
