@@ -22,9 +22,6 @@ const Profile: React.FC<ProfileProps> = ({ lang }) => {
     avatar: 'https://picsum.photos/200/200?random=1',
     memberSince: 'January 2023',
     memberSinceAr: 'يناير 2023',
-    tier: 'Gold Member',
-    tierAr: 'عضو ذهبي',
-    points: 12500,
     totalTrips: 8,
     savedHotels: 15,
     reviewsWritten: 5,
@@ -70,25 +67,20 @@ const Profile: React.FC<ProfileProps> = ({ lang }) => {
   );
 
   return (
-    <div className={`min-h-screen bg-cream-100 pb-24 ${isArabic ? 'rtl' : 'ltr'}`}>
-      <div className="bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-charcoal-900 pt-12 pb-20 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-0 w-96 h-96 bg-brand-600 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-brand-600 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
-        </div>
-        
-        <div className="container mx-auto px-4 relative z-10">
+    <div className={`min-h-screen bg-white pb-24 ${isArabic ? 'rtl' : 'ltr'}`}>
+      <div className="bg-brand-800 pt-12 pb-24">
+        <div className="container mx-auto px-4">
           <div className="flex flex-col items-center">
             <div className="relative mb-4">
-              <div className="w-28 h-28 rounded-full overflow-hidden ring-4 ring-brand-600 ring-offset-4 ring-offset-charcoal-900">
+              <div className="w-28 h-28 rounded-full overflow-hidden ring-4 ring-white/30 ring-offset-4 ring-offset-brand-800">
                 <img 
                   src={mockUser.avatar} 
                   alt={mockUser.name}
                   className="w-full h-full object-cover"
                 />
               </div>
-              <button className="absolute bottom-0 right-0 w-10 h-10 bg-brand-800 rounded-full flex items-center justify-center shadow-lg hover:bg-brand-900 transition-colors">
-                <i className="fas fa-camera text-charcoal-900"></i>
+              <button className="absolute bottom-0 right-0 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-cream-100 transition-colors">
+                <i className="fas fa-camera text-brand-800"></i>
               </button>
             </div>
             
@@ -96,35 +88,23 @@ const Profile: React.FC<ProfileProps> = ({ lang }) => {
               {mockUser.name}
             </h1>
             
-            <p className="text-charcoal-300 mb-3">
+            <p className="text-white/70">
               {isArabic ? `عضو منذ ${mockUser.memberSinceAr}` : `Member since ${mockUser.memberSince}`}
             </p>
-            
-            <Badge variant="gold" size="md" className="mb-4">
-              <i className="fas fa-crown mr-1.5"></i>
-              {isArabic ? mockUser.tierAr : mockUser.tier}
-            </Badge>
-            
-            <div className="flex items-center gap-2 bg-charcoal-800/50 rounded-2xl px-5 py-3 backdrop-blur">
-              <i className="fas fa-coins text-brand-600 text-xl"></i>
-              <span className="text-2xl font-bold text-brand-600">{mockUser.points.toLocaleString()}</span>
-              <span className="text-charcoal-400 text-sm">{isArabic ? 'نقطة' : 'points'}</span>
-            </div>
           </div>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 -mt-8 relative z-20">
+      <div className="container mx-auto px-4 -mt-12 relative z-20">
         <Card padding="none" className="mb-6 overflow-hidden">
-          <div className="grid grid-cols-4 divide-x divide-charcoal-100">
+          <div className="grid grid-cols-3 divide-x divide-charcoal-100">
             {[
               { value: mockUser.totalTrips, labelEn: 'Trips', labelAr: 'رحلات', icon: 'fa-plane-departure' },
               { value: mockUser.savedHotels, labelEn: 'Saved', labelAr: 'محفوظة', icon: 'fa-heart' },
-              { value: mockUser.points.toLocaleString(), labelEn: 'Points', labelAr: 'نقاط', icon: 'fa-coins' },
               { value: mockUser.reviewsWritten, labelEn: 'Reviews', labelAr: 'تقييمات', icon: 'fa-star' },
             ].map((stat, idx) => (
               <div key={idx} className="p-4 text-center">
-                <div className="w-10 h-10 bg-cream-100 rounded-xl flex items-center justify-center mx-auto mb-2">
+                <div className="w-10 h-10 bg-brand-100 rounded-xl flex items-center justify-center mx-auto mb-2">
                   <i className={`fas ${stat.icon} text-brand-900`}></i>
                 </div>
                 <p className="text-xl font-bold text-charcoal-900">{stat.value}</p>
