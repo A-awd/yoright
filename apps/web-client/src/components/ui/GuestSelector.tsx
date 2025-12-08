@@ -68,7 +68,7 @@ const CounterRow: React.FC<CounterRowProps> = ({
       >
         <span className="text-xl leading-none">−</span>
       </button>
-      <span className="w-8 text-center font-semibold text-charcoal-900">{value}</span>
+      <span className="w-8 text-center font-semibold text-charcoal-900 text-lg">{value}</span>
       <button
         type="button"
         onClick={() => onChange(Math.min(max, value + 1))}
@@ -101,18 +101,23 @@ export const GuestSelector: React.FC<GuestSelectorProps> = ({
   className = '',
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen]);
 
   const getSummaryText = () => {
     const parts: string[] = [];
@@ -125,73 +130,81 @@ export const GuestSelector: React.FC<GuestSelectorProps> = ({
   };
 
   return (
-    <div ref={containerRef} className={`relative ${className}`}>
+    <>
       <button
         type="button"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => setIsOpen(true)}
         className={`
           w-full flex items-center justify-between px-4 py-3.5
           bg-white rounded-2xl border-2 transition-all duration-200
-          ${isOpen
-            ? 'border-gold-500'
-            : 'border-charcoal-200 hover:border-charcoal-300'
-          }
+          border-charcoal-200 hover:border-charcoal-300
+          ${className}
         `}
       >
         <div className="flex items-center gap-3">
           <span className="text-charcoal-400">
             <UsersIcon />
           </span>
-          <div className="text-left">
+          <div className="text-start">
             <p className="text-xs font-medium text-charcoal-500">Guests</p>
-            <p className="text-charcoal-900 font-medium">{getSummaryText()}</p>
+            <p className="text-charcoal-900 font-medium text-sm">{getSummaryText()}</p>
           </div>
         </div>
-        <span className={`text-charcoal-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}>
+        <span className="text-charcoal-400">
           <ChevronDown />
         </span>
       </button>
 
       {isOpen && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-luxury-lg border border-charcoal-100 z-50 animate-fade-in">
-          <div className="p-4 divide-y divide-charcoal-100">
-            <CounterRow
-              label="Adults"
-              description="Ages 13 or above"
-              value={adults}
-              onChange={(v) => onAdultsChange?.(v)}
-              min={1}
-              max={maxAdults}
-            />
-            <CounterRow
-              label="Children"
-              description="Ages 0-12"
-              value={children}
-              onChange={(v) => onChildrenChange?.(v)}
-              min={0}
-              max={maxChildren}
-            />
-            <CounterRow
-              label="Rooms"
-              description="Number of rooms"
-              value={rooms}
-              onChange={(v) => onRoomsChange?.(v)}
-              min={1}
-              max={maxRooms}
-            />
-          </div>
-          <div className="p-4 border-t border-charcoal-100">
-            <button
-              type="button"
-              onClick={() => setIsOpen(false)}
-              className="w-full py-3 bg-gold-500 hover:bg-gold-600 text-charcoal-950 font-medium rounded-xl transition-colors"
-            >
-              Done
-            </button>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
+          <div
+            ref={modalRef}
+            className="bg-white rounded-2xl shadow-luxury-xl w-80 animate-scale-in"
+          >
+            <div className="p-4 border-b border-charcoal-100">
+              <h3 className="font-semibold text-charcoal-900 text-center">Select Guests & Rooms</h3>
+            </div>
+
+            <div className="p-4 divide-y divide-charcoal-100">
+              <CounterRow
+                label="Adults"
+                description="Ages 13 or above"
+                value={adults}
+                onChange={(v) => onAdultsChange?.(v)}
+                min={1}
+                max={maxAdults}
+              />
+              <CounterRow
+                label="Children"
+                description="Ages 0-12"
+                value={children}
+                onChange={(v) => onChildrenChange?.(v)}
+                min={0}
+                max={maxChildren}
+              />
+              <CounterRow
+                label="Rooms"
+                description="Number of rooms"
+                value={rooms}
+                onChange={(v) => onRoomsChange?.(v)}
+                min={1}
+                max={maxRooms}
+              />
+            </div>
+
+            <div className="p-4 border-t border-charcoal-100">
+              <button
+                type="button"
+                onClick={() => setIsOpen(false)}
+                className="w-full py-3 bg-gold-500 hover:bg-gold-600 text-charcoal-950 font-semibold rounded-xl transition-colors"
+              >
+                Done
+              </button>
+            </div>
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 
