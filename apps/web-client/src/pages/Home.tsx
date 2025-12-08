@@ -198,7 +198,7 @@ const Home: React.FC<HomeProps> = ({ lang }) => {
 
   return (
     <div className="min-h-screen bg-cream-50">
-      <section className="relative h-[85vh] min-h-[600px] overflow-hidden">
+      <section className="relative min-h-[70vh] md:min-h-[85vh] overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
@@ -207,20 +207,20 @@ const Home: React.FC<HomeProps> = ({ lang }) => {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-charcoal-950/60 via-charcoal-950/40 to-charcoal-950/70" />
         
-        <div className="relative h-full flex flex-col items-center justify-center px-4 pt-16">
-          <div className="text-center mb-10 animate-fade-in">
-            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">
+        <div className="relative h-full flex flex-col items-center justify-center px-4 md:px-6 pt-8 pb-12 md:pt-16 md:pb-16">
+          <div className="text-center mb-6 md:mb-10 animate-fade-in">
+            <h1 className="font-display text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-3 md:mb-4 leading-tight">
               {isArabic ? 'اكتشف إقامات استثنائية' : 'Discover Extraordinary Stays'}
             </h1>
-            <p className="text-lg md:text-xl text-cream-200 max-w-2xl mx-auto">
+            <p className="text-base md:text-xl text-cream-200 max-w-2xl mx-auto px-4">
               {isArabic
                 ? 'احجز فنادق فاخرة في أفضل الوجهات حول العالم'
                 : 'Book luxury hotels in the world\'s most prestigious destinations'}
             </p>
           </div>
 
-          <div className="w-full max-w-5xl bg-white/95 backdrop-blur-lg rounded-3xl shadow-luxury-xl p-6 md:p-8 animate-slide-up">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="w-full max-w-5xl bg-white/95 backdrop-blur-lg rounded-2xl md:rounded-3xl shadow-luxury-xl p-4 md:p-8 mx-4 animate-slide-up">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-3 md:gap-4">
               <div className="md:col-span-1">
                 <label className="block text-xs font-medium text-charcoal-500 mb-2">
                   {isArabic ? 'الوجهة' : 'Destination'}
@@ -260,12 +260,12 @@ const Home: React.FC<HomeProps> = ({ lang }) => {
               </div>
             </div>
 
-            <div className="mt-6 flex justify-center">
+            <div className="mt-4 md:mt-6 flex justify-center">
               <Button
                 size="lg"
                 onClick={handleSearch}
                 leftIcon={<SearchIcon />}
-                className="px-12"
+                className="w-full md:w-auto px-12"
               >
                 {isArabic ? 'بحث' : 'Search Hotels'}
               </Button>
@@ -274,41 +274,41 @@ const Home: React.FC<HomeProps> = ({ lang }) => {
         </div>
       </section>
 
-      <section className="py-16 md:py-20 px-4 bg-white">
-        <div className="container mx-auto max-w-7xl">
-          <div className="flex items-center justify-between mb-8">
+      <section className="py-8 md:py-20 bg-white">
+        <div className="container mx-auto max-w-7xl px-4 md:px-6">
+          <div className="flex items-center justify-between mb-6 md:mb-8">
             <div>
-              <h2 className="font-display text-2xl md:text-3xl font-bold text-charcoal-900">
+              <h2 className="font-display text-xl md:text-3xl font-bold text-charcoal-900">
                 {isArabic ? 'وجهات شائعة' : 'Popular Destinations'}
               </h2>
-              <p className="text-charcoal-500 mt-2">
+              <p className="text-charcoal-500 mt-1 md:mt-2 text-sm md:text-base">
                 {isArabic ? 'استكشف أفضل المدن للإقامة' : 'Explore the best cities for your stay'}
               </p>
             </div>
-            <Button variant="ghost" onClick={() => navigate('/search')}>
+            <Button variant="ghost" onClick={() => navigate('/search')} className="text-sm md:text-base">
               {isArabic ? 'عرض الكل' : 'View All'}
             </Button>
           </div>
 
-          <div className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4 snap-x snap-mandatory scrollbar-hide">
+          <div className="flex gap-3 md:gap-4 overflow-x-auto pb-4 -mx-4 px-4 snap-x snap-mandatory scrollbar-hide">
             {destinations.map((dest) => (
               <div
                 key={dest.id}
                 onClick={() => navigate(`/search?city=${dest.id}`)}
-                className="flex-shrink-0 w-48 md:w-56 snap-start cursor-pointer group"
+                className="flex-shrink-0 w-40 md:w-56 snap-start cursor-pointer group"
               >
-                <div className="relative h-64 md:h-72 rounded-2xl overflow-hidden shadow-card group-hover:shadow-card-hover transition-all duration-300">
+                <div className="relative h-56 md:h-72 rounded-xl md:rounded-2xl overflow-hidden shadow-card group-hover:shadow-card-hover transition-all duration-300">
                   <img
                     src={dest.image}
                     alt={isArabic ? dest.nameAr : dest.nameEn}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/80 via-charcoal-950/20 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <h3 className="font-display text-xl font-semibold text-white mb-1">
+                  <div className="absolute bottom-0 left-0 right-0 p-3 md:p-4">
+                    <h3 className="font-display text-lg md:text-xl font-semibold text-white mb-0.5 md:mb-1">
                       {isArabic ? dest.nameAr : dest.nameEn}
                     </h3>
-                    <p className="text-cream-200 text-sm">
+                    <p className="text-cream-200 text-xs md:text-sm">
                       {dest.hotelCount.toLocaleString()} {isArabic ? 'فندق' : 'hotels'}
                     </p>
                   </div>
@@ -319,20 +319,20 @@ const Home: React.FC<HomeProps> = ({ lang }) => {
         </div>
       </section>
 
-      <section className="py-16 md:py-20 px-4 bg-cream-50">
-        <div className="container mx-auto max-w-7xl">
-          <div className="text-center mb-12">
-            <h2 className="font-display text-2xl md:text-3xl font-bold text-charcoal-900 mb-3">
+      <section className="py-8 md:py-20 bg-cream-50">
+        <div className="container mx-auto max-w-7xl px-4 md:px-6">
+          <div className="text-center mb-8 md:mb-12">
+            <h2 className="font-display text-xl md:text-3xl font-bold text-charcoal-900 mb-2 md:mb-3">
               {isArabic ? 'فنادق مميزة' : 'Featured Hotels'}
             </h2>
-            <p className="text-charcoal-500 max-w-xl mx-auto">
+            <p className="text-charcoal-500 max-w-xl mx-auto text-sm md:text-base">
               {isArabic
                 ? 'اكتشف مجموعتنا المختارة من أفخم الفنادق'
                 : 'Discover our curated selection of the finest luxury hotels'}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
             {featuredHotels.map((hotel) => (
               <HotelCard
                 key={hotel.id}
@@ -344,14 +344,14 @@ const Home: React.FC<HomeProps> = ({ lang }) => {
         </div>
       </section>
 
-      <section className="py-16 px-4 bg-gradient-to-r from-brand-900 via-brand-800 to-brand-900">
+      <section className="py-8 md:py-16 px-4 md:px-6 bg-gradient-to-r from-brand-900 via-brand-800 to-brand-900">
         <div className="container mx-auto max-w-5xl">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6 text-center md:text-left">
             <div>
-              <h2 className="font-display text-2xl md:text-3xl font-bold text-charcoal-950 mb-2">
+              <h2 className="font-display text-xl md:text-3xl font-bold text-charcoal-950 mb-2">
                 {isArabic ? 'أسعار حصرية للأعضاء' : 'Exclusive Member Rates'}
               </h2>
-              <p className="text-charcoal-800 max-w-lg">
+              <p className="text-charcoal-800 max-w-lg text-sm md:text-base">
                 {isArabic
                   ? 'انضم إلى برنامج العضوية واحصل على خصومات تصل إلى 25%'
                   : 'Join our membership program and save up to 25% on every booking'}
@@ -359,7 +359,7 @@ const Home: React.FC<HomeProps> = ({ lang }) => {
             </div>
             <Button
               size="lg"
-              className="bg-charcoal-950 hover:bg-charcoal-900 text-white shadow-luxury-lg"
+              className="bg-charcoal-950 hover:bg-charcoal-900 text-white shadow-luxury-lg w-full md:w-auto"
               onClick={() => navigate('/signup')}
             >
               {isArabic ? 'انضم الآن مجاناً' : 'Join Free Today'}
@@ -368,32 +368,32 @@ const Home: React.FC<HomeProps> = ({ lang }) => {
         </div>
       </section>
 
-      <section className="py-16 md:py-20 px-4 bg-white">
-        <div className="container mx-auto max-w-7xl">
-          <div className="text-center mb-12">
-            <h2 className="font-display text-2xl md:text-3xl font-bold text-charcoal-900 mb-3">
+      <section className="py-8 md:py-20 bg-white">
+        <div className="container mx-auto max-w-7xl px-4 md:px-6">
+          <div className="text-center mb-8 md:mb-12">
+            <h2 className="font-display text-xl md:text-3xl font-bold text-charcoal-900 mb-2 md:mb-3">
               {isArabic ? 'لماذا YoRight؟' : 'Why Choose YoRight?'}
             </h2>
-            <p className="text-charcoal-500 max-w-xl mx-auto">
+            <p className="text-charcoal-500 max-w-xl mx-auto text-sm md:text-base">
               {isArabic
                 ? 'نقدم لك تجربة حجز لا مثيل لها'
                 : 'We provide an unmatched booking experience'}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
             {features.map((feature, index) => (
               <div
                 key={index}
-                className="bg-cream-50 rounded-2xl p-6 text-center hover:shadow-card transition-all duration-300"
+                className="bg-cream-50 rounded-xl md:rounded-2xl p-4 md:p-6 text-center hover:shadow-card transition-all duration-300"
               >
-                <div className="w-16 h-16 bg-brand-100 rounded-2xl flex items-center justify-center mx-auto mb-4 text-brand-900">
+                <div className="w-12 h-12 md:w-16 md:h-16 bg-brand-100 rounded-xl md:rounded-2xl flex items-center justify-center mx-auto mb-3 md:mb-4 text-brand-900">
                   {feature.icon}
                 </div>
-                <h3 className="font-display text-lg font-semibold text-charcoal-900 mb-2">
+                <h3 className="font-display text-sm md:text-lg font-semibold text-charcoal-900 mb-1 md:mb-2">
                   {isArabic ? feature.titleAr : feature.titleEn}
                 </h3>
-                <p className="text-charcoal-500 text-sm">
+                <p className="text-charcoal-500 text-xs md:text-sm hidden md:block">
                   {isArabic ? feature.descAr : feature.descEn}
                 </p>
               </div>
