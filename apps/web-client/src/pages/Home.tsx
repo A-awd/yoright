@@ -344,30 +344,6 @@ const Home: React.FC<HomeProps> = ({ lang }) => {
         </div>
       </section>
 
-      <section className="py-8 md:py-16 px-4 md:px-6 bg-gradient-to-r from-brand-900 via-brand-800 to-brand-900">
-        <div className="container mx-auto max-w-5xl">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6 text-center md:text-left">
-            <div>
-              <h2 className="font-display text-xl md:text-3xl font-bold text-charcoal-950 mb-2">
-                {isArabic ? 'أسعار حصرية للأعضاء' : 'Exclusive Member Rates'}
-              </h2>
-              <p className="text-charcoal-800 max-w-lg text-sm md:text-base">
-                {isArabic
-                  ? 'انضم إلى برنامج العضوية واحصل على خصومات تصل إلى 25%'
-                  : 'Join our membership program and save up to 25% on every booking'}
-              </p>
-            </div>
-            <Button
-              size="lg"
-              className="bg-charcoal-950 hover:bg-charcoal-900 text-white shadow-luxury-lg w-full md:w-auto"
-              onClick={() => navigate('/signup')}
-            >
-              {isArabic ? 'انضم الآن مجاناً' : 'Join Free Today'}
-            </Button>
-          </div>
-        </div>
-      </section>
-
       <section className="py-8 md:py-20 bg-white">
         <div className="container mx-auto max-w-7xl px-4 md:px-6">
           <div className="text-center mb-8 md:mb-12">
