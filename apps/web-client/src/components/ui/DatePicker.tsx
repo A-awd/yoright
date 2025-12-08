@@ -26,9 +26,9 @@ const formatDateForInput = (date?: Date): string => {
   return date.toISOString().split('T')[0];
 };
 
-const formatDateDisplay = (date?: Date, isArabic?: boolean): string => {
-  if (!date) return isArabic ? 'اختر التاريخ' : 'Select date';
-  return date.toLocaleDateString(isArabic ? 'ar-SA' : 'en-US', {
+const formatDateDisplay = (date?: Date): string => {
+  if (!date) return 'Select date';
+  return date.toLocaleDateString('en-US', {
     weekday: 'short',
     month: 'short',
     day: 'numeric',
@@ -66,18 +66,6 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     }
   };
 
-  const openCheckInPicker = () => {
-    checkInRef.current?.showPicker?.();
-    checkInRef.current?.focus();
-    checkInRef.current?.click();
-  };
-
-  const openCheckOutPicker = () => {
-    checkOutRef.current?.showPicker?.();
-    checkOutRef.current?.focus();
-    checkOutRef.current?.click();
-  };
-
   const checkInMin = formatDateForInput(minDate);
   const checkOutMin = checkInDate
     ? formatDateForInput(new Date(checkInDate.getTime() + 86400000))
@@ -92,18 +80,16 @@ export const DatePicker: React.FC<DatePickerProps> = ({
         ${className}
       `}
     >
-      <button
-        type="button"
-        onClick={openCheckInPicker}
+      <label
         className={`
-          relative flex-1 text-left cursor-pointer hover:bg-cream-50 transition-colors
+          relative flex-1 cursor-pointer hover:bg-cream-50 transition-colors
           ${layout === 'horizontal' ? 'border-e-2 border-charcoal-200' : 'border-b-2 border-charcoal-200'}
         `}
       >
-        <label className="absolute start-4 top-2 text-xs font-medium text-charcoal-500 pointer-events-none">
+        <span className="absolute start-4 top-2 text-xs font-medium text-charcoal-500">
           Check-in
-        </label>
-        <div className="flex items-center px-4 pt-6 pb-3">
+        </span>
+        <div className="flex items-center px-4 pt-6 pb-3 pointer-events-none">
           <span className="text-charcoal-400 me-3">
             <CalendarIcon />
           </span>
@@ -117,20 +103,15 @@ export const DatePicker: React.FC<DatePickerProps> = ({
           value={formatDateForInput(checkInDate)}
           onChange={handleCheckInChange}
           min={checkInMin}
-          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-          style={{ colorScheme: 'light' }}
+          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
         />
-      </button>
+      </label>
 
-      <button
-        type="button"
-        onClick={openCheckOutPicker}
-        className="relative flex-1 text-left cursor-pointer hover:bg-cream-50 transition-colors"
-      >
-        <label className="absolute start-4 top-2 text-xs font-medium text-charcoal-500 pointer-events-none">
+      <label className="relative flex-1 cursor-pointer hover:bg-cream-50 transition-colors">
+        <span className="absolute start-4 top-2 text-xs font-medium text-charcoal-500">
           Check-out
-        </label>
-        <div className="flex items-center px-4 pt-6 pb-3">
+        </span>
+        <div className="flex items-center px-4 pt-6 pb-3 pointer-events-none">
           <span className="text-charcoal-400 me-3">
             <CalendarIcon />
           </span>
@@ -144,10 +125,9 @@ export const DatePicker: React.FC<DatePickerProps> = ({
           value={formatDateForInput(checkOutDate)}
           onChange={handleCheckOutChange}
           min={checkOutMin}
-          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-          style={{ colorScheme: 'light' }}
+          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
         />
-      </button>
+      </label>
     </div>
   );
 };
