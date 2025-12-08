@@ -37,7 +37,7 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, setLang }) => {
 
           <button
             onClick={() => setLang(isArabic ? Language.EN : Language.AR)}
-            className="bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors"
+            className="px-3 py-1.5 text-sm font-medium text-white border border-white/30 rounded-lg hover:border-white/60 hover:text-white transition-all"
           >
             {isArabic ? 'EN' : 'AR'}
           </button>
