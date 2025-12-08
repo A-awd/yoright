@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 
 interface GuestSelectorProps {
   adults?: number;
@@ -55,7 +56,10 @@ const CounterRow: React.FC<CounterRowProps> = ({
     <div className="flex items-center gap-4">
       <button
         type="button"
-        onClick={() => onChange(Math.max(min, value - 1))}
+        onClick={(e) => {
+          e.stopPropagation();
+          onChange(Math.max(min, value - 1));
+        }}
         disabled={value <= min}
         className={`
           w-11 h-11 rounded-full border-2 flex items-center justify-center
@@ -71,7 +75,10 @@ const CounterRow: React.FC<CounterRowProps> = ({
       <span className="w-10 text-center font-bold text-charcoal-900 text-xl">{value}</span>
       <button
         type="button"
-        onClick={() => onChange(Math.min(max, value + 1))}
+        onClick={(e) => {
+          e.stopPropagation();
+          onChange(Math.min(max, value + 1));
+        }}
         disabled={value >= max}
         className={`
           w-11 h-11 rounded-full border-2 flex items-center justify-center
@@ -101,34 +108,37 @@ export const GuestSelector: React.FC<GuestSelectorProps> = ({
   className = '',
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const modalRef = useRef<HTMLDivElement>(null);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      document.body.style.top = `-${window.scrollY}px`;
+      setIsAnimating(true);
     } else {
+      const scrollY = document.body.style.top;
       document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isOpen]);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.top = '';
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
       }
-    };
-
-    if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
     }
-
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.top = '';
     };
   }, [isOpen]);
+
+  const handleClose = () => {
+    setIsAnimating(false);
+    setTimeout(() => setIsOpen(false), 200);
+  };
 
   const getSummaryText = () => {
     const parts: string[] = [];
@@ -139,6 +149,77 @@ export const GuestSelector: React.FC<GuestSelectorProps> = ({
     parts.push(`${rooms} Room${rooms !== 1 ? 's' : ''}`);
     return parts.join(', ');
   };
+
+  const modalContent = (
+    <div 
+      className="fixed inset-0 flex flex-col justify-end md:justify-center md:items-center"
+      style={{ zIndex: 9999 }}
+    >
+      <div 
+        className={`
+          absolute inset-0 bg-black/60 transition-opacity duration-200
+          ${isAnimating ? 'opacity-100' : 'opacity-0'}
+        `}
+        onClick={handleClose}
+      />
+      
+      <div
+        className={`
+          relative bg-white w-full md:max-w-md md:mx-4 md:rounded-2xl
+          rounded-t-3xl shadow-2xl
+          transition-transform duration-200 ease-out
+          ${isAnimating ? 'translate-y-0' : 'translate-y-full md:translate-y-0 md:scale-95'}
+        `}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex justify-center pt-3 pb-1 md:hidden">
+          <div className="w-12 h-1.5 bg-charcoal-300 rounded-full" />
+        </div>
+
+        <div className="px-6 py-4 border-b border-charcoal-100">
+          <h3 className="font-semibold text-charcoal-900 text-lg text-center">Select Guests & Rooms</h3>
+        </div>
+
+        <div className="px-6 divide-y divide-charcoal-100 max-h-[60vh] overflow-y-auto">
+          <CounterRow
+            label="Adults"
+            description="Ages 13 or above"
+            value={adults}
+            onChange={(v) => onAdultsChange?.(v)}
+            min={1}
+            max={maxAdults}
+          />
+          <CounterRow
+            label="Children"
+            description="Ages 0-12"
+            value={children}
+            onChange={(v) => onChildrenChange?.(v)}
+            min={0}
+            max={maxChildren}
+          />
+          <CounterRow
+            label="Rooms"
+            description="Number of rooms"
+            value={rooms}
+            onChange={(v) => onRoomsChange?.(v)}
+            min={1}
+            max={maxRooms}
+          />
+        </div>
+
+        <div className="px-6 py-5 border-t border-charcoal-100 bg-white rounded-b-3xl md:rounded-b-2xl">
+          <button
+            type="button"
+            onClick={handleClose}
+            className="w-full py-4 bg-brand-800 hover:bg-brand-900 text-white font-semibold rounded-xl transition-colors text-base"
+          >
+            Done
+          </button>
+          <div className="h-safe-area-inset-bottom" />
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <>
@@ -166,70 +247,7 @@ export const GuestSelector: React.FC<GuestSelectorProps> = ({
         </span>
       </button>
 
-      {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center">
-          <div 
-            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-            onClick={() => setIsOpen(false)}
-          />
-          
-          <div
-            ref={modalRef}
-            className="
-              relative bg-white w-full md:w-96 md:rounded-2xl
-              rounded-t-3xl shadow-luxury-xl
-              animate-slide-up md:animate-scale-in
-              max-h-[85vh] overflow-hidden
-              safe-area-inset-bottom
-            "
-          >
-            <div className="flex justify-center pt-3 pb-1 md:hidden">
-              <div className="w-12 h-1.5 bg-charcoal-200 rounded-full" />
-            </div>
-
-            <div className="px-6 py-4 border-b border-charcoal-100">
-              <h3 className="font-semibold text-charcoal-900 text-lg text-center">Select Guests & Rooms</h3>
-            </div>
-
-            <div className="px-6 divide-y divide-charcoal-100">
-              <CounterRow
-                label="Adults"
-                description="Ages 13 or above"
-                value={adults}
-                onChange={(v) => onAdultsChange?.(v)}
-                min={1}
-                max={maxAdults}
-              />
-              <CounterRow
-                label="Children"
-                description="Ages 0-12"
-                value={children}
-                onChange={(v) => onChildrenChange?.(v)}
-                min={0}
-                max={maxChildren}
-              />
-              <CounterRow
-                label="Rooms"
-                description="Number of rooms"
-                value={rooms}
-                onChange={(v) => onRoomsChange?.(v)}
-                min={1}
-                max={maxRooms}
-              />
-            </div>
-
-            <div className="px-6 py-5 border-t border-charcoal-100 bg-white">
-              <button
-                type="button"
-                onClick={() => setIsOpen(false)}
-                className="w-full py-4 bg-brand-800 hover:bg-brand-900 text-white font-semibold rounded-xl transition-colors text-base"
-              >
-                Done
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {isOpen && createPortal(modalContent, document.body)}
     </>
   );
 };
