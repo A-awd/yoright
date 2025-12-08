@@ -11,22 +11,33 @@ export const Navbar: React.FC<NavbarProps> = ({ lang, setLang }) => {
   const isArabic = lang === Language.AR;
 
   return (
-    <nav className="bg-primary-600 text-white shadow-md sticky top-0 z-50">
+    <nav className="bg-brand-800 text-white shadow-lg sticky top-0 z-50">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-        <Link to="/" className="flex items-center space-x-2">
-          <i className="fas fa-plane-departure text-2xl text-accent-500"></i>
-          <span className="text-xl font-bold font-serif">YoRight</span>
+        <Link to="/" className="flex flex-col items-center">
+          <div className="flex flex-col items-center leading-tight">
+            <span className="text-xl font-bold tracking-wide" style={{ fontFamily: 'Cairo, sans-serif' }}>
+              يورايت
+            </span>
+            <span className="text-lg font-bold tracking-widest" style={{ letterSpacing: '0.15em' }}>
+              YORIGHT
+            </span>
+          </div>
         </Link>
 
-        <div className="flex items-center space-x-4">
-          <Link to="/my-trips" className="hover:text-accent-500 transition">
-            <i className="fas fa-suitcase mr-2"></i>
-            {isArabic ? 'رحلاتي' : 'My Trips'}
+        <div className="flex items-center gap-4">
+          <Link 
+            to="/my-trips" 
+            className="flex items-center gap-2 hover:text-brand-200 transition-colors"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <span className="text-sm font-medium">{isArabic ? 'رحلاتي' : 'My Trips'}</span>
           </Link>
 
           <button
             onClick={() => setLang(isArabic ? Language.EN : Language.AR)}
-            className="bg-primary-700 hover:bg-primary-800 px-3 py-1 rounded transition"
+            className="bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors"
           >
             {isArabic ? 'EN' : 'AR'}
           </button>
