@@ -1,0 +1,49 @@
+I want you to go much deeper into the app and stop leaving pages empty.
+
+Right now many navigation items only have a shell:
+When I tap buttons like Destinations / Explore / Popular destinations cards / See all / etc., I often land on a blank white page with no layout. This is not enough.
+
+Please do the following:
+	1.	Fix navigation and routing
+
+	•	For every visible button, tab, menu item, or card that looks clickable on the home screen or bottom navigation:
+	•	Create a real page and route behind it (no more empty white pages).
+	•	Connect all links and buttons to the correct routes.
+	•	If a page is not yet defined, create a sensible default layout instead of leaving it blank.
+
+	2.	Build full flows, not just top-level screens
+At minimum, I want complete flows for:
+
+	•	Destinations / Explore
+	•	Destinations list page (grid/list of cities with images and filters).
+	•	Destination detail page (hero image, description, best areas, popular hotels, map).
+	•	Hotels / Search results
+	•	Hotel results page with filters and sorting.
+	•	Hotel detail page (photos gallery, room types, amenities, location, reviews, “Book” CTA).
+	•	Booking flow
+	•	Step 1: Choose dates and guests (already on home, but reuse component).
+	•	Step 2: Select room type.
+	•	Step 3: Review summary.
+	•	Step 4: “Continue to Shopify Checkout (placeholder)” page.
+	•	User
+	•	Profile page (already started, keep and refine).
+	•	My trips / bookings list page (using mock data).
+	•	Saved / favorites page for saved hotels or destinations.
+
+	3.	Use mock data instead of empty pages
+
+	•	If we don’t have real data yet, use mock data or static JSON so that each page is fully designed and looks real.
+	•	No page should be completely empty if there is a link pointing to it.
+
+	4.	Consistent layout and components
+
+	•	Reuse the same header, footer, and bottom navigation across all pages.
+	•	Reuse card components (hotel card, destination card, etc.) so the app feels unified.
+	•	Make sure every new page works on mobile first, then scales to desktop.
+
+	5.	Important
+
+	•	Do NOT leave any “white” / blank routes.
+	•	If a button exists in the UI, it must open a meaningful screen with proper layout and content (even if it is mock/demo content).
+
+In short: go through the entire app, page by page, and fully implement every screen and flow that the user can reach from the navigation, until there are no more empty white pages anywhere.

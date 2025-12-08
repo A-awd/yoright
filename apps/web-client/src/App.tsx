@@ -4,7 +4,9 @@ import { Language } from './types';
 import { Navbar } from './components/layout/Navbar';
 import { MapsProvider } from './contexts/MapsContext';
 import Home from './pages/Home';
+import Explore from './pages/Explore';
 import SearchResults from './pages/SearchResults';
+import DestinationDetail from './pages/DestinationDetail';
 import HotelDetails from './pages/HotelDetails';
 import Checkout from './pages/Checkout';
 import Confirmation from './pages/Confirmation';
@@ -13,13 +15,22 @@ import Offers from './pages/Offers';
 import Profile from './pages/Profile';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
+import Favorites from './pages/Favorites';
+
+interface NavItem {
+  path: string;
+  icon: string;
+  labelAr: string;
+  labelEn: string;
+  badge?: boolean;
+}
 
 const BottomNavigation: React.FC<{ lang: Language }> = ({ lang }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const isArabic = lang === Language.AR;
 
-  const navItems = [
+  const navItems: NavItem[] = [
     {
       path: '/',
       icon: 'fa-home',
@@ -27,10 +38,10 @@ const BottomNavigation: React.FC<{ lang: Language }> = ({ lang }) => {
       labelEn: 'Home'
     },
     {
-      path: '/search',
+      path: '/explore',
       icon: 'fa-compass',
       labelAr: 'اكتشف',
-      labelEn: 'Discover'
+      labelEn: 'Explore'
     },
     {
       path: '/my-trips',
@@ -39,11 +50,10 @@ const BottomNavigation: React.FC<{ lang: Language }> = ({ lang }) => {
       labelEn: 'My Trips'
     },
     {
-      path: '/offers',
-      icon: 'fa-percent',
-      labelAr: 'العروض',
-      labelEn: 'Offers',
-      badge: true
+      path: '/favorites',
+      icon: 'fa-heart',
+      labelAr: 'المفضلة',
+      labelEn: 'Saved'
     },
     {
       path: '/profile',
@@ -76,7 +86,7 @@ const BottomNavigation: React.FC<{ lang: Language }> = ({ lang }) => {
             <div className="relative">
               <i className={`fas ${item.icon} text-xl mb-1`}></i>
               {item.badge && (
-                <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                <span className="absolute -top-1 -end-1 w-2 h-2 bg-red-500 rounded-full"></span>
               )}
             </div>
             <span className="text-xs font-medium">
@@ -108,6 +118,8 @@ const AppContent: React.FC<{ lang: Language; setLang: (lang: Language) => void }
       <main className="flex-grow">
         <Routes>
           <Route path="/" element={<Home lang={lang} />} />
+          <Route path="/explore" element={<Explore lang={lang} />} />
+          <Route path="/destination/:cityId" element={<DestinationDetail lang={lang} />} />
           <Route path="/search" element={<SearchResults lang={lang} />} />
           <Route path="/hotel/:id" element={<HotelDetails lang={lang} />} />
           <Route path="/checkout" element={<Checkout lang={lang} />} />
@@ -115,6 +127,7 @@ const AppContent: React.FC<{ lang: Language; setLang: (lang: Language) => void }
           <Route path="/my-trips" element={<MyTrips lang={lang} />} />
           <Route path="/offers" element={<Offers lang={lang} />} />
           <Route path="/profile" element={<Profile lang={lang} />} />
+          <Route path="/favorites" element={<Favorites lang={lang} />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
