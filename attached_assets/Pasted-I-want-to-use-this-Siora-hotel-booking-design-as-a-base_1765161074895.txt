@@ -1,0 +1,64 @@
+I want to use this Siora hotel booking design as a base to build my own luxury hotel booking app called “YoRight”.
+
+Please do the following:
+	1.	Keep the general layout and UX flows
+
+	•	Keep the main structure of the Siora app:
+	•	Login
+	•	Sign up
+	•	Home
+	•	Search / hotel list
+	•	Hotel details
+	•	Booking flow (dates, guests, payment)
+	•	Profile, favorites, and my bookings
+	•	Use the same style of spacing, card layout, and sections, but adapt everything to my brand “YoRight”.
+
+	2.	Apply it to my brand “YoRight”
+
+	•	Change app name and logo area to “YoRight”.
+	•	Use a clean, minimal, luxury feeling (no playful or cheap look).
+	•	Keep it simple and modern, good for high-end hotel booking.
+
+	3.	Improve the hotel cards
+
+	•	Make hotel cards a little bigger and more premium.
+	•	Each hotel card should show:
+	•	Main image
+	•	Hotel name
+	•	City and country
+	•	Short tagline (for example: “Beachfront · Adults only”)
+	•	Rating
+	•	Price per night
+	•	One main call-to-action button (like “View details” or “Book”)
+	•	Use clear text hierarchy and enough white space.
+	•	Add small minimal icons for rating and location if useful.
+
+	4.	Add an advanced search area
+
+	•	On the main hotel listing page, add a clear search section on top:
+	•	Destination / city field
+	•	Date range (check-in and check-out)
+	•	Guests and rooms selector
+	•	A button “Advanced filters”
+	•	In “Advanced filters” include:
+	•	Price range
+	•	Star rating
+	•	Property type (hotel, resort, villa, apartment)
+	•	Amenities (pool, spa, beachfront, parking, kids friendly, adults only)
+	•	Meal plan (room only, breakfast, half board, all inclusive)
+
+	5.	Pages I want to generate from this design
+
+	•	Login and sign up pages
+	•	Home page with sections for popular destinations and featured hotels
+	•	Search / hotel results page with filters and advanced search
+	•	Hotel details page (images, description, rooms, location, reviews, booking CTA)
+	•	Booking flow pages (select room, dates, guests, extras, payment summary)
+	•	Profile page (user info, favorites, and past / upcoming bookings)
+
+	6.	Code
+
+	•	Generate clean, readable code with components so I can extend it later.
+	•	Make all pages responsive for desktop and mobile.
+
+Use the Siora design you pulled from Figma as the visual and UX reference, but adapt all texts and branding for “YoRight”.

@@ -11,6 +11,8 @@ import Confirmation from './pages/Confirmation';
 import MyTrips from './pages/MyTrips';
 import Offers from './pages/Offers';
 import Profile from './pages/Profile';
+import Login from './pages/Login';
+import SignUp from './pages/SignUp';
 
 const BottomNavigation: React.FC<{ lang: Language }> = ({ lang }) => {
   const location = useLocation();
@@ -87,6 +89,40 @@ const BottomNavigation: React.FC<{ lang: Language }> = ({ lang }) => {
   );
 };
 
+const AppContent: React.FC<{ lang: Language; setLang: (lang: Language) => void }> = ({ lang, setLang }) => {
+  const location = useLocation();
+  const isAuthPage = location.pathname === '/login' || location.pathname === '/signup';
+
+  if (isAuthPage) {
+    return (
+      <Routes>
+        <Route path="/login" element={<Login lang={lang} />} />
+        <Route path="/signup" element={<SignUp lang={lang} />} />
+      </Routes>
+    );
+  }
+
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Navbar lang={lang} setLang={setLang} />
+      <main className="flex-grow">
+        <Routes>
+          <Route path="/" element={<Home lang={lang} />} />
+          <Route path="/search" element={<SearchResults lang={lang} />} />
+          <Route path="/hotel/:id" element={<HotelDetails lang={lang} />} />
+          <Route path="/checkout" element={<Checkout lang={lang} />} />
+          <Route path="/confirmation/:ref" element={<Confirmation lang={lang} />} />
+          <Route path="/my-trips" element={<MyTrips lang={lang} />} />
+          <Route path="/offers" element={<Offers lang={lang} />} />
+          <Route path="/profile" element={<Profile lang={lang} />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </main>
+      <BottomNavigation lang={lang} />
+    </div>
+  );
+};
+
 const App: React.FC = () => {
   const [lang, setLang] = useState<Language>(Language.AR);
 
@@ -99,24 +135,7 @@ const App: React.FC = () => {
   return (
     <MapsProvider>
       <Router>
-        <div className="min-h-screen flex flex-col">
-          <Navbar lang={lang} setLang={setLang} />
-          <main className="flex-grow">
-            <Routes>
-              <Route path="/" element={<Home lang={lang} />} />
-              <Route path="/search" element={<SearchResults lang={lang} />} />
-              <Route path="/hotel/:id" element={<HotelDetails lang={lang} />} />
-              <Route path="/checkout" element={<Checkout lang={lang} />} />
-              <Route path="/confirmation/:ref" element={<Confirmation lang={lang} />} />
-              <Route path="/my-trips" element={<MyTrips lang={lang} />} />
-              <Route path="/offers" element={<Offers lang={lang} />} />
-              <Route path="/profile" element={<Profile lang={lang} />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-          </main>
-          
-          <BottomNavigation lang={lang} />
-        </div>
+        <AppContent lang={lang} setLang={setLang} />
       </Router>
     </MapsProvider>
   );
