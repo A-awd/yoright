@@ -150,7 +150,7 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ lang }) => {
     return (
       <div className="min-h-screen bg-cream-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-gold-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-12 h-12 border-4 border-brand-800 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-charcoal-600 font-medium">{isArabic ? 'جارٍ التحميل...' : 'Loading...'}</p>
         </div>
       </div>
@@ -247,7 +247,7 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ lang }) => {
                   setGalleryIndex(idx + 1);
                   setShowGalleryModal(true);
                 }}
-                className="flex-shrink-0 w-24 h-24 md:w-32 md:h-32 rounded-2xl overflow-hidden ring-2 ring-white shadow-luxury hover:ring-gold-500 transition-all"
+                className="flex-shrink-0 w-24 h-24 md:w-32 md:h-32 rounded-2xl overflow-hidden ring-2 ring-white shadow-luxury hover:ring-brand-800 transition-all"
               >
                 <img src={img} alt="" className="w-full h-full object-cover" />
               </button>
@@ -257,7 +257,7 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ lang }) => {
                 setGalleryIndex(0);
                 setShowGalleryModal(true);
               }}
-              className="flex-shrink-0 w-24 h-24 md:w-32 md:h-32 rounded-2xl bg-charcoal-900/80 backdrop-blur-sm flex flex-col items-center justify-center text-white ring-2 ring-white hover:ring-gold-500 transition-all"
+              className="flex-shrink-0 w-24 h-24 md:w-32 md:h-32 rounded-2xl bg-charcoal-900/80 backdrop-blur-sm flex flex-col items-center justify-center text-white ring-2 ring-white hover:ring-brand-800 transition-all"
             >
               <i className="fas fa-images text-xl mb-1"></i>
               <span className="text-sm font-medium">{isArabic ? 'عرض الكل' : 'View All'}</span>
@@ -275,7 +275,7 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ lang }) => {
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     {[...Array(hotel.stars)].map((_, i) => (
-                      <i key={i} className="fas fa-star text-gold-500 text-sm"></i>
+                      <i key={i} className="fas fa-star text-brand-800 text-sm"></i>
                     ))}
                     <Badge variant="gold" size="sm">{isArabic ? 'فندق فاخر' : 'Luxury Hotel'}</Badge>
                   </div>
@@ -283,12 +283,12 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ lang }) => {
                     {isArabic ? hotel.nameAr : hotel.nameEn}
                   </h1>
                   <div className="flex items-center text-charcoal-600 mb-4">
-                    <i className="fas fa-map-marker-alt text-gold-500 mr-2"></i>
+                    <i className="fas fa-map-marker-alt text-brand-800 mr-2"></i>
                     <span>{isArabic ? hotel.location.addressAr : hotel.location.addressEn}</span>
                   </div>
                 </div>
                 <div className="hidden md:block text-right">
-                  <div className="bg-gold-500 text-charcoal-950 px-4 py-2 rounded-xl font-bold text-2xl">
+                  <div className="bg-brand-800 text-charcoal-950 px-4 py-2 rounded-xl font-bold text-2xl">
                     {hotel.rating}
                   </div>
                   <p className="text-sm text-charcoal-500 mt-1">
@@ -307,7 +307,7 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ lang }) => {
                   if (!amenity) return null;
                   return (
                     <Badge key={amenityId} variant="default" shape="pill" className="gap-2">
-                      <i className={`fas ${amenity.icon} text-gold-600`}></i>
+                      <i className={`fas ${amenity.icon} text-brand-900`}></i>
                       {isArabic ? amenity.labelAr : amenity.labelEn}
                     </Badge>
                   );
@@ -344,8 +344,8 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ lang }) => {
                     { icon: 'fa-shield-alt', label: 'Security 24/7', labelAr: 'أمن على مدار الساعة' },
                   ].map((item, idx) => (
                     <div key={idx} className="flex items-center gap-3 p-3 bg-cream-100 rounded-xl">
-                      <div className="w-10 h-10 rounded-full bg-gold-100 flex items-center justify-center">
-                        <i className={`fas ${item.icon} text-gold-600`}></i>
+                      <div className="w-10 h-10 rounded-full bg-brand-100 flex items-center justify-center">
+                        <i className={`fas ${item.icon} text-brand-900`}></i>
                       </div>
                       <span className="text-sm font-medium text-charcoal-800">
                         {isArabic ? item.labelAr : item.label}
@@ -368,7 +368,7 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ lang }) => {
                       onClick={() => setSelectedRoom(room)}
                       className={`rounded-2xl border-2 overflow-hidden cursor-pointer transition-all ${
                         selectedRoom?.id === room.id
-                          ? 'border-gold-500 bg-gold-50/50'
+                          ? 'border-brand-800 bg-gold-50/50'
                           : 'border-charcoal-200 hover:border-charcoal-300'
                       }`}
                     >
@@ -388,17 +388,17 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ lang }) => {
                               </h3>
                               <div className="flex items-center gap-4 text-sm text-charcoal-600">
                                 <span className="flex items-center gap-1">
-                                  <i className="fas fa-bed text-gold-500"></i>
+                                  <i className="fas fa-bed text-brand-800"></i>
                                   {room.bedType}
                                 </span>
                                 <span className="flex items-center gap-1">
-                                  <i className="fas fa-users text-gold-500"></i>
+                                  <i className="fas fa-users text-brand-800"></i>
                                   {room.capacity} {isArabic ? 'ضيوف' : 'guests'}
                                 </span>
                               </div>
                             </div>
                             {selectedRoom?.id === room.id && (
-                              <div className="w-6 h-6 rounded-full bg-gold-500 flex items-center justify-center">
+                              <div className="w-6 h-6 rounded-full bg-brand-800 flex items-center justify-center">
                                 <i className="fas fa-check text-white text-xs"></i>
                               </div>
                             )}
@@ -433,7 +433,7 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ lang }) => {
 
                           <div className="flex items-center justify-between">
                             <div>
-                              <span className="text-2xl font-bold text-gold-600">{room.price}</span>
+                              <span className="text-2xl font-bold text-brand-900">{room.price}</span>
                               <span className="text-charcoal-500 ml-1">{isArabic ? 'ر.س' : 'SAR'}</span>
                               <span className="text-charcoal-400 text-sm ml-1">
                                 /{isArabic ? 'ليلة' : 'night'}
@@ -483,8 +483,8 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ lang }) => {
                                 key={amenityId}
                                 className="flex items-center gap-3 p-4 bg-cream-50 rounded-xl hover:bg-cream-100 transition-colors"
                               >
-                                <div className="w-10 h-10 rounded-full bg-gold-100 flex items-center justify-center">
-                                  <i className={`fas ${amenity.icon} text-gold-600`}></i>
+                                <div className="w-10 h-10 rounded-full bg-brand-100 flex items-center justify-center">
+                                  <i className={`fas ${amenity.icon} text-brand-900`}></i>
                                 </div>
                                 <span className="text-charcoal-700 font-medium">
                                   {isArabic ? amenity.labelAr : amenity.labelEn}
@@ -523,8 +523,8 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ lang }) => {
                         className="flex items-center justify-between p-3 bg-cream-50 rounded-xl"
                       >
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-full bg-gold-100 flex items-center justify-center">
-                            <i className={`fas ${attraction.icon} text-gold-600 text-sm`}></i>
+                          <div className="w-8 h-8 rounded-full bg-brand-100 flex items-center justify-center">
+                            <i className={`fas ${attraction.icon} text-brand-900 text-sm`}></i>
                           </div>
                           <span className="text-charcoal-700">
                             {isArabic ? attraction.nameAr : attraction.name}
@@ -546,7 +546,7 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ lang }) => {
                 <div className="flex flex-col md:flex-row gap-8 mb-8">
                   <div className="flex-shrink-0 text-center md:text-left">
                     <div className="inline-flex flex-col items-center md:items-start">
-                      <span className="text-5xl font-bold text-gold-600">{hotel.rating}</span>
+                      <span className="text-5xl font-bold text-brand-900">{hotel.rating}</span>
                       <Rating rating={hotel.rating / 2} size="lg" showNumber={false} className="mt-2" />
                       <span className="text-charcoal-500 mt-1">
                         {hotel.reviewCount.toLocaleString()} {isArabic ? 'تقييم' : 'reviews'}
@@ -561,7 +561,7 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ lang }) => {
                         </span>
                         <div className="flex-1 h-2 bg-charcoal-100 rounded-full overflow-hidden">
                           <div
-                            className="h-full bg-gold-500 rounded-full"
+                            className="h-full bg-brand-800 rounded-full"
                             style={{ width: `${(item.score / 10) * 100}%` }}
                           ></div>
                         </div>
@@ -591,7 +591,7 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ lang }) => {
                             <Rating rating={review.rating} size="sm" />
                           </div>
                           <p className="text-charcoal-700 leading-relaxed mb-3">{review.text}</p>
-                          <button className="flex items-center gap-2 text-sm text-charcoal-500 hover:text-gold-600 transition-colors">
+                          <button className="flex items-center gap-2 text-sm text-charcoal-500 hover:text-brand-900 transition-colors">
                             <i className="far fa-thumbs-up"></i>
                             <span>{isArabic ? 'مفيد' : 'Helpful'} ({review.helpful})</span>
                           </button>
@@ -661,8 +661,8 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ lang }) => {
 
                 <div className="mt-6 p-5 bg-cream-50 rounded-2xl">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-full bg-gold-100 flex items-center justify-center">
-                      <i className="fas fa-undo text-gold-600"></i>
+                    <div className="w-10 h-10 rounded-full bg-brand-100 flex items-center justify-center">
+                      <i className="fas fa-undo text-brand-900"></i>
                     </div>
                     <h4 className="font-semibold text-charcoal-900">
                       {isArabic ? 'سياسة الإلغاء' : 'Cancellation Policy'}
@@ -729,7 +729,7 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ lang }) => {
               <div className="bg-white rounded-3xl shadow-luxury-lg p-6 border border-charcoal-100">
                 <div className="mb-6">
                   <div className="flex items-baseline gap-2">
-                    <span className="text-3xl font-bold text-gold-600">
+                    <span className="text-3xl font-bold text-brand-900">
                       {selectedRoom?.price || hotel.minPrice}
                     </span>
                     <span className="text-charcoal-600">{isArabic ? 'ر.س' : 'SAR'}</span>
@@ -774,7 +774,7 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ lang }) => {
 
                 <div className="mt-6 pt-6 border-t border-charcoal-100">
                   <div className="flex items-center gap-3 text-sm text-charcoal-600">
-                    <i className="fas fa-shield-alt text-gold-500"></i>
+                    <i className="fas fa-shield-alt text-brand-800"></i>
                     <span>{isArabic ? 'أفضل سعر مضمون' : 'Best price guaranteed'}</span>
                   </div>
                 </div>
@@ -788,7 +788,7 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ lang }) => {
         <div className="flex items-center justify-between gap-4">
           <div>
             <div className="flex items-baseline gap-1">
-              <span className="text-2xl font-bold text-gold-600">
+              <span className="text-2xl font-bold text-brand-900">
                 {selectedRoom?.price || hotel.minPrice}
               </span>
               <span className="text-charcoal-500">{isArabic ? 'ر.س' : 'SAR'}</span>
@@ -836,7 +836,7 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ lang }) => {
                 key={idx}
                 onClick={() => setGalleryIndex(idx)}
                 className={`flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden ring-2 transition-all ${
-                  galleryIndex === idx ? 'ring-gold-500' : 'ring-transparent'
+                  galleryIndex === idx ? 'ring-brand-800' : 'ring-transparent'
                 }`}
               >
                 <img src={img} alt="" className="w-full h-full object-cover" />

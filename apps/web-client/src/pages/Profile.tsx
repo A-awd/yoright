@@ -60,8 +60,8 @@ const Profile: React.FC<ProfileProps> = ({ lang }) => {
       className="w-full flex items-center justify-between p-4 hover:bg-cream-50 transition-colors rounded-2xl"
     >
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 bg-gold-100 rounded-xl flex items-center justify-center">
-          <i className={`fas ${icon} text-gold-600`}></i>
+        <div className="w-10 h-10 bg-brand-100 rounded-xl flex items-center justify-center">
+          <i className={`fas ${icon} text-brand-900`}></i>
         </div>
         <span className="font-medium text-charcoal-800">{isArabic ? titleAr : title}</span>
       </div>
@@ -73,21 +73,21 @@ const Profile: React.FC<ProfileProps> = ({ lang }) => {
     <div className={`min-h-screen bg-cream-100 pb-24 ${isArabic ? 'rtl' : 'ltr'}`}>
       <div className="bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-charcoal-900 pt-12 pb-20 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-0 w-96 h-96 bg-gold-400 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-gold-400 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
+          <div className="absolute top-0 left-0 w-96 h-96 bg-brand-600 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-brand-600 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
         </div>
         
         <div className="container mx-auto px-4 relative z-10">
           <div className="flex flex-col items-center">
             <div className="relative mb-4">
-              <div className="w-28 h-28 rounded-full overflow-hidden ring-4 ring-gold-400 ring-offset-4 ring-offset-charcoal-900">
+              <div className="w-28 h-28 rounded-full overflow-hidden ring-4 ring-brand-600 ring-offset-4 ring-offset-charcoal-900">
                 <img 
                   src={mockUser.avatar} 
                   alt={mockUser.name}
                   className="w-full h-full object-cover"
                 />
               </div>
-              <button className="absolute bottom-0 right-0 w-10 h-10 bg-gold-500 rounded-full flex items-center justify-center shadow-lg hover:bg-gold-600 transition-colors">
+              <button className="absolute bottom-0 right-0 w-10 h-10 bg-brand-800 rounded-full flex items-center justify-center shadow-lg hover:bg-brand-900 transition-colors">
                 <i className="fas fa-camera text-charcoal-900"></i>
               </button>
             </div>
@@ -106,8 +106,8 @@ const Profile: React.FC<ProfileProps> = ({ lang }) => {
             </Badge>
             
             <div className="flex items-center gap-2 bg-charcoal-800/50 rounded-2xl px-5 py-3 backdrop-blur">
-              <i className="fas fa-coins text-gold-400 text-xl"></i>
-              <span className="text-2xl font-bold text-gold-400">{mockUser.points.toLocaleString()}</span>
+              <i className="fas fa-coins text-brand-600 text-xl"></i>
+              <span className="text-2xl font-bold text-brand-600">{mockUser.points.toLocaleString()}</span>
               <span className="text-charcoal-400 text-sm">{isArabic ? 'نقطة' : 'points'}</span>
             </div>
           </div>
@@ -125,7 +125,7 @@ const Profile: React.FC<ProfileProps> = ({ lang }) => {
             ].map((stat, idx) => (
               <div key={idx} className="p-4 text-center">
                 <div className="w-10 h-10 bg-cream-100 rounded-xl flex items-center justify-center mx-auto mb-2">
-                  <i className={`fas ${stat.icon} text-gold-600`}></i>
+                  <i className={`fas ${stat.icon} text-brand-900`}></i>
                 </div>
                 <p className="text-xl font-bold text-charcoal-900">{stat.value}</p>
                 <p className="text-xs text-charcoal-500">{isArabic ? stat.labelAr : stat.labelEn}</p>
@@ -196,10 +196,10 @@ const Profile: React.FC<ProfileProps> = ({ lang }) => {
             <div className="px-4 pb-4 space-y-4">
               <div className="flex items-center justify-between bg-cream-50 rounded-2xl p-4">
                 <div className="flex items-center gap-3">
-                  <i className="fas fa-language text-gold-600"></i>
+                  <i className="fas fa-language text-brand-900"></i>
                   <span className="text-charcoal-800">{isArabic ? 'اللغة' : 'Language'}</span>
                 </div>
-                <select className="bg-white border border-charcoal-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold-400">
+                <select className="bg-white border border-charcoal-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-600">
                   <option value="en">English</option>
                   <option value="ar">العربية</option>
                 </select>
@@ -207,13 +207,13 @@ const Profile: React.FC<ProfileProps> = ({ lang }) => {
               
               <div className="flex items-center justify-between bg-cream-50 rounded-2xl p-4">
                 <div className="flex items-center gap-3">
-                  <i className="fas fa-coins text-gold-600"></i>
+                  <i className="fas fa-coins text-brand-900"></i>
                   <span className="text-charcoal-800">{isArabic ? 'العملة' : 'Currency'}</span>
                 </div>
                 <select 
                   value={selectedCurrency}
                   onChange={(e) => setSelectedCurrency(e.target.value as Currency)}
-                  className="bg-white border border-charcoal-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold-400"
+                  className="bg-white border border-charcoal-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-600"
                 >
                   <option value={Currency.SAR}>SAR</option>
                   <option value={Currency.USD}>USD</option>
@@ -223,12 +223,12 @@ const Profile: React.FC<ProfileProps> = ({ lang }) => {
               
               <div className="flex items-center justify-between bg-cream-50 rounded-2xl p-4">
                 <div className="flex items-center gap-3">
-                  <i className="fas fa-bell text-gold-600"></i>
+                  <i className="fas fa-bell text-brand-900"></i>
                   <span className="text-charcoal-800">{isArabic ? 'الإشعارات' : 'Notifications'}</span>
                 </div>
                 <button
                   onClick={() => setNotificationsEnabled(!notificationsEnabled)}
-                  className={`w-14 h-8 rounded-full transition-colors relative ${notificationsEnabled ? 'bg-gold-500' : 'bg-charcoal-300'}`}
+                  className={`w-14 h-8 rounded-full transition-colors relative ${notificationsEnabled ? 'bg-brand-800' : 'bg-charcoal-300'}`}
                 >
                   <div className={`absolute top-1 w-6 h-6 bg-white rounded-full shadow transition-transform ${notificationsEnabled ? 'left-7' : 'left-1'}`}></div>
                 </button>
@@ -257,7 +257,7 @@ const Profile: React.FC<ProfileProps> = ({ lang }) => {
                     <div className="absolute bottom-0 left-0 right-0 p-3">
                       <p className="text-white text-sm font-medium truncate">{hotel.name}</p>
                       <div className="flex items-center gap-1 mt-1">
-                        <i className="fas fa-star text-gold-400 text-xs"></i>
+                        <i className="fas fa-star text-brand-600 text-xs"></i>
                         <span className="text-white text-xs">{hotel.rating}</span>
                       </div>
                     </div>
@@ -281,7 +281,7 @@ const Profile: React.FC<ProfileProps> = ({ lang }) => {
             <div className="px-4 pb-4 space-y-3">
               <button className="w-full flex items-center justify-between bg-cream-50 rounded-2xl p-4 hover:bg-cream-100 transition-colors">
                 <div className="flex items-center gap-3">
-                  <i className="fas fa-key text-gold-600"></i>
+                  <i className="fas fa-key text-brand-900"></i>
                   <span className="text-charcoal-800">{isArabic ? 'تغيير كلمة المرور' : 'Change Password'}</span>
                 </div>
                 <i className={`fas fa-chevron-${isArabic ? 'left' : 'right'} text-charcoal-400`}></i>
@@ -289,7 +289,7 @@ const Profile: React.FC<ProfileProps> = ({ lang }) => {
               
               <div className="flex items-center justify-between bg-cream-50 rounded-2xl p-4">
                 <div className="flex items-center gap-3">
-                  <i className="fas fa-mobile-alt text-gold-600"></i>
+                  <i className="fas fa-mobile-alt text-brand-900"></i>
                   <div>
                     <span className="text-charcoal-800 block">{isArabic ? 'المصادقة الثنائية' : 'Two-Factor Authentication'}</span>
                     <span className="text-xs text-charcoal-500">{isArabic ? 'غير مفعل' : 'Not enabled'}</span>
@@ -312,7 +312,7 @@ const Profile: React.FC<ProfileProps> = ({ lang }) => {
               ].map((item, idx) => (
                 <button key={idx} className="w-full flex items-center justify-between bg-cream-50 rounded-2xl p-4 hover:bg-cream-100 transition-colors">
                   <div className="flex items-center gap-3">
-                    <i className={`fas ${item.icon} text-gold-600`}></i>
+                    <i className={`fas ${item.icon} text-brand-900`}></i>
                     <span className="text-charcoal-800">{isArabic ? item.labelAr : item.labelEn}</span>
                   </div>
                   <i className={`fas fa-chevron-${isArabic ? 'left' : 'right'} text-charcoal-400`}></i>

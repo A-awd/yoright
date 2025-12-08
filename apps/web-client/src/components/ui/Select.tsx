@@ -73,7 +73,7 @@ export const Select: React.FC<SelectProps> = ({
             pr-12
             ${error
               ? 'border-error-500 focus:border-error-500'
-              : 'border-charcoal-200 focus:border-gold-500 hover:border-charcoal-300'
+              : 'border-charcoal-200 focus:border-brand-800 hover:border-charcoal-300'
             }
           `}
           {...props}

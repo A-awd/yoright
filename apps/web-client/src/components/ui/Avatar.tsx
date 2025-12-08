@@ -42,7 +42,7 @@ export const Avatar: React.FC<AvatarProps> = ({
       className={`
         relative inline-flex items-center justify-center
         rounded-full overflow-hidden
-        bg-gradient-to-br from-gold-400 to-gold-600
+        bg-gradient-to-br from-brand-600 to-brand-900
         text-white font-medium
         ${sizeStyles[size]}
         ${className}

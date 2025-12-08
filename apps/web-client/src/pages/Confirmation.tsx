@@ -77,7 +77,7 @@ const EmailIcon = () => (
 );
 
 const StarIcon = () => (
-  <svg className="w-4 h-4 text-gold-500" fill="currentColor" viewBox="0 0 20 20">
+  <svg className="w-4 h-4 text-brand-800" fill="currentColor" viewBox="0 0 20 20">
     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
   </svg>
 );
@@ -126,7 +126,7 @@ const Confirmation: React.FC<ConfirmationProps> = ({ lang }) => {
     return (
       <div className="min-h-screen bg-cream-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-gold-500 border-t-transparent rounded-full animate-spin mx-auto" />
+          <div className="w-12 h-12 border-4 border-brand-800 border-t-transparent rounded-full animate-spin mx-auto" />
           <p className="mt-4 text-charcoal-600 font-medium">
             {isArabic ? 'جاري التحميل...' : 'Loading...'}
           </p>
@@ -183,7 +183,7 @@ const Confirmation: React.FC<ConfirmationProps> = ({ lang }) => {
                 {isArabic ? 'رقم الحجز' : 'Booking Reference'}
               </p>
               <div className="flex items-center justify-center gap-3">
-                <span className="font-display text-3xl font-bold text-gold-600 tracking-wider">
+                <span className="font-display text-3xl font-bold text-brand-900 tracking-wider">
                   {booking.reference}
                 </span>
                 <button
@@ -207,7 +207,7 @@ const Confirmation: React.FC<ConfirmationProps> = ({ lang }) => {
               )}
             </div>
 
-            <div className="flex items-center gap-2 justify-center p-3 bg-gold-50 rounded-xl text-gold-700 text-sm">
+            <div className="flex items-center gap-2 justify-center p-3 bg-gold-50 rounded-xl text-brand-950 text-sm">
               <EmailIcon />
               <span>
                 {isArabic
@@ -224,7 +224,7 @@ const Confirmation: React.FC<ConfirmationProps> = ({ lang }) => {
 
             <div className="space-y-4">
               <div className="flex items-start gap-4 p-4 bg-cream-50 rounded-2xl">
-                <div className="w-10 h-10 bg-gold-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                <div className="w-10 h-10 bg-brand-100 rounded-xl flex items-center justify-center flex-shrink-0">
                   <HotelIcon />
                 </div>
                 <div className="flex-1">
@@ -241,7 +241,7 @@ const Confirmation: React.FC<ConfirmationProps> = ({ lang }) => {
               </div>
 
               <div className="flex items-start gap-4 p-4 bg-cream-50 rounded-2xl">
-                <div className="w-10 h-10 bg-gold-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                <div className="w-10 h-10 bg-brand-100 rounded-xl flex items-center justify-center flex-shrink-0">
                   <CalendarIcon />
                 </div>
                 <div className="flex-1">
@@ -265,14 +265,14 @@ const Confirmation: React.FC<ConfirmationProps> = ({ lang }) => {
                       <p className="text-xs text-charcoal-500">{isArabic ? 'حتى 12:00 ظهراً' : 'Until 12:00 PM'}</p>
                     </div>
                   </div>
-                  <p className="text-sm text-gold-600 font-medium mt-2">
+                  <p className="text-sm text-brand-900 font-medium mt-2">
                     {nights} {isArabic ? 'ليالي' : 'nights'}
                   </p>
                 </div>
               </div>
 
               <div className="flex items-start gap-4 p-4 bg-cream-50 rounded-2xl">
-                <div className="w-10 h-10 bg-gold-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                <div className="w-10 h-10 bg-brand-100 rounded-xl flex items-center justify-center flex-shrink-0">
                   <UserIcon />
                 </div>
                 <div className="flex-1">
@@ -288,7 +288,7 @@ const Confirmation: React.FC<ConfirmationProps> = ({ lang }) => {
                 <span className="font-semibold text-charcoal-900">
                   {isArabic ? 'المبلغ الإجمالي' : 'Total Amount'}
                 </span>
-                <span className="text-2xl font-bold text-gold-600">
+                <span className="text-2xl font-bold text-brand-900">
                   {booking.totalPrice.toLocaleString()} {booking.currency}
                 </span>
               </div>

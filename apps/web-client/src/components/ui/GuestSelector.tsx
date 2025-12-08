@@ -62,7 +62,7 @@ const CounterRow: React.FC<CounterRowProps> = ({
           transition-all duration-200
           ${value <= min
             ? 'border-charcoal-200 text-charcoal-300 cursor-not-allowed'
-            : 'border-charcoal-300 text-charcoal-700 hover:border-gold-500 hover:text-gold-600'
+            : 'border-charcoal-300 text-charcoal-700 hover:border-brand-800 hover:text-brand-800'
           }
         `}
       >
@@ -78,7 +78,7 @@ const CounterRow: React.FC<CounterRowProps> = ({
           transition-all duration-200
           ${value >= max
             ? 'border-charcoal-200 text-charcoal-300 cursor-not-allowed'
-            : 'border-charcoal-300 text-charcoal-700 hover:border-gold-500 hover:text-gold-600'
+            : 'border-charcoal-300 text-charcoal-700 hover:border-brand-800 hover:text-brand-800'
           }
         `}
       >
@@ -196,7 +196,7 @@ export const GuestSelector: React.FC<GuestSelectorProps> = ({
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className="w-full py-3 bg-gold-500 hover:bg-gold-600 text-charcoal-950 font-semibold rounded-xl transition-colors"
+                className="w-full py-3 bg-brand-800 hover:bg-brand-900 text-white font-semibold rounded-xl transition-colors"
               >
                 Done
               </button>

@@ -49,7 +49,7 @@ const CheckIcon = () => (
 );
 
 const StarIcon = () => (
-  <svg className="w-4 h-4 text-gold-500" fill="currentColor" viewBox="0 0 20 20">
+  <svg className="w-4 h-4 text-brand-800" fill="currentColor" viewBox="0 0 20 20">
     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
   </svg>
 );
@@ -202,9 +202,9 @@ const Checkout: React.FC<CheckoutProps> = ({ lang }) => {
                   w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium
                   transition-all duration-300
                   ${step.id < currentStep
-                    ? 'bg-gold-500 text-charcoal-950'
+                    ? 'bg-brand-800 text-charcoal-950'
                     : step.id === currentStep
-                    ? 'bg-gold-500 text-charcoal-950 ring-4 ring-gold-200'
+                    ? 'bg-brand-800 text-charcoal-950 ring-4 ring-gold-200'
                     : 'bg-charcoal-100 text-charcoal-400'
                   }
                 `}
@@ -224,7 +224,7 @@ const Checkout: React.FC<CheckoutProps> = ({ lang }) => {
               <div
                 className={`
                   flex-1 h-0.5 mx-2 sm:mx-4 transition-colors duration-300
-                  ${step.id < currentStep ? 'bg-gold-500' : 'bg-charcoal-200'}
+                  ${step.id < currentStep ? 'bg-brand-800' : 'bg-charcoal-200'}
                 `}
               />
             )}
@@ -304,7 +304,7 @@ const Checkout: React.FC<CheckoutProps> = ({ lang }) => {
           </div>
           <div className="flex justify-between pt-3 border-t border-charcoal-100">
             <span className="text-lg font-semibold text-charcoal-900">{isArabic ? 'المجموع' : 'Total'}</span>
-            <span className="text-xl font-bold text-gold-600">{total.toLocaleString()} SAR</span>
+            <span className="text-xl font-bold text-brand-900">{total.toLocaleString()} SAR</span>
           </div>
         </div>
 
@@ -330,21 +330,21 @@ const Checkout: React.FC<CheckoutProps> = ({ lang }) => {
       className={`
         relative flex items-center gap-3 p-4 rounded-2xl border-2 transition-all
         ${paymentMethod === method
-          ? 'border-gold-500 bg-gold-50'
+          ? 'border-brand-800 bg-gold-50'
           : disabled
           ? 'border-charcoal-100 bg-charcoal-50 opacity-50 cursor-not-allowed'
           : 'border-charcoal-200 hover:border-charcoal-300 bg-white'
         }
       `}
     >
-      <div className={`${paymentMethod === method ? 'text-gold-600' : 'text-charcoal-500'}`}>
+      <div className={`${paymentMethod === method ? 'text-brand-900' : 'text-charcoal-500'}`}>
         {icon}
       </div>
       <span className={`font-medium ${paymentMethod === method ? 'text-charcoal-900' : 'text-charcoal-700'}`}>
         {label}
       </span>
       {paymentMethod === method && (
-        <div className="absolute top-3 right-3 w-5 h-5 bg-gold-500 rounded-full flex items-center justify-center">
+        <div className="absolute top-3 right-3 w-5 h-5 bg-brand-800 rounded-full flex items-center justify-center">
           <CheckIcon />
         </div>
       )}
@@ -438,7 +438,7 @@ const Checkout: React.FC<CheckoutProps> = ({ lang }) => {
                       placeholder={isArabic ? 'أي طلبات خاصة للفندق...' : 'Any special requests for the hotel...'}
                       rows={3}
                       className="w-full px-4 py-3.5 rounded-2xl bg-white border-2 border-charcoal-200 
-                        focus:border-gold-500 focus:outline-none focus:ring-0 transition-all duration-200
+                        focus:border-brand-800 focus:outline-none focus:ring-0 transition-all duration-200
                         text-charcoal-900 placeholder:text-charcoal-400 resize-none"
                     />
                     <p className="mt-1 text-xs text-charcoal-500">
@@ -531,8 +531,8 @@ const Checkout: React.FC<CheckoutProps> = ({ lang }) => {
                         type="checkbox"
                         checked={saveCard}
                         onChange={(e) => setSaveCard(e.target.checked)}
-                        className="w-5 h-5 rounded-lg border-2 border-charcoal-300 text-gold-500 
-                          focus:ring-gold-400 focus:ring-offset-0"
+                        className="w-5 h-5 rounded-lg border-2 border-charcoal-300 text-brand-800 
+                          focus:ring-brand-600 focus:ring-offset-0"
                       />
                       <span className="text-sm text-charcoal-700">
                         {isArabic ? 'حفظ البطاقة للحجوزات المستقبلية' : 'Save card for future bookings'}
@@ -586,8 +586,8 @@ const Checkout: React.FC<CheckoutProps> = ({ lang }) => {
                       checked={termsAccepted}
                       onChange={(e) => setTermsAccepted(e.target.checked)}
                       required
-                      className="w-5 h-5 mt-0.5 rounded-lg border-2 border-charcoal-300 text-gold-500 
-                        focus:ring-gold-400 focus:ring-offset-0"
+                      className="w-5 h-5 mt-0.5 rounded-lg border-2 border-charcoal-300 text-brand-800 
+                        focus:ring-brand-600 focus:ring-offset-0"
                     />
                     <span className="text-sm text-charcoal-700">
                       {isArabic
@@ -595,9 +595,9 @@ const Checkout: React.FC<CheckoutProps> = ({ lang }) => {
                         : 'I agree to the '}
                       {!isArabic && (
                         <>
-                          <a href="/terms" className="text-gold-600 hover:underline">Terms & Conditions</a>
+                          <a href="/terms" className="text-brand-900 hover:underline">Terms & Conditions</a>
                           {', '}
-                          <a href="/privacy" className="text-gold-600 hover:underline">Privacy Policy</a>
+                          <a href="/privacy" className="text-brand-900 hover:underline">Privacy Policy</a>
                           {', and Cancellation Policy'}
                         </>
                       )}

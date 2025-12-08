@@ -175,7 +175,7 @@ const MyTrips: React.FC<MyTripsProps> = ({ lang }) => {
             {getStatusBadge(trip.status)}
           </div>
           {isUpcoming && daysUntil > 0 && (
-            <div className="absolute top-3 right-3 bg-gold-500 text-charcoal-900 px-3 py-1.5 rounded-xl font-semibold text-sm">
+            <div className="absolute top-3 right-3 bg-brand-800 text-charcoal-900 px-3 py-1.5 rounded-xl font-semibold text-sm">
               {isArabic ? `${daysUntil} يوم` : `${daysUntil} days`}
             </div>
           )}
@@ -218,7 +218,7 @@ const MyTrips: React.FC<MyTripsProps> = ({ lang }) => {
               </div>
             </div>
             <div className="text-right">
-              <p className="text-lg font-bold text-gold-600">SAR {trip.totalPrice.toLocaleString()}</p>
+              <p className="text-lg font-bold text-brand-900">SAR {trip.totalPrice.toLocaleString()}</p>
             </div>
           </div>
 
@@ -246,7 +246,7 @@ const MyTrips: React.FC<MyTripsProps> = ({ lang }) => {
                   <Button 
                     variant="ghost" 
                     size="sm" 
-                    className="border border-gold-400 text-gold-600"
+                    className="border border-brand-600 text-brand-900"
                   >
                     <i className="fas fa-star mr-1.5"></i>
                     {isArabic ? 'تقييم' : 'Review'}
@@ -335,7 +335,7 @@ const MyTrips: React.FC<MyTripsProps> = ({ lang }) => {
     <div className={`min-h-screen bg-cream-100 pb-24 ${isArabic ? 'rtl' : 'ltr'}`}>
       <div className="bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-charcoal-900 pt-12 pb-8 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 right-0 w-80 h-80 bg-gold-400 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2"></div>
+          <div className="absolute top-0 right-0 w-80 h-80 bg-brand-600 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2"></div>
         </div>
         
         <div className="container mx-auto px-4 relative z-10">
@@ -369,7 +369,7 @@ const MyTrips: React.FC<MyTripsProps> = ({ lang }) => {
                   <span className={`
                     px-2 py-0.5 rounded-full text-xs font-semibold
                     ${activeTab === tab.id 
-                      ? 'bg-gold-500 text-charcoal-900' 
+                      ? 'bg-brand-800 text-charcoal-900' 
                       : 'bg-charcoal-100 text-charcoal-600'
                     }
                   `}>

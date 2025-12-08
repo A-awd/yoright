@@ -14,9 +14,9 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantStyles: Record<ButtonVariant, string> = {
-  primary: 'bg-gold-500 hover:bg-gold-600 text-charcoal-950 shadow-luxury hover:shadow-luxury-lg',
-  secondary: 'border-2 border-charcoal-300 hover:border-charcoal-400 text-charcoal-800 hover:bg-charcoal-50',
-  ghost: 'text-charcoal-700 hover:bg-charcoal-100 hover:text-charcoal-900',
+  primary: 'bg-brand-800 hover:bg-brand-900 text-white shadow-luxury hover:shadow-luxury-lg',
+  secondary: 'border-2 border-brand-800 hover:border-brand-900 text-brand-800 hover:bg-brand-50',
+  ghost: 'text-brand-800 hover:bg-brand-50 hover:text-brand-900',
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
@@ -70,7 +70,7 @@ export const Button: React.FC<ButtonProps> = ({
       className={`
         inline-flex items-center justify-center font-medium rounded-2xl
         transition-all duration-200 ease-out
-        focus:outline-none focus:ring-2 focus:ring-gold-400 focus:ring-offset-2
+        focus:outline-none focus:ring-2 focus:ring-brand-400 focus:ring-offset-2
         disabled:opacity-50 disabled:cursor-not-allowed
         ${variantStyles[variant]}
         ${sizeStyles[size]}

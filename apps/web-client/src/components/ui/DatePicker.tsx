@@ -208,9 +208,9 @@ const CalendarModal: React.FC<CalendarModalProps> = ({
                 disabled={isDisabled}
                 className={`
                   h-10 w-10 flex items-center justify-center rounded-full text-sm font-medium transition-all
-                  ${isDisabled ? 'text-charcoal-300 cursor-not-allowed' : 'hover:bg-gold-100 cursor-pointer'}
-                  ${isSelected ? 'bg-gold-500 text-white hover:bg-gold-600' : ''}
-                  ${isToday && !isSelected ? 'border-2 border-gold-400' : ''}
+                  ${isDisabled ? 'text-charcoal-300 cursor-not-allowed' : 'hover:bg-brand-100 cursor-pointer'}
+                  ${isSelected ? 'bg-brand-800 text-white hover:bg-brand-900' : ''}
+                  ${isToday && !isSelected ? 'border-2 border-brand-600' : ''}
                 `}
               >
                 {day}

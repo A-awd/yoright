@@ -54,12 +54,12 @@ const Login: React.FC<LoginProps> = ({ lang }) => {
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-charcoal-950/80 via-charcoal-950/40 to-transparent" />
-        <div className="absolute inset-0 bg-gold-500/10" />
+        <div className="absolute inset-0 bg-brand-800/10" />
         
         <div className="relative z-10 flex flex-col justify-end p-12 pb-20">
           <div className="max-w-lg">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 rounded-full bg-gold-500 flex items-center justify-center">
+              <div className="w-12 h-12 rounded-full bg-brand-800 flex items-center justify-center">
                 <span className="text-charcoal-950 font-display text-xl font-bold">Y</span>
               </div>
               <span className="text-white font-display text-2xl tracking-wide">YoRight</span>
@@ -76,7 +76,7 @@ const Login: React.FC<LoginProps> = ({ lang }) => {
         </div>
 
         <div className="absolute bottom-8 left-12 right-12 flex gap-2">
-          <div className="w-8 h-1 rounded-full bg-gold-500" />
+          <div className="w-8 h-1 rounded-full bg-brand-800" />
           <div className="w-8 h-1 rounded-full bg-white/30" />
           <div className="w-8 h-1 rounded-full bg-white/30" />
         </div>
@@ -92,7 +92,7 @@ const Login: React.FC<LoginProps> = ({ lang }) => {
           <div className="absolute inset-0 bg-gradient-to-b from-charcoal-950/60 to-charcoal-950/40" />
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-gold-500 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-full bg-brand-800 flex items-center justify-center">
                 <span className="text-charcoal-950 font-display text-lg font-bold">Y</span>
               </div>
               <span className="text-white font-display text-xl tracking-wide">YoRight</span>
@@ -103,7 +103,7 @@ const Login: React.FC<LoginProps> = ({ lang }) => {
         <div className="flex-1 flex items-center justify-center p-6 lg:p-12">
           <div className="w-full max-w-md">
             <div className="hidden lg:flex items-center gap-3 mb-10">
-              <div className="w-10 h-10 rounded-full bg-gold-500 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-full bg-brand-800 flex items-center justify-center">
                 <span className="text-charcoal-950 font-display text-lg font-bold">Y</span>
               </div>
               <span className="text-charcoal-900 font-display text-xl tracking-wide">YoRight</span>
@@ -159,7 +159,7 @@ const Login: React.FC<LoginProps> = ({ lang }) => {
                       onChange={(e) => setRememberMe(e.target.checked)}
                       className="sr-only peer"
                     />
-                    <div className="w-5 h-5 border-2 border-charcoal-300 rounded-md peer-checked:bg-gold-500 peer-checked:border-gold-500 transition-all group-hover:border-charcoal-400">
+                    <div className="w-5 h-5 border-2 border-charcoal-300 rounded-md peer-checked:bg-brand-800 peer-checked:border-brand-800 transition-all group-hover:border-charcoal-400">
                       {rememberMe && (
                         <i className="fas fa-check text-xs text-charcoal-950 absolute inset-0 flex items-center justify-center" />
                       )}
@@ -170,7 +170,7 @@ const Login: React.FC<LoginProps> = ({ lang }) => {
 
                 <Link 
                   to="/forgot-password" 
-                  className="text-sm text-gold-600 hover:text-gold-700 font-medium transition-colors"
+                  className="text-sm text-brand-900 hover:text-brand-950 font-medium transition-colors"
                 >
                   {texts.forgotPassword}
                 </Link>
@@ -221,7 +221,7 @@ const Login: React.FC<LoginProps> = ({ lang }) => {
               {texts.noAccount}{' '}
               <Link 
                 to="/signup" 
-                className="text-gold-600 hover:text-gold-700 font-semibold transition-colors"
+                className="text-brand-900 hover:text-brand-950 font-semibold transition-colors"
               >
                 {texts.signUp}
               </Link>

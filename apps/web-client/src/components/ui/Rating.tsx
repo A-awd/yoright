@@ -35,7 +35,7 @@ const StarIcon: React.FC<{ filled: boolean; partial?: number; className?: string
           style={{ width: `${partial * 100}%` }}
         >
           <svg
-            className="w-full h-full text-gold-500"
+            className="w-full h-full text-brand-800"
             fill="currentColor"
             viewBox="0 0 20 20"
           >
@@ -48,7 +48,7 @@ const StarIcon: React.FC<{ filled: boolean; partial?: number; className?: string
 
   return (
     <svg
-      className={`${className} ${filled ? 'text-gold-500' : 'text-charcoal-200'}`}
+      className={`${className} ${filled ? 'text-brand-800' : 'text-charcoal-200'}`}
       fill="currentColor"
       viewBox="0 0 20 20"
     >

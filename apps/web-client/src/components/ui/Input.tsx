@@ -75,7 +75,7 @@ export const Input: React.FC<InputProps> = ({
             ${floatingLabel ? 'pt-6 pb-2' : ''}
             ${error
               ? 'border-error-500 focus:border-error-500'
-              : 'border-charcoal-200 focus:border-gold-500 hover:border-charcoal-300'
+              : 'border-charcoal-200 focus:border-brand-800 hover:border-charcoal-300'
             }
           `}
           {...props}
@@ -88,7 +88,7 @@ export const Input: React.FC<InputProps> = ({
               absolute left-4 transition-all duration-200 pointer-events-none
               ${leftIcon ? 'left-12' : ''}
               ${showFloatingLabel
-                ? 'top-2 text-xs text-gold-600 font-medium'
+                ? 'top-2 text-xs text-brand-900 font-medium'
                 : 'top-1/2 -translate-y-1/2 text-charcoal-400'
               }
             `}

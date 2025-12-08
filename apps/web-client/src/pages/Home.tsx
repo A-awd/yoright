@@ -344,7 +344,7 @@ const Home: React.FC<HomeProps> = ({ lang }) => {
         </div>
       </section>
 
-      <section className="py-16 px-4 bg-gradient-to-r from-gold-600 via-gold-500 to-gold-600">
+      <section className="py-16 px-4 bg-gradient-to-r from-brand-900 via-brand-800 to-brand-900">
         <div className="container mx-auto max-w-5xl">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
             <div>
@@ -387,7 +387,7 @@ const Home: React.FC<HomeProps> = ({ lang }) => {
                 key={index}
                 className="bg-cream-50 rounded-2xl p-6 text-center hover:shadow-card transition-all duration-300"
               >
-                <div className="w-16 h-16 bg-gold-100 rounded-2xl flex items-center justify-center mx-auto mb-4 text-gold-600">
+                <div className="w-16 h-16 bg-brand-100 rounded-2xl flex items-center justify-center mx-auto mb-4 text-brand-900">
                   {feature.icon}
                 </div>
                 <h3 className="font-display text-lg font-semibold text-charcoal-900 mb-2">

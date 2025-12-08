@@ -17,7 +17,7 @@ const variantStyles: Record<BadgeVariant, string> = {
   success: 'bg-green-100 text-green-700',
   warning: 'bg-amber-100 text-amber-700',
   error: 'bg-red-100 text-red-700',
-  gold: 'bg-gold-100 text-gold-800',
+  gold: 'bg-brand-100 text-brand-950',
 };
 
 const shapeStyles: Record<BadgeShape, string> = {

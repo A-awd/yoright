@@ -68,7 +68,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
               e.stopPropagation();
               onClear();
             }}
-            className="text-xs text-gold-600 hover:text-gold-700 cursor-pointer"
+            className="text-xs text-brand-900 hover:text-brand-950 cursor-pointer"
           >
             Clear
           </span>
@@ -92,7 +92,7 @@ const CheckboxItem: React.FC<CheckboxItemProps> = ({ label, checked, onChange, i
     <div
       className={`w-5 h-5 rounded-lg border-2 flex items-center justify-center transition-all duration-200 ${
         checked
-          ? 'bg-gold-500 border-gold-500'
+          ? 'bg-brand-800 border-brand-800'
           : 'border-charcoal-300 group-hover:border-charcoal-400'
       }`}
     >
@@ -104,7 +104,7 @@ const CheckboxItem: React.FC<CheckboxItemProps> = ({ label, checked, onChange, i
 );
 
 const StarIcon: React.FC<{ filled?: boolean }> = ({ filled }) => (
-  <svg className={`w-4 h-4 ${filled ? 'text-gold-400' : 'text-charcoal-300'}`} fill="currentColor" viewBox="0 0 20 20">
+  <svg className={`w-4 h-4 ${filled ? 'text-brand-600' : 'text-charcoal-300'}`} fill="currentColor" viewBox="0 0 20 20">
     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
   </svg>
 );
@@ -194,7 +194,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
         </h3>
         <button
           onClick={onClear}
-          className="text-sm text-gold-600 hover:text-gold-700 font-medium"
+          className="text-sm text-brand-900 hover:text-brand-950 font-medium"
         >
           {isArabic ? 'مسح الكل' : 'Clear All'}
         </button>
@@ -265,7 +265,7 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
               <div
                 className={`w-5 h-5 rounded-lg border-2 flex items-center justify-center transition-all duration-200 ${
                   filters.starRatings.includes(star)
-                    ? 'bg-gold-500 border-gold-500'
+                    ? 'bg-brand-800 border-brand-800'
                     : 'border-charcoal-300 group-hover:border-charcoal-400'
                 }`}
                 onClick={() => handleStarChange(star, !filters.starRatings.includes(star))}
