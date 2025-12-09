@@ -1,0 +1,153 @@
+You are Replit AI working inside my existing project for a travel and tourism application called YoRight. I already have a nice visual UI with multiple pages and buttons, but right now many buttons do nothing or do not go to the next page. I want you to turn this into a real, production grade, full stack travel booking app, not just static screens. Keep all the existing nice design and layout as much as possible, and build all real functionality behind it.
+
+Main goals
+	1.	Make the app a real travel and hotel booking app, similar in concept to Trip.com and Booking.com.
+	2.	Connect it to real APIs, starting with RateHawk, so real hotels and prices appear in our app.
+	3.	Ensure every button, link, and flow really works and moves between pages correctly.
+	4.	Add a real database layer, authentication, admin panel, and all needed logic so the app is ready for real users.
+	5.	Write tests and run them inside Replit to verify that everything works.
+
+Architecture and tech choices
+	•	Use a modern, clean stack. Preferred:
+	•	Frontend: React with TypeScript and React Router for navigation.
+	•	Backend: Node.js with TypeScript, using either NestJS or Express with a clean module structure.
+	•	Database: PostgreSQL (preferred) or another SQL database managed from inside Replit.
+	•	Organize code into clear folders for frontend, backend, and shared types.
+	•	Use environment variables for keys and secrets. Do not hard code any secret values.
+	•	Keep my current UI design and styling, refactor only where required to make it functional.
+
+Routing and navigation
+	•	Scan all existing pages and components in the project. For every screen that visually looks like a page (home, search results, hotel details, checkout, profile, admin, etc), create proper routes and link them with React Router.
+	•	For every existing button, link, or clickable card:
+	•	Identify its intended destination based on the label and layout.
+	•	Wire it to the correct route and pass all necessary parameters (city name, date range, hotel id, etc).
+	•	Set up protected routes for pages that require login (profile, bookings, admin dashboard).
+	•	Add proper loading states, error states, and empty states for all main pages.
+
+Core user flows
+Implement and test at least these flows end to end:
+	1.	Hotel search flow
+
+	•	On the home page, allow the user to:
+	•	Choose destination (city or area).
+	•	Choose check in and check out dates.
+	•	Choose number of guests and rooms.
+	•	When the user presses search, call the backend API which calls RateHawk to search hotels.
+	•	Show results on a search results page with:
+	•	Hotel name, photo, rating, location, base price per night, total price for selected dates, and basic tags like breakfast included, free cancellation, etc if available.
+	•	Sorting options (price low to high, rating high to low, distance from center if available).
+	•	Filters (price range, stars, guest rating, free cancellation, breakfast included, property type).
+	•	Add pagination or infinite scroll as needed.
+	•	Add a toggle or button to show results on map.
+
+	2.	Hotel details and room selection
+
+	•	When clicking a hotel in the results:
+	•	Open a hotel details page with all available info from RateHawk: photos, description, amenities, location, rating, reviews if available, and list of available rooms for the selected dates.
+	•	For rooms: show name, meal plan, cancellation policy, refundable or non refundable, total price for the stay, and any important restrictions.
+	•	Allow the user to select a room and continue to checkout.
+
+	3.	Checkout and booking
+
+	•	Implement a checkout page that:
+	•	Shows booking summary: hotel, dates, room, guest count, price breakdown, our margin if needed.
+	•	Collects guest details (full name, email, phone, special requests).
+	•	For now, simulate payment with a “Confirm booking” button that calls backend to create a booking record and call RateHawk booking endpoint. Keep payment integration ready to be extended later (for example Tap Payments), but structure the code cleanly for that.
+	•	Handle RateHawk booking response:
+	•	On success: show confirmation page with booking reference. Save all booking data in our database.
+	•	On error: show clear message and allow retry.
+	•	Store in database: booking id, user id (if logged in), RateHawk reference, hotel data snapshot, dates, price, our markup, status (pending, confirmed, cancelled), timestamps.
+
+	4.	User accounts and authentication
+
+	•	Implement full user authentication:
+	•	Email and password sign up and login.
+	•	Simple validation and encrypted passwords.
+	•	Use secure session or JWT based authentication.
+	•	Add profile page: user info, ability to edit personal details.
+	•	Add “My bookings” page, where users can see all their past and upcoming bookings with basic filters.
+	•	Make sure only the correct logged in user can see their own bookings.
+
+	5.	Admin panel
+Create a basic admin panel with at least:
+
+	•	Login protected admin routes.
+	•	Booking management: list all bookings, filter by status, search by user or hotel, show booking details.
+	•	Markup and commission settings:
+	•	Allow admin to configure default markup margin (for example a percentage on top of RateHawk net price).
+	•	Allow special markup rules per city, country, or hotel if we want later.
+	•	Content management for cities:
+	•	Ability to create and edit “city cards” used in the app, including description, tags, hero image, and some manual notes.
+	•	API key and configuration overview (do not show secrets but show which services are enabled).
+
+RateHawk API integration
+	•	Read the public RateHawk API documentation and implement proper integration for:
+	•	Authentication with RateHawk.
+	•	Hotel search by destination, dates, and guests.
+	•	Hotel details, including rooms and availability.
+	•	Real booking creation.
+	•	Use environment variables for RateHawk credentials.
+	•	Implement functions like: searchHotels, getHotelDetails, createBooking.
+	•	Handle API limits, timeouts, and errors gracefully.
+	•	Log all external calls in a safe, structured way for debugging.
+
+Google Maps integration
+	•	Integrate Google Maps inside the hotel results and hotel details pages:
+	•	Show a map view with markers for hotels in the search results.
+	•	On the hotel details page, show a map pinpointing the property location.
+	•	Use proper API key from environment variables and follow Google Maps best practices.
+	•	Add an option to switch between list view and map view on the search results page.
+
+Weather and external city data
+	•	Integrate a weather API (for example OpenWeatherMap or any suitable API) to show weather for each city and date range chosen by the user.
+	•	On the city information sections, show:
+	•	Current weather.
+	•	Typical weather for the selected month (average highs and lows, rain probability, etc) if the API supports it or approximate using available data.
+	•	Provide a button like “Weather all year” that opens a view showing a simple month by month chart or table for that city.
+	•	Structure this so that later we can add more external city data (holidays, events, cost of living, etc).
+
+Database models
+Define and implement database tables/entities for at least:
+	•	User: id, name, email, password hash, createdAt, updatedAt.
+	•	Booking: id, userId, hotelId or hotelCode, city, country, checkIn, checkOut, guests, roomInfo, priceNet, priceMarkup, priceTotal, currency, status, ratehawkReference, createdAt, updatedAt.
+	•	City: id, name, country, slug, description, tags, heroImage, createdAt, updatedAt.
+	•	Admin configuration: markup rules, feature toggles, third party API configuration (without storing secrets as plain text).
+Make sure all database migrations or schema files are included and runnable inside Replit.
+
+Multi language support
+	•	Implement simple multi language support at least for Arabic and English.
+	•	Add a language switcher that actually changes all visible text in the app, not only some parts.
+	•	Store current language in a global state or in localStorage.
+	•	Provide a clean structure for translation files so we can easily extend later.
+
+Quality, testing, and code health
+	•	Add automated tests:
+	•	Backend: unit tests for core services (hotel search, booking creation, markup calculation).
+	•	Frontend: basic tests for critical components (search form, results list, hotel details, checkout).
+	•	Integration or end to end tests for main flows (search → select hotel → select room → checkout → booking confirmation).
+	•	Run these tests inside Replit and fix any issues until the test suite passes.
+	•	Add proper error handling everywhere. No unhandled promise rejections. Use try/catch in API calls and show understandable messages to users.
+	•	Add logging for important events: search errors, failed bookings, API errors.
+	•	Clean up dead code and unused components, but do not ruin the existing design.
+
+Deployment readiness and mobile
+	•	Prepare the project so that it can be deployed as a production web app.
+	•	Add build scripts for frontend and backend, and make sure the frontend is served properly from the backend in production mode.
+	•	Add a simple, clear README that explains:
+	•	How to run the app in development.
+	•	How to set environment variables.
+	•	How to run tests.
+	•	How to build and run in production.
+	•	Structure the frontend so it can later be wrapped as a mobile app (for example using Capacitor or a similar solution) without needing to rewrite everything.
+
+Your tasks right now
+	1.	Inspect the current project structure and code.
+	2.	Infer the intended page flows from the existing UI and wire all navigation correctly.
+	3.	Set up backend, database, and all APIs (RateHawk, Google Maps, weather) with clean, modular code.
+	4.	Implement all main flows listed above.
+	5.	Add tests and run them.
+	6.	Fix all broken routes, buttons, and non working interactions so that everything in the UI leads to a real function.
+	7.	Keep the existing luxury design and layout, only adjusting where necessary for functionality and responsiveness.
+	8.	Show me a summary of all changes you made and any environment variables I must set (with example names but not real secrets).
+
+Treat this as a serious production travel app, not a prototype. The final result must be a fully functional, end to end travel and hotel booking application that can talk to RateHawk, show real hotels, create real bookings, use Google Maps, show weather by city, manage markups and bookings in an admin panel, and pass automated tests.

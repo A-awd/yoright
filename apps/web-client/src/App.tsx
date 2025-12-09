@@ -11,7 +11,6 @@ import HotelDetails from './pages/HotelDetails';
 import Checkout from './pages/Checkout';
 import Confirmation from './pages/Confirmation';
 import MyTrips from './pages/MyTrips';
-import Offers from './pages/Offers';
 import Profile from './pages/Profile';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
@@ -125,7 +124,6 @@ const AppContent: React.FC<{ lang: Language; setLang: (lang: Language) => void }
           <Route path="/checkout" element={<Checkout lang={lang} />} />
           <Route path="/confirmation/:ref" element={<Confirmation lang={lang} />} />
           <Route path="/my-trips" element={<MyTrips lang={lang} />} />
-          <Route path="/offers" element={<Offers lang={lang} />} />
           <Route path="/profile" element={<Profile lang={lang} />} />
           <Route path="/favorites" element={<Favorites lang={lang} />} />
           <Route path="*" element={<Navigate to="/" replace />} />

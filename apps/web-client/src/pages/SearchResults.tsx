@@ -104,6 +104,19 @@ const defaultFilters: FilterState = {
   mealPlans: [],
 };
 
+const getDefaultCheckIn = (): Date => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return today;
+};
+
+const getDefaultCheckOut = (): Date => {
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  tomorrow.setHours(0, 0, 0, 0);
+  return tomorrow;
+};
+
 const SearchResults: React.FC<SearchResultsProps> = ({ lang }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -119,12 +132,12 @@ const SearchResults: React.FC<SearchResultsProps> = ({ lang }) => {
   const [, setCurrentPage] = useState(1);
   const [loadingMore, setLoadingMore] = useState(false);
 
-  const [destination, setDestination] = useState(searchParams.get('cityId') || '');
+  const [destination, setDestination] = useState(searchParams.get('cityId') || searchParams.get('city') || '');
   const [checkInDate, setCheckInDate] = useState<Date | undefined>(
-    searchParams.get('checkIn') ? new Date(searchParams.get('checkIn')!) : undefined
+    searchParams.get('checkIn') ? new Date(searchParams.get('checkIn')!) : getDefaultCheckIn()
   );
   const [checkOutDate, setCheckOutDate] = useState<Date | undefined>(
-    searchParams.get('checkOut') ? new Date(searchParams.get('checkOut')!) : undefined
+    searchParams.get('checkOut') ? new Date(searchParams.get('checkOut')!) : getDefaultCheckOut()
   );
   const [adults, setAdults] = useState(parseInt(searchParams.get('guests') || '2'));
   const [children, setChildren] = useState(0);
