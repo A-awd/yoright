@@ -9,41 +9,129 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  phone     String   @unique
-  email     String?
-  name      String?
-  role      String   @default("customer")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String    @id @default(cuid())
+  phone        String?   @unique
+  email        String?   @unique
+  passwordHash String?
+  name         String?
+  role         UserRole  @default(CUSTOMER)
+  status       String    @default("active")
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 
   bookings Booking[]
+  sessions Session[]
+}
+
+enum UserRole {
+  CUSTOMER
+  AGENT
+  SUPPORT
+  ADMIN
+  SUPER_ADMIN
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String   @unique
+  expiresAt DateTime
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([expiresAt])
+}
+
+model City {
+  id          String   @id @default(cuid())
+  code        String   @unique
+  nameEn      String
+  nameAr      String
+  countryCode String
+  countryEn   String
+  countryAr   String
+  timezone    String?
+  heroImage   String?
+  description String?
+  tags        String[]
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([countryCode])
+}
+
+model MarginRule {
+  id          String    @id @default(cuid())
+  name        String
+  type        String
+  targetId    String?
+  percentage  Float
+  minAmount   Float?
+  maxAmount   Float?
+  priority    Int       @default(0)
+  isActive    Boolean   @default(true)
+  validFrom   DateTime?
+  validTo     DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([type, targetId])
 }
 
 model Booking {
-  id         String   @id @default(cuid())
-  reference  String   @unique
-  status     String   @default("PENDING")
+  id                  String        @id @default(cuid())
+  reference           String        @unique
+  status              BookingStatus @default(PENDING)
   
-  hotelId    String
-  roomId     String
-  checkIn    DateTime
-  checkOut   DateTime
+  hotelId             String
+  hotelName           String?
+  hotelSnapshot       Json?
+  roomId              String
+  roomSnapshot        Json?
+  checkIn             DateTime
+  checkOut            DateTime
+  nights              Int           @default(1)
+  adults              Int           @default(2)
+  children            Int           @default(0)
   
-  subtotal   Float
-  vat        Float
-  total      Float
-  currency   String   @default("SAR")
+  netPrice            Float
+  marginAmount        Float         @default(0)
+  subtotal            Float
+  vat                 Float
+  total               Float
+  currency            String        @default("SAR")
   
-  userId     String?
-  user       User?    @relation(fields: [userId], references: [id])
+  supplierRef         String?
+  supplierBookingData Json?
   
-  guestInfo  Json
+  userId              String?
+  user                User?         @relation(fields: [userId], references: [id])
   
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  guestInfo           Json
+  specialRequests     String?
   
-  payments   Payment[]
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+  confirmedAt         DateTime?
+  cancelledAt         DateTime?
+  
+  payments            Payment[]
+
+  @@index([userId])
+  @@index([status])
+  @@index([checkIn, checkOut])
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  FAILED
+  REFUNDED
 }
 
 model Payment {
