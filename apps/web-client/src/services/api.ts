@@ -4,7 +4,7 @@ const API_BASE = '/api';
 
 const getAuthHeaders = (): HeadersInit => {
   const headers: HeadersInit = { 'Content-Type': 'application/json' };
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('yoright_token');
   if (token) {
     headers['Authorization'] = `Bearer ${token}`;
   }

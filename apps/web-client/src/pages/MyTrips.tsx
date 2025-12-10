@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Language, BookingStatus } from '../types';
 import { Button, Card, Badge } from '../components/ui';
+import { api } from '../services/api';
 
 interface MyTripsProps {
   lang: Language;
@@ -23,96 +24,88 @@ interface Trip {
   guests: number;
   totalPrice: number;
   hasReview?: boolean;
+  hotelId?: string;
 }
 
 const MyTrips: React.FC<MyTripsProps> = ({ lang }) => {
   const navigate = useNavigate();
   const isArabic = lang === Language.AR;
   const [activeTab, setActiveTab] = useState<TabType>('upcoming');
+  const [bookings, setBookings] = useState<Trip[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
-  const upcomingTrips: Trip[] = [
-    {
-      id: '1',
-      reference: 'YOR-2024-001',
-      hotelName: 'The Ritz-Carlton Riyadh',
-      hotelNameAr: 'فندق الريتز كارلتون الرياض',
-      hotelImage: 'https://picsum.photos/400/250?random=20',
-      checkIn: '2025-01-15',
-      checkOut: '2025-01-18',
-      status: BookingStatus.CONFIRMED,
-      roomType: 'Deluxe Suite',
-      roomTypeAr: 'جناح ديلوكس',
-      guests: 2,
-      totalPrice: 4500,
-    },
-    {
-      id: '2',
-      reference: 'YOR-2024-002',
-      hotelName: 'Four Seasons Jeddah',
-      hotelNameAr: 'فور سيزونز جدة',
-      hotelImage: 'https://picsum.photos/400/250?random=21',
-      checkIn: '2025-02-10',
-      checkOut: '2025-02-14',
-      status: BookingStatus.PENDING,
-      roomType: 'Ocean View Room',
-      roomTypeAr: 'غرفة بإطلالة على البحر',
-      guests: 3,
-      totalPrice: 6200,
-    },
-  ];
+  useEffect(() => {
+    const fetchBookings = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setIsLoggedIn(false);
+        setLoading(false);
+        return;
+      }
 
-  const pastTrips: Trip[] = [
-    {
-      id: '3',
-      reference: 'YOR-2024-003',
-      hotelName: 'Rosewood Al Faisaliah',
-      hotelNameAr: 'روزوود الفيصلية',
-      hotelImage: 'https://picsum.photos/400/250?random=22',
-      checkIn: '2024-11-20',
-      checkOut: '2024-11-23',
-      status: BookingStatus.CONFIRMED,
-      roomType: 'Executive Room',
-      roomTypeAr: 'غرفة تنفيذية',
-      guests: 2,
-      totalPrice: 3800,
-      hasReview: true,
-    },
-    {
-      id: '4',
-      reference: 'YOR-2024-004',
-      hotelName: 'St. Regis Dubai',
-      hotelNameAr: 'سانت ريجيس دبي',
-      hotelImage: 'https://picsum.photos/400/250?random=23',
-      checkIn: '2024-10-05',
-      checkOut: '2024-10-08',
-      status: BookingStatus.CONFIRMED,
-      roomType: 'Grand Deluxe Room',
-      roomTypeAr: 'غرفة جراند ديلوكس',
-      guests: 2,
-      totalPrice: 5100,
-      hasReview: false,
-    },
-  ];
+      try {
+        setLoading(true);
+        setError(null);
+        const response = await api.bookings.getMyBookings();
+        
+        const mappedTrips: Trip[] = response.map((booking: any) => {
+          const roomData = booking.roomJson ? (typeof booking.roomJson === 'string' ? JSON.parse(booking.roomJson) : booking.roomJson) : {};
+          const guestData = booking.guestJson ? (typeof booking.guestJson === 'string' ? JSON.parse(booking.guestJson) : booking.guestJson) : {};
+          
+          return {
+            id: booking.id || booking.reference,
+            reference: booking.reference,
+            hotelName: roomData.hotelName || roomData.hotelNameEn || booking.hotelName || 'Hotel',
+            hotelNameAr: roomData.hotelNameAr || roomData.hotelName || booking.hotelName || 'فندق',
+            hotelImage: roomData.image || roomData.hotelImage || `https://picsum.photos/400/250?random=${booking.reference}`,
+            checkIn: booking.checkIn,
+            checkOut: booking.checkOut,
+            status: booking.status as BookingStatus,
+            roomType: roomData.roomName || roomData.roomType || roomData.nameEn || 'Standard Room',
+            roomTypeAr: roomData.roomNameAr || roomData.nameAr || roomData.roomName || 'غرفة قياسية',
+            guests: guestData.adults || guestData.guests || 2,
+            totalPrice: booking.total || booking.totalPrice || 0,
+            hasReview: false,
+            hotelId: booking.hotelId,
+          };
+        });
+        
+        setBookings(mappedTrips);
+      } catch (err: any) {
+        console.error('Failed to fetch bookings:', err);
+        if (err.message?.includes('unauthorized') || err.message?.includes('401')) {
+          setIsLoggedIn(false);
+        } else {
+          setError(err.message || 'Failed to load bookings');
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const cancelledTrips: Trip[] = [
-    {
-      id: '5',
-      reference: 'YOR-2024-005',
-      hotelName: 'Waldorf Astoria DIFC',
-      hotelNameAr: 'والدورف أستوريا دبي',
-      hotelImage: 'https://picsum.photos/400/250?random=24',
-      checkIn: '2024-09-15',
-      checkOut: '2024-09-18',
-      status: BookingStatus.CANCELLED,
-      roomType: 'Premium Room',
-      roomTypeAr: 'غرفة بريميوم',
-      guests: 2,
-      totalPrice: 4200,
-    },
-  ];
+    fetchBookings();
+  }, []);
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const upcomingTrips = bookings.filter(trip => {
+    if (trip.status === BookingStatus.CANCELLED) return false;
+    const checkInDate = new Date(trip.checkIn);
+    return checkInDate >= today;
+  });
+
+  const pastTrips = bookings.filter(trip => {
+    if (trip.status === BookingStatus.CANCELLED) return false;
+    const checkOutDate = new Date(trip.checkOut);
+    return checkOutDate < today;
+  });
+
+  const cancelledTrips = bookings.filter(trip => trip.status === BookingStatus.CANCELLED);
 
   const getDaysUntilTrip = (checkIn: string): number => {
-    const today = new Date();
     const tripDate = new Date(checkIn);
     const diffTime = tripDate.getTime() - today.getTime();
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
@@ -238,7 +231,7 @@ const MyTrips: React.FC<MyTripsProps> = ({ lang }) => {
                   variant="secondary" 
                   size="sm" 
                   fullWidth
-                  onClick={() => navigate(`/hotel/${trip.id}`)}
+                  onClick={() => navigate(`/hotel/${trip.hotelId || trip.id}`)}
                 >
                   {isArabic ? 'احجز مرة أخرى' : 'Book Again'}
                 </Button>
@@ -329,7 +322,84 @@ const MyTrips: React.FC<MyTripsProps> = ({ lang }) => {
     );
   };
 
+  const LoginPrompt: React.FC = () => (
+    <div className="flex flex-col items-center justify-center py-16 px-4">
+      <div className="w-24 h-24 bg-cream-200 rounded-full flex items-center justify-center mb-6">
+        <i className="fas fa-user-lock text-4xl text-charcoal-400"></i>
+      </div>
+      <h3 className="text-xl font-display font-semibold text-charcoal-800 mb-2">
+        {isArabic ? 'يرجى تسجيل الدخول' : 'Please Sign In'}
+      </h3>
+      <p className="text-charcoal-500 text-center max-w-sm mb-6">
+        {isArabic 
+          ? 'يجب تسجيل الدخول لعرض حجوزاتك ورحلاتك'
+          : 'You need to sign in to view your bookings and trips'}
+      </p>
+      <div className="flex gap-3">
+        <Button onClick={() => navigate('/login')}>
+          {isArabic ? 'تسجيل الدخول' : 'Sign In'}
+        </Button>
+        <Button variant="secondary" onClick={() => navigate('/signup')}>
+          {isArabic ? 'إنشاء حساب' : 'Create Account'}
+        </Button>
+      </div>
+    </div>
+  );
+
+  const LoadingSpinner: React.FC = () => (
+    <div className="flex flex-col items-center justify-center py-16 px-4">
+      <div className="w-12 h-12 border-4 border-charcoal-200 border-t-brand-600 rounded-full animate-spin mb-4"></div>
+      <p className="text-charcoal-500">
+        {isArabic ? 'جاري تحميل رحلاتك...' : 'Loading your trips...'}
+      </p>
+    </div>
+  );
+
+  const ErrorState: React.FC = () => (
+    <div className="flex flex-col items-center justify-center py-16 px-4">
+      <div className="w-24 h-24 bg-error-100 rounded-full flex items-center justify-center mb-6">
+        <i className="fas fa-exclamation-triangle text-4xl text-error-500"></i>
+      </div>
+      <h3 className="text-xl font-display font-semibold text-charcoal-800 mb-2">
+        {isArabic ? 'حدث خطأ' : 'Something went wrong'}
+      </h3>
+      <p className="text-charcoal-500 text-center max-w-sm mb-6">
+        {error || (isArabic ? 'تعذر تحميل رحلاتك. يرجى المحاولة مرة أخرى.' : 'Failed to load your trips. Please try again.')}
+      </p>
+      <Button onClick={() => window.location.reload()}>
+        {isArabic ? 'إعادة المحاولة' : 'Try Again'}
+      </Button>
+    </div>
+  );
+
   const currentTrips = getCurrentTrips();
+
+  if (!isLoggedIn) {
+    return (
+      <div className={`min-h-screen bg-cream-100 pb-24 ${isArabic ? 'rtl' : 'ltr'}`}>
+        <div className="bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-charcoal-900 pt-12 pb-8 relative overflow-hidden">
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute top-0 right-0 w-80 h-80 bg-brand-600 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2"></div>
+          </div>
+          
+          <div className="container mx-auto px-4 relative z-10">
+            <h1 className="text-3xl font-display font-bold text-white mb-2">
+              {isArabic ? 'رحلاتي' : 'My Trips'}
+            </h1>
+            <p className="text-charcoal-300">
+              {isArabic ? 'إدارة حجوزاتك ورحلاتك' : 'Manage your bookings and travel history'}
+            </p>
+          </div>
+        </div>
+
+        <div className="container mx-auto px-4 mt-6">
+          <Card>
+            <LoginPrompt />
+          </Card>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={`min-h-screen bg-cream-100 pb-24 ${isArabic ? 'rtl' : 'ltr'}`}>
@@ -349,48 +419,60 @@ const MyTrips: React.FC<MyTripsProps> = ({ lang }) => {
       </div>
 
       <div className="container mx-auto px-4">
-        <div className="bg-white rounded-2xl p-1.5 shadow-card -mt-4 relative z-20 mb-6">
-          <div className="flex">
-            {tabs.map(tab => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`
-                  flex-1 py-3 px-4 rounded-xl font-medium text-sm transition-all duration-200
-                  flex items-center justify-center gap-2
-                  ${activeTab === tab.id 
-                    ? 'bg-charcoal-900 text-white shadow-luxury' 
-                    : 'text-charcoal-600 hover:bg-cream-50'
-                  }
-                `}
-              >
-                {isArabic ? tab.labelAr : tab.labelEn}
-                {tab.count > 0 && (
-                  <span className={`
-                    px-2 py-0.5 rounded-full text-xs font-semibold
-                    ${activeTab === tab.id 
-                      ? 'bg-brand-800 text-charcoal-900' 
-                      : 'bg-charcoal-100 text-charcoal-600'
-                    }
-                  `}>
-                    {tab.count}
-                  </span>
-                )}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {currentTrips.length > 0 ? (
-          <div className="space-y-4">
-            {currentTrips.map(trip => (
-              <TripCard key={trip.id} trip={trip} />
-            ))}
-          </div>
-        ) : (
-          <Card>
-            <EmptyState type={activeTab} />
+        {loading ? (
+          <Card className="mt-6">
+            <LoadingSpinner />
           </Card>
+        ) : error ? (
+          <Card className="mt-6">
+            <ErrorState />
+          </Card>
+        ) : (
+          <>
+            <div className="bg-white rounded-2xl p-1.5 shadow-card -mt-4 relative z-20 mb-6">
+              <div className="flex">
+                {tabs.map(tab => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`
+                      flex-1 py-3 px-4 rounded-xl font-medium text-sm transition-all duration-200
+                      flex items-center justify-center gap-2
+                      ${activeTab === tab.id 
+                        ? 'bg-charcoal-900 text-white shadow-luxury' 
+                        : 'text-charcoal-600 hover:bg-cream-50'
+                      }
+                    `}
+                  >
+                    {isArabic ? tab.labelAr : tab.labelEn}
+                    {tab.count > 0 && (
+                      <span className={`
+                        px-2 py-0.5 rounded-full text-xs font-semibold
+                        ${activeTab === tab.id 
+                          ? 'bg-brand-800 text-charcoal-900' 
+                          : 'bg-charcoal-100 text-charcoal-600'
+                        }
+                      `}>
+                        {tab.count}
+                      </span>
+                    )}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {currentTrips.length > 0 ? (
+              <div className="space-y-4">
+                {currentTrips.map(trip => (
+                  <TripCard key={trip.id} trip={trip} />
+                ))}
+              </div>
+            ) : (
+              <Card>
+                <EmptyState type={activeTab} />
+              </Card>
+            )}
+          </>
         )}
       </div>
     </div>

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Language } from '../types';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
+import { api } from '../services/api';
 
 interface LoginProps {
   lang: Language;
@@ -10,17 +11,31 @@ interface LoginProps {
 
 const Login: React.FC<LoginProps> = ({ lang }) => {
   const isArabic = lang === Language.AR;
+  const navigate = useNavigate();
+  const location = useLocation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    setLoading(false);
+    setError(null);
+    
+    try {
+      const response = await api.auth.login({ email, password });
+      localStorage.setItem('yoright_token', response.token);
+      const from = (location.state as any)?.from?.pathname || '/';
+      navigate(from, { replace: true });
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : (isArabic ? 'فشل تسجيل الدخول' : 'Login failed');
+      setError(errorMessage);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const texts = {
@@ -119,6 +134,15 @@ const Login: React.FC<LoginProps> = ({ lang }) => {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-5">
+              {error && (
+                <div className="p-4 rounded-2xl bg-error-50 border border-error-200">
+                  <p className="text-error-700 text-sm flex items-center gap-2">
+                    <i className="fas fa-exclamation-circle" />
+                    {error}
+                  </p>
+                </div>
+              )}
+
               <Input
                 type="email"
                 label={texts.email}

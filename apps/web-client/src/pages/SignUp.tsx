@@ -1,8 +1,9 @@
 import React, { useState, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Language } from '../types';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
+import { api } from '../services/api';
 
 interface SignUpProps {
   lang: Language;
@@ -23,6 +24,7 @@ const countryCodes = [
 
 const SignUp: React.FC<SignUpProps> = ({ lang }) => {
   const isArabic = lang === Language.AR;
+  const navigate = useNavigate();
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [countryCode, setCountryCode] = useState('+966');
@@ -34,6 +36,7 @@ const SignUp: React.FC<SignUpProps> = ({ lang }) => {
   const [agreeToTerms, setAgreeToTerms] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showCountryDropdown, setShowCountryDropdown] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const passwordStrength = useMemo(() => {
     if (!password) return { level: 0, label: '', color: '' };
@@ -54,9 +57,27 @@ const SignUp: React.FC<SignUpProps> = ({ lang }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!agreeToTerms) return;
+    if (password !== confirmPassword) return;
+    
     setLoading(true);
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    setLoading(false);
+    setError(null);
+    
+    try {
+      const fullPhone = phone ? `${countryCode}${phone}` : undefined;
+      const response = await api.auth.register({
+        email,
+        password,
+        name: fullName,
+        phone: fullPhone,
+      });
+      localStorage.setItem('yoright_token', response.token);
+      navigate('/', { replace: true });
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : (isArabic ? 'فشل إنشاء الحساب' : 'Registration failed');
+      setError(errorMessage);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const selectedCountry = countryCodes.find(c => c.code === countryCode);
@@ -164,6 +185,15 @@ const SignUp: React.FC<SignUpProps> = ({ lang }) => {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">
+              {error && (
+                <div className="p-4 rounded-2xl bg-error-50 border border-error-200">
+                  <p className="text-error-700 text-sm flex items-center gap-2">
+                    <i className="fas fa-exclamation-circle" />
+                    {error}
+                  </p>
+                </div>
+              )}
+
               <Input
                 type="text"
                 label={texts.fullName}

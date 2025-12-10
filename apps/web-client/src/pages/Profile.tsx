@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Language, Currency } from '../types';
+import { Language, Currency, User } from '../types';
 import { Button, Card, Badge, Modal, ModalHeader, ModalBody, ModalFooter, Input } from '../components/ui';
+import { api } from '../services/api';
 
 interface ProfileProps {
   lang: Language;
@@ -15,16 +16,86 @@ const Profile: React.FC<ProfileProps> = ({ lang }) => {
   const [selectedCurrency, setSelectedCurrency] = useState<Currency>(Currency.SAR);
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
 
-  const mockUser = {
-    name: 'Abdulrahman Al-Rashid',
-    email: 'abdulrahman@example.com',
-    phone: '+966 50 123 4567',
-    avatar: 'https://picsum.photos/200/200?random=1',
-    memberSince: 'January 2023',
-    memberSinceAr: 'يناير 2023',
-    totalTrips: 8,
-    savedHotels: 15,
-    reviewsWritten: 5,
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [editForm, setEditForm] = useState({
+    name: '',
+    email: '',
+    phone: '',
+  });
+
+  useEffect(() => {
+    const token = localStorage.getItem('yoright_token');
+    if (!token) {
+      navigate('/login');
+      return;
+    }
+
+    const fetchProfile = async () => {
+      try {
+        setLoading(true);
+        const profile = await api.auth.getProfile();
+        setUser(profile);
+        setEditForm({
+          name: profile.name || '',
+          email: profile.email || '',
+          phone: profile.phone || '',
+        });
+      } catch (err) {
+        localStorage.removeItem('yoright_token');
+        navigate('/login');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProfile();
+  }, [navigate]);
+
+  const handleSave = async () => {
+    try {
+      setSaving(true);
+      const updated = await api.auth.updateProfile(editForm);
+      setUser(updated);
+      setEditModalOpen(false);
+    } catch (err) {
+      console.error('Failed to update profile:', err);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('yoright_token');
+    navigate('/');
+  };
+
+  const formatMemberSince = (dateString: string) => {
+    const date = new Date(dateString);
+    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long' };
+    return date.toLocaleDateString(isArabic ? 'ar-SA' : 'en-US', options);
+  };
+
+  if (loading) {
+    return (
+      <div className={`min-h-screen bg-white flex items-center justify-center ${isArabic ? 'rtl' : 'ltr'}`}>
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-brand-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-charcoal-600">{isArabic ? 'جاري التحميل...' : 'Loading...'}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return null;
+  }
+
+  const profileStats = {
+    totalTrips: 0,
+    savedHotels: 0,
+    reviewsWritten: 0,
   };
 
   const savedCards = [
@@ -72,12 +143,10 @@ const Profile: React.FC<ProfileProps> = ({ lang }) => {
         <div className="container mx-auto px-4">
           <div className="flex flex-col items-center">
             <div className="relative mb-4">
-              <div className="w-28 h-28 rounded-full overflow-hidden ring-4 ring-white/30 ring-offset-4 ring-offset-brand-800">
-                <img 
-                  src={mockUser.avatar} 
-                  alt={mockUser.name}
-                  className="w-full h-full object-cover"
-                />
+              <div className="w-28 h-28 rounded-full overflow-hidden ring-4 ring-white/30 ring-offset-4 ring-offset-brand-800 bg-brand-600 flex items-center justify-center">
+                <span className="text-4xl font-bold text-white">
+                  {(user.name || user.email).charAt(0).toUpperCase()}
+                </span>
               </div>
               <button className="absolute bottom-0 right-0 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-cream-100 transition-colors">
                 <i className="fas fa-camera text-brand-800"></i>
@@ -85,11 +154,11 @@ const Profile: React.FC<ProfileProps> = ({ lang }) => {
             </div>
             
             <h1 className="text-2xl font-display font-bold text-white mb-1">
-              {mockUser.name}
+              {user.name || user.email}
             </h1>
             
             <p className="text-white/70">
-              {isArabic ? `عضو منذ ${mockUser.memberSinceAr}` : `Member since ${mockUser.memberSince}`}
+              {isArabic ? `عضو منذ ${formatMemberSince(user.createdAt)}` : `Member since ${formatMemberSince(user.createdAt)}`}
             </p>
           </div>
         </div>
@@ -99,9 +168,9 @@ const Profile: React.FC<ProfileProps> = ({ lang }) => {
         <Card padding="none" className="mb-6 overflow-hidden">
           <div className="grid grid-cols-3 divide-x divide-charcoal-100">
             {[
-              { value: mockUser.totalTrips, labelEn: 'Trips', labelAr: 'رحلات', icon: 'fa-plane-departure' },
-              { value: mockUser.savedHotels, labelEn: 'Saved', labelAr: 'محفوظة', icon: 'fa-heart' },
-              { value: mockUser.reviewsWritten, labelEn: 'Reviews', labelAr: 'تقييمات', icon: 'fa-star' },
+              { value: profileStats.totalTrips, labelEn: 'Trips', labelAr: 'رحلات', icon: 'fa-plane-departure' },
+              { value: profileStats.savedHotels, labelEn: 'Saved', labelAr: 'محفوظة', icon: 'fa-heart' },
+              { value: profileStats.reviewsWritten, labelEn: 'Reviews', labelAr: 'تقييمات', icon: 'fa-star' },
             ].map((stat, idx) => (
               <div key={idx} className="p-4 text-center">
                 <div className="w-10 h-10 bg-brand-100 rounded-xl flex items-center justify-center mx-auto mb-2">
@@ -122,16 +191,16 @@ const Profile: React.FC<ProfileProps> = ({ lang }) => {
                 <div className="flex justify-between items-center">
                   <div>
                     <p className="text-xs text-charcoal-500 mb-0.5">{isArabic ? 'الاسم' : 'Name'}</p>
-                    <p className="text-charcoal-800 font-medium">{mockUser.name}</p>
+                    <p className="text-charcoal-800 font-medium">{user.name || '-'}</p>
                   </div>
                 </div>
                 <div className="border-t border-charcoal-200 pt-3">
                   <p className="text-xs text-charcoal-500 mb-0.5">{isArabic ? 'البريد الإلكتروني' : 'Email'}</p>
-                  <p className="text-charcoal-800 font-medium">{mockUser.email}</p>
+                  <p className="text-charcoal-800 font-medium">{user.email}</p>
                 </div>
                 <div className="border-t border-charcoal-200 pt-3">
                   <p className="text-xs text-charcoal-500 mb-0.5">{isArabic ? 'رقم الهاتف' : 'Phone'}</p>
-                  <p className="text-charcoal-800 font-medium">{mockUser.phone}</p>
+                  <p className="text-charcoal-800 font-medium">{user.phone || '-'}</p>
                 </div>
               </div>
               <Button variant="secondary" size="sm" fullWidth onClick={() => setEditModalOpen(true)}>
@@ -306,6 +375,7 @@ const Profile: React.FC<ProfileProps> = ({ lang }) => {
           variant="ghost" 
           fullWidth 
           className="text-error-500 hover:bg-error-500/10 border border-error-500/20"
+          onClick={handleLogout}
         >
           <i className="fas fa-sign-out-alt mr-2"></i>
           {isArabic ? 'تسجيل الخروج' : 'Log Out'}
@@ -322,28 +392,42 @@ const Profile: React.FC<ProfileProps> = ({ lang }) => {
               <label className="block text-sm font-medium text-charcoal-700 mb-1.5">
                 {isArabic ? 'الاسم الكامل' : 'Full Name'}
               </label>
-              <Input defaultValue={mockUser.name} placeholder={isArabic ? 'أدخل اسمك' : 'Enter your name'} />
+              <Input 
+                value={editForm.name} 
+                onChange={(e) => setEditForm(prev => ({ ...prev, name: e.target.value }))}
+                placeholder={isArabic ? 'أدخل اسمك' : 'Enter your name'} 
+              />
             </div>
             <div>
               <label className="block text-sm font-medium text-charcoal-700 mb-1.5">
                 {isArabic ? 'البريد الإلكتروني' : 'Email Address'}
               </label>
-              <Input type="email" defaultValue={mockUser.email} placeholder={isArabic ? 'أدخل بريدك الإلكتروني' : 'Enter your email'} />
+              <Input 
+                type="email" 
+                value={editForm.email} 
+                onChange={(e) => setEditForm(prev => ({ ...prev, email: e.target.value }))}
+                placeholder={isArabic ? 'أدخل بريدك الإلكتروني' : 'Enter your email'} 
+              />
             </div>
             <div>
               <label className="block text-sm font-medium text-charcoal-700 mb-1.5">
                 {isArabic ? 'رقم الهاتف' : 'Phone Number'}
               </label>
-              <Input type="tel" defaultValue={mockUser.phone} placeholder={isArabic ? 'أدخل رقم هاتفك' : 'Enter your phone'} />
+              <Input 
+                type="tel" 
+                value={editForm.phone} 
+                onChange={(e) => setEditForm(prev => ({ ...prev, phone: e.target.value }))}
+                placeholder={isArabic ? 'أدخل رقم هاتفك' : 'Enter your phone'} 
+              />
             </div>
           </div>
         </ModalBody>
         <ModalFooter>
-          <Button variant="secondary" onClick={() => setEditModalOpen(false)}>
+          <Button variant="secondary" onClick={() => setEditModalOpen(false)} disabled={saving}>
             {isArabic ? 'إلغاء' : 'Cancel'}
           </Button>
-          <Button onClick={() => setEditModalOpen(false)}>
-            {isArabic ? 'حفظ التغييرات' : 'Save Changes'}
+          <Button onClick={handleSave} disabled={saving}>
+            {saving ? (isArabic ? 'جاري الحفظ...' : 'Saving...') : (isArabic ? 'حفظ التغييرات' : 'Save Changes')}
           </Button>
         </ModalFooter>
       </Modal>
