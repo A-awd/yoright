@@ -1209,8 +1209,10 @@ export class RatehawkMockService {
       },
       thumbnail: hotel.image,
       images: [hotel.image, hotel.image, hotel.image],
+      amenities: hotel.amenities.map(a => this.translateAmenity(a)),
       amenitiesAr: hotel.amenities,
       amenitiesEn: hotel.amenities.map(a => this.translateAmenity(a)),
+      minPrice: hotel.pricePerNight,
       pricePerNight: hotel.pricePerNight,
       priceSar: hotel.pricePerNight,
       totalPrice: hotel.pricePerNight * (params.nights || 3),
@@ -1390,8 +1392,10 @@ export class RatehawkMockService {
         'https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=800',
         'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800',
       ],
+      amenities: hotel.amenities.map((a: string) => this.translateAmenity(a)),
       amenitiesAr: hotel.amenities,
       amenitiesEn: hotel.amenities.map((a: string) => this.translateAmenity(a)),
+      minPrice: hotel.pricePerNight,
       descriptionAr:
         'فندق فاخر في قلب المدينة مع خدمات من الدرجة الأولى ومرافق عالمية المستوى. يوفر الفندق تجربة إقامة استثنائية مع غرف مصممة بأناقة وإطلالات خلابة ومطاعم راقية.',
       descriptionEn:

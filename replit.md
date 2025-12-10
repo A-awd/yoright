@@ -9,7 +9,16 @@ YoRight is a production-ready luxury bilingual (Arabic/English) OTA platform for
 - Supported Languages: Arabic (RTL) and English (LTR)
 - Mock Mode: Enabled by default (MOCK_MODE=1)
 
-## Recent Changes (December 8, 2025)
+## Recent Changes (December 10, 2025)
+
+### ✅ Critical Bug Fixes & API Integration (v3.1)
+- **Fixed MyTrips token mismatch:** Changed localStorage key from 'token' to 'yoright_token' for consistency with auth system
+- **Switched to BrowserRouter:** Changed from HashRouter to BrowserRouter for better SEO and clean URLs
+- **Backend mock service expanded:** Added 50+ hotels across all 26 destination cities with complete data (room types, amenities, pricing)
+- **API integration verified:** SearchResults, HotelDetails, Checkout, Confirmation, MyTrips, Profile all connected to real backend endpoints
+- **Auth flow working:** Login/SignUp use real JWT authentication with token storage
+
+## Previous Changes (December 8, 2025)
 
 ### ✅ Siora-Inspired Luxury Redesign (v3.0)
 Complete UI overhaul with Siora hotel booking design as the base:
@@ -71,7 +80,7 @@ Complete UI overhaul with Siora hotel booking design as the base:
 
 **Frontend (apps/web-client):**
 - Framework: React 18 with TypeScript
-- Routing: React Router (HashRouter)
+- Routing: React Router (BrowserRouter)
 - Build Tool: Vite
 - Styling: Tailwind CSS with luxury theme
 - Design: Siora-inspired luxury hotel booking UI

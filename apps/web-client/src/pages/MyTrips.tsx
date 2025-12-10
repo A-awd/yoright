@@ -38,7 +38,7 @@ const MyTrips: React.FC<MyTripsProps> = ({ lang }) => {
 
   useEffect(() => {
     const fetchBookings = async () => {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('yoright_token');
       if (!token) {
         setIsLoggedIn(false);
         setLoading(false);
