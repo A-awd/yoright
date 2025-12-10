@@ -162,10 +162,10 @@ const SearchResults: React.FC<SearchResultsProps> = ({ lang }) => {
       let filteredHotels = response.items;
 
       if (filters.priceMin !== undefined) {
-        filteredHotels = filteredHotels.filter((h) => h.minPrice >= filters.priceMin!);
+        filteredHotels = filteredHotels.filter((h) => (h.minPrice ?? h.pricePerNight ?? 0) >= filters.priceMin!);
       }
       if (filters.priceMax !== undefined) {
-        filteredHotels = filteredHotels.filter((h) => h.minPrice <= filters.priceMax!);
+        filteredHotels = filteredHotels.filter((h) => (h.minPrice ?? h.pricePerNight ?? 0) <= filters.priceMax!);
       }
       if (filters.starRatings.length > 0) {
         filteredHotels = filteredHotels.filter((h) => filters.starRatings.includes(h.stars));
@@ -178,10 +178,10 @@ const SearchResults: React.FC<SearchResultsProps> = ({ lang }) => {
 
       switch (sortBy) {
         case 'price_low':
-          filteredHotels.sort((a, b) => a.minPrice - b.minPrice);
+          filteredHotels.sort((a, b) => (a.minPrice ?? a.pricePerNight ?? 0) - (b.minPrice ?? b.pricePerNight ?? 0));
           break;
         case 'price_high':
-          filteredHotels.sort((a, b) => b.minPrice - a.minPrice);
+          filteredHotels.sort((a, b) => (b.minPrice ?? b.pricePerNight ?? 0) - (a.minPrice ?? a.pricePerNight ?? 0));
           break;
         case 'rating':
           filteredHotels.sort((a, b) => b.rating - a.rating);
@@ -404,7 +404,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ lang }) => {
                         stars={hotel.stars}
                         rating={hotel.rating}
                         reviewCount={hotel.reviewCount}
-                        pricePerNight={hotel.minPrice}
+                        pricePerNight={hotel.minPrice ?? hotel.pricePerNight ?? 0}
                         lang={lang}
                       />
                     ))}
@@ -470,7 +470,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ lang }) => {
                         <div className="p-5 flex flex-col items-end justify-between border-t md:border-t-0 md:border-l border-charcoal-100 md:min-w-[180px]">
                           <div className="text-right">
                             <p className="text-brand-900 font-display text-2xl font-bold">
-                              {hotel.minPrice.toLocaleString()}
+                              {(hotel.minPrice ?? hotel.pricePerNight ?? 0).toLocaleString()}
                             </p>
                             <p className="text-charcoal-500 text-sm">
                               SAR / {isArabic ? 'ليلة' : 'night'}

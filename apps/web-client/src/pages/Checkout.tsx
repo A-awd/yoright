@@ -162,22 +162,23 @@ const Checkout: React.FC<CheckoutProps> = ({ lang }) => {
 
       const booking = await api.bookings.create({
         hotelId,
-        roomId: roomId || 'room-1',
+        cityId: hotel?.cityId || 'unknown',
+        roomData: { 
+          roomId: roomId || 'room-1', 
+          roomName: selectedRoom?.nameEn || 'Standard Room',
+          price: roomRate,
+        },
+        guestInfo: {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          phone: `${formData.countryCode}${formData.phone}`,
+        },
         checkIn,
         checkOut,
-        guests: [
-          {
-            firstName: formData.firstName,
-            lastName: formData.lastName,
-            email: formData.email,
-            phone: `${formData.countryCode}${formData.phone}`,
-          },
-        ],
-        totals: {
-          subtotal,
-          vat: taxes,
-          total,
-        },
+        total,
+        vat: taxes,
+        currency: 'SAR',
       });
 
       setCurrentStep(4);

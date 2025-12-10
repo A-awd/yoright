@@ -1,8 +1,75 @@
-import { Hotel, Booking, CityIntelligence, HotelSearchResponse } from '../types';
+import { Hotel, Booking, CityIntelligence, HotelSearchResponse, User, AuthResponse } from '../types';
 
 const API_BASE = '/api';
 
+const getAuthHeaders = (): HeadersInit => {
+  const headers: HeadersInit = { 'Content-Type': 'application/json' };
+  const token = localStorage.getItem('token');
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+  return headers;
+};
+
 export const api = {
+  auth: {
+    register: async (data: {
+      email: string;
+      password: string;
+      name?: string;
+      phone?: string;
+    }): Promise<AuthResponse> => {
+      const res = await fetch(`${API_BASE}/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) {
+        const error = await res.json().catch(() => ({}));
+        throw new Error(error.message || 'Failed to register');
+      }
+      return res.json();
+    },
+
+    login: async (data: {
+      email: string;
+      password: string;
+    }): Promise<AuthResponse> => {
+      const res = await fetch(`${API_BASE}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) {
+        const error = await res.json().catch(() => ({}));
+        throw new Error(error.message || 'Failed to login');
+      }
+      return res.json();
+    },
+
+    getProfile: async (): Promise<User> => {
+      const res = await fetch(`${API_BASE}/auth/profile`, {
+        headers: getAuthHeaders(),
+      });
+      if (!res.ok) throw new Error('Failed to get profile');
+      return res.json();
+    },
+
+    updateProfile: async (data: {
+      name?: string;
+      email?: string;
+      phone?: string;
+    }): Promise<User> => {
+      const res = await fetch(`${API_BASE}/auth/profile`, {
+        method: 'PUT',
+        headers: getAuthHeaders(),
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) throw new Error('Failed to update profile');
+      return res.json();
+    },
+  },
+
   hotels: {
     search: async (params: {
       cityId?: string;
@@ -31,27 +98,29 @@ export const api = {
   bookings: {
     create: async (data: {
       hotelId: string;
-      roomId: string;
+      cityId: string;
+      roomData: Record<string, any>;
+      guestInfo: Record<string, any>;
       checkIn: string;
       checkOut: string;
-      guests: Array<{
-        firstName: string;
-        lastName: string;
-        email: string;
-        phone: string;
-      }>;
-      totals: {
-        subtotal: number;
-        vat: number;
-        total: number;
-      };
+      total: number;
+      vat: number;
+      currency?: string;
     }): Promise<Booking> => {
       const res = await fetch(`${API_BASE}/bookings`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders(),
         body: JSON.stringify(data),
       });
       if (!res.ok) throw new Error('Failed to create booking');
+      return res.json();
+    },
+
+    getMyBookings: async (): Promise<Booking[]> => {
+      const res = await fetch(`${API_BASE}/bookings/my`, {
+        headers: getAuthHeaders(),
+      });
+      if (!res.ok) throw new Error('Failed to get bookings');
       return res.json();
     },
 
@@ -71,7 +140,7 @@ export const api = {
     }): Promise<{ clientSecret: string; paymentId: string }> => {
       const res = await fetch(`${API_BASE}/payments/intent`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders(),
         body: JSON.stringify(data),
       });
       if (!res.ok) throw new Error('Failed to create payment intent');

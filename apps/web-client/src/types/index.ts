@@ -60,10 +60,25 @@ export interface Hotel {
   thumbnail: string;
   images: string[];
   amenities: string[];
-  minPrice: number;
+  minPrice?: number;
+  pricePerNight?: number;
   rooms: Room[];
   descriptionAr: string;
   descriptionEn: string;
+}
+
+export interface User {
+  id: string;
+  email: string;
+  name?: string;
+  phone?: string;
+  role: string;
+  createdAt: string;
+}
+
+export interface AuthResponse {
+  token: string;
+  user: User;
 }
 
 export interface Booking {
