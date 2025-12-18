@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Param, Query, Headers, UnauthorizedException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Query, Headers, UnauthorizedException, Ip } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { BookingsService } from './bookings.service';
 import { AuthService } from '../auth/auth.service';
+import { SuppliersService } from '../suppliers/suppliers.service';
 import { BookingStatus } from '@prisma/client';
 
 class CreateBookingDto {
@@ -15,6 +16,25 @@ class CreateBookingDto {
   vat: number;
   currency?: string;
   supplier?: string;
+  rateHash?: string;
+  priceHash?: string;
+  bookHash?: string;
+}
+
+class PrebookDto {
+  hash: string;
+  priceHash: string;
+}
+
+class ConfirmBookingDto {
+  bookHash: string;
+  bookingReference: string;
+  guests: Array<{
+    firstName: string;
+    lastName: string;
+    isChild?: boolean;
+    age?: number;
+  }>;
 }
 
 @ApiTags('bookings')
@@ -23,7 +43,67 @@ export class BookingsController {
   constructor(
     private readonly bookingsService: BookingsService,
     private readonly authService: AuthService,
+    private readonly suppliersService: SuppliersService,
   ) {}
+
+  @Post('prebook')
+  @ApiOperation({ summary: 'Prebook a room to get final price and book hash (RateHawk flow)' })
+  async prebook(@Body() dto: PrebookDto) {
+    const result = await this.suppliersService.prebookRoom({
+      hash: dto.hash,
+      priceHash: dto.priceHash,
+    });
+    
+    return {
+      success: true,
+      data: result,
+    };
+  }
+
+  @Post('confirm')
+  @ApiOperation({ summary: 'Confirm booking after prebook (RateHawk flow)' })
+  async confirmBooking(
+    @Body() dto: ConfirmBookingDto,
+    @Headers('authorization') authHeader?: string,
+    @Ip() userIp?: string,
+  ) {
+    let userId: string | undefined;
+    
+    if (authHeader) {
+      const token = authHeader.replace('Bearer ', '');
+      const payload = await this.authService.verifyToken(token);
+      if (payload) {
+        userId = payload.userId;
+      }
+    }
+
+    const booking = await this.bookingsService.getBookingByReference(dto.bookingReference);
+    
+    const result = await this.suppliersService.bookRoom({
+      partnerOrderId: dto.bookingReference,
+      bookHash: dto.bookHash,
+      guests: dto.guests,
+      paymentType: 'deposit',
+      userIp,
+    });
+
+    await this.bookingsService.updateBookingStatus(
+      dto.bookingReference,
+      BookingStatus.CONFIRMED,
+      result.orderId,
+    );
+
+    return {
+      success: true,
+      booking: {
+        reference: dto.bookingReference,
+        status: 'confirmed',
+        confirmationNumber: result.confirmationNumber || result.orderId,
+        hotelData: result.hotelData,
+        guestData: result.guestData,
+      },
+    };
+  }
 
   @Post()
   @ApiOperation({ summary: 'Create new booking' })
@@ -62,6 +142,12 @@ export class BookingsController {
     }
     
     return this.bookingsService.getUserBookings(payload.userId);
+  }
+
+  @Get('status')
+  @ApiOperation({ summary: 'Get supplier API status' })
+  async getApiStatus() {
+    return this.suppliersService.getApiStatus();
   }
 
   @Get(':reference')
