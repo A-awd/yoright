@@ -44,3 +44,10 @@ defaultBucketID = "replit-objstore-b3e3d224-aa0a-4062-9f24-9485b56768d8"
 
 [nix]
 channel = "stable-25_05"
+
+[userenv]
+
+[userenv.shared]
+RATEHAWK_API_KEY = "TO_BE_ADDED_LATER"
+RATEHAWK_PARTNER_ID = "TO_BE_ADDED_LATER"
+RATEHAWK_API_URL = "https://api.worldota.net/api/b2b/v3"
