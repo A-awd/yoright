@@ -9,7 +9,42 @@ YoRight is a production-ready luxury bilingual (Arabic/English) OTA platform for
 - Supported Languages: Arabic (RTL) and English (LTR)
 - Mock Mode: Enabled by default (MOCK_MODE=1)
 
-## Recent Changes (December 10, 2025)
+## Recent Changes (December 18, 2025)
+
+### ✅ RateHawk B2B API v3 Integration Preparation (v3.2)
+Complete backend preparation for RateHawk hotel supplier integration:
+
+**Environment Configuration:**
+- `RATEHAWK_API_KEY` - Your RateHawk API key (placeholder set)
+- `RATEHAWK_PARTNER_ID` - Your RateHawk partner ID (placeholder set)  
+- `RATEHAWK_API_URL` - API base URL (defaults to https://api.worldota.net/api/b2b/v3)
+
+**New RateHawk API Service (`apps/gateway/src/modules/suppliers/ratehawk-api.service.ts`):**
+- `searchByRegion()` - Search hotels by region/city
+- `searchByHotelIds()` - Search specific hotels
+- `getHotelPage()` - Get detailed hotel information with rooms
+- `prebook()` - Pre-book to get final price and book hash
+- `book()` - Complete booking with guest info
+- `getOrderStatus()` - Check booking status
+- `cancelOrder()` - Cancel a booking
+
+**New Booking Endpoints:**
+- `POST /api/bookings/prebook` - Pre-book room to get final price (RateHawk flow)
+- `POST /api/bookings/confirm` - Confirm booking after prebook
+- `GET /api/bookings/status` - Check if RateHawk API is configured
+
+**Automatic Mock/Live Switching:**
+- When API keys are placeholders → Uses mock data automatically
+- When real API keys are set → Uses live RateHawk API
+- Falls back to mock on API errors for reliability
+
+**To Go Live with RateHawk:**
+1. Get your Sandbox API key from RateHawk
+2. Update `RATEHAWK_API_KEY` with your real key
+3. Update `RATEHAWK_PARTNER_ID` with your partner ID
+4. The system will automatically switch to live API calls
+
+## Previous Changes (December 10, 2025)
 
 ### ✅ Critical Bug Fixes & API Integration (v3.1)
 - **Fixed MyTrips token mismatch:** Changed localStorage key from 'token' to 'yoright_token' for consistency with auth system

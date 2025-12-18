@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, BadRequestException } from '@nestjs/common';
 import { FlagsService } from '../../core/flags/flags.service';
 import { RatehawkMockService } from './ratehawk-mock.service';
 import { RatehawkApiService } from './ratehawk-api.service';
@@ -6,6 +6,7 @@ import { RatehawkApiService } from './ratehawk-api.service';
 interface SearchParams {
   cityId?: string;
   regionId?: number;
+  hotelIds?: string[];
   checkIn?: string;
   checkOut?: string;
   adults?: number;
@@ -23,6 +24,16 @@ interface PrebookParams {
   priceHash: string;
 }
 
+export interface PrebookResult {
+  prebookHash: string;
+  finalPrice: number;
+  currencyCode: string;
+  isFreeCancellation: boolean;
+  cancellationInfo: any;
+  vatData: any;
+  hotelData: any;
+}
+
 interface BookParams {
   partnerOrderId: string;
   bookHash: string;
@@ -35,6 +46,8 @@ interface BookParams {
   paymentType: 'deposit' | 'now' | 'hotel';
   userIp?: string;
 }
+
+const prebookCache = new Map<string, PrebookResult>();
 
 @Injectable()
 export class SuppliersService {
@@ -108,33 +121,48 @@ export class SuppliersService {
     }
   }
 
-  async prebookRoom(params: PrebookParams) {
+  async prebookRoom(params: PrebookParams): Promise<PrebookResult> {
     this.logger.log(`Prebooking room with hash: ${params.hash?.substring(0, 20)}...`);
 
     if (this.shouldUseMock()) {
-      return this.mockPrebook(params);
+      const result = this.mockPrebook(params);
+      prebookCache.set(result.prebookHash, result);
+      return result;
     }
 
     try {
-      return await this.ratehawkApi.prebook({
+      const result = await this.ratehawkApi.prebook({
         hash: params.hash,
         price_hash: params.priceHash,
       });
+      prebookCache.set(result.prebookHash, result);
+      return result;
     } catch (error) {
       this.logger.error(`RateHawk prebook failed: ${error.message}`);
       throw error;
     }
   }
 
+  validatePrebookHash(bookHash: string): PrebookResult | null {
+    return prebookCache.get(bookHash) || null;
+  }
+
   async bookRoom(params: BookParams) {
     this.logger.log(`Booking room for order: ${params.partnerOrderId}`);
 
+    const prebookResult = prebookCache.get(params.bookHash);
+    if (!prebookResult) {
+      this.logger.warn(`No prebook found for hash: ${params.bookHash?.substring(0, 20)}...`);
+    }
+
     if (this.shouldUseMock()) {
-      return this.mockBook(params);
+      const result = this.mockBook(params);
+      prebookCache.delete(params.bookHash);
+      return result;
     }
 
     try {
-      return await this.ratehawkApi.book({
+      const result = await this.ratehawkApi.book({
         partner_order_id: params.partnerOrderId,
         book_hash: params.bookHash,
         language: 'en',
@@ -147,6 +175,8 @@ export class SuppliersService {
         payment_type: params.paymentType,
         user_ip: params.userIp,
       });
+      prebookCache.delete(params.bookHash);
+      return result;
     } catch (error) {
       this.logger.error(`RateHawk booking failed: ${error.message}`);
       throw error;

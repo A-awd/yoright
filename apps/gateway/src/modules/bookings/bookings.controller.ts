@@ -77,6 +77,14 @@ export class BookingsController {
       }
     }
 
+    const prebookResult = this.suppliersService.validatePrebookHash(dto.bookHash);
+    if (!prebookResult) {
+      return {
+        success: false,
+        error: 'Invalid or expired book hash. Please prebook the room again.',
+      };
+    }
+
     const booking = await this.bookingsService.getBookingByReference(dto.bookingReference);
     
     const result = await this.suppliersService.bookRoom({
@@ -101,6 +109,8 @@ export class BookingsController {
         confirmationNumber: result.confirmationNumber || result.orderId,
         hotelData: result.hotelData,
         guestData: result.guestData,
+        paymentData: result.paymentData,
+        roomData: result.roomData,
       },
     };
   }
