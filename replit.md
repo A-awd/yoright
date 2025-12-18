@@ -269,22 +269,35 @@ VITE_GOOGLE_MAPS_API_KEY=...     # Google Maps API key
 
 ## Deployment Ready
 
-**Current Status:** ✅ Production Ready (v3.0)
+**Current Status:** ✅ Production Ready (v3.2)
 
 - ✅ Siora-inspired luxury UI complete
 - ✅ All pages redesigned
 - ✅ Component library created
 - ✅ Responsive mobile design
-- ✅ Mock mode working
+- ✅ Mock mode working (auto-fallback)
 - ✅ Database connected
 - ✅ API documentation available
+- ✅ RateHawk API integration prepared
+- ✅ Prebook validation for secure bookings
 
-**To Deploy:**
-1. Set environment variables
-2. Run `npm run serve:web`
-3. Application available at `http://0.0.0.0:5000`
+**Publishing Configuration:**
+- Deployment Type: Autoscale
+- Build Command: `cd apps/gateway && npm run build`
+- Run Command: `cd apps/gateway && PORT=5000 node dist/main.js`
+
+**To Publish:**
+1. Click the Publish button in Replit
+2. Configure production secrets (RATEHAWK_API_KEY, RATEHAWK_PARTNER_ID if using live API)
+3. Deploy!
+
+**To Go Live with Real Hotel Data:**
+1. Get your RateHawk API credentials
+2. Add RATEHAWK_API_KEY to production secrets
+3. Add RATEHAWK_PARTNER_ID to production secrets
+4. The system will automatically use live API
 
 ---
-Last Updated: December 8, 2025  
-Version: 3.0.0 (Siora-Inspired Luxury Redesign)  
+Last Updated: December 18, 2025  
+Version: 3.2.0 (RateHawk Integration + Publish Ready)  
 Status: Production-Ready with Premium UI

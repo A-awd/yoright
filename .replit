@@ -51,3 +51,8 @@ channel = "stable-25_05"
 RATEHAWK_API_KEY = "TO_BE_ADDED_LATER"
 RATEHAWK_PARTNER_ID = "TO_BE_ADDED_LATER"
 RATEHAWK_API_URL = "https://api.worldota.net/api/b2b/v3"
+
+[deployment]
+deploymentTarget = "autoscale"
+run = ["bash", "-c", "cd apps/gateway && PORT=5000 node dist/main.js"]
+build = ["bash", "-c", "cd apps/gateway && npm run build"]
