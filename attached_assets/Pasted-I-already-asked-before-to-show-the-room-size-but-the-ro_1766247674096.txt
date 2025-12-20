@@ -1,0 +1,51 @@
+I already asked before to show the room size, but the room cards are still not updated.
+Please fix this now and make it work 100%.
+
+I am not a developer. Act as my senior engineer and do everything for me.
+	1.	Check all room cards
+
+	•	Find every UI component that shows a room card or room details for hotels.
+	•	This includes:
+	•	real rooms (later from RateHawk)
+	•	fake / demo / mock hotels and rooms that we use now for testing.
+
+	2.	Room data model
+
+	•	In the room data model (for real and fake rooms), add a clear field for room size, for example:
+	•	roomSizeSqm (number, like 28)
+	•	If you already used another field name before, make it consistent everywhere. One field name for all rooms.
+
+	3.	Fake / demo hotels
+
+	•	Open the file(s) where fake or mock hotels and rooms are stored (mock JSON, seed data, etc.).
+	•	For each room in the fake data, add a realistic value for roomSizeSqm, for example:
+	•	24, 28, 32, 45, etc.
+	•	Make sure every fake room has a size value.
+
+	4.	Show the size on the room card UI
+
+	•	On every room card on the hotel details page, add a line like:
+	•	Room size: 28 m²
+	•	Use the same style and design as the other text on the card (same font, same color family).
+	•	Place it under the room name and bed type, or in another logical place, but keep the layout clean.
+	•	If roomSizeSqm is missing for any room, show:
+	•	Room size: not specified
+or hide the line completely (pick one behaviour and use it everywhere).
+
+	5.	Make sure it works for all sources
+
+	•	Real API rooms (when we connect RateHawk later).
+	•	Fake / demo rooms that we see in the app right now.
+	•	The behaviour must be the same in both cases.
+
+	6.	Rebuild and refresh
+
+	•	Rebuild the app so the new room size line appears in the preview.
+	•	Check at least 3–4 different hotels and rooms to confirm that “Room size: XX m²” is visible.
+
+	7.	Explain to me
+After you finish, explain in simple English:
+
+	•	In which file you store the room size (fake data and real data).
+	•	What field name you used for the room size.
+	•	In which component(s) you updated the UI to show Room size: XX m².
