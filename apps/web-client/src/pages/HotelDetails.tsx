@@ -115,7 +115,12 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ lang }) => {
     reviews: true,
     policies: true,
   });
+  const [expandedRoomDetails, setExpandedRoomDetails] = useState<Record<string, boolean>>({});
   const [visibleReviews, setVisibleReviews] = useState(3);
+
+  const toggleRoomDetails = (roomId: string) => {
+    setExpandedRoomDetails((prev) => ({ ...prev, [roomId]: !prev[roomId] }));
+  };
 
   useEffect(() => {
     const fetchHotel = async () => {
@@ -362,17 +367,21 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ lang }) => {
               </div>
               <div className={`p-6 md:p-8 ${expandedSections.rooms ? '' : 'hidden md:block'}`}>
                 <div className="space-y-4">
-                  {hotel.rooms.map((room, idx) => (
+                  {hotel.rooms.map((room, idx) => {
+                    const isExpanded = expandedRoomDetails[room.id] || false;
+                    return (
                     <div
                       key={room.id}
-                      onClick={() => setSelectedRoom(room)}
-                      className={`rounded-2xl border-2 overflow-hidden cursor-pointer transition-all ${
+                      className={`rounded-2xl border-2 overflow-hidden transition-all ${
                         selectedRoom?.id === room.id
                           ? 'border-brand-800 bg-gold-50/50'
                           : 'border-charcoal-200 hover:border-charcoal-300'
                       }`}
                     >
-                      <div className="flex flex-col md:flex-row">
+                      <div 
+                        className="flex flex-col md:flex-row cursor-pointer"
+                        onClick={() => setSelectedRoom(room)}
+                      >
                         <div className="md:w-48 h-40 md:h-auto flex-shrink-0">
                           <img
                             src={`https://picsum.photos/id/${20 + idx}/400/300`}
@@ -395,12 +404,6 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ lang }) => {
                                   <i className="fas fa-users text-brand-800"></i>
                                   {room.capacity} {isArabic ? 'ضيوف' : 'guests'}
                                 </span>
-                                <span className="flex items-center gap-1">
-                                  <i className="fas fa-ruler-combined text-brand-800"></i>
-                                  {room.sizeSqm || room.size
-                                    ? `${room.sizeSqm || room.size} ${isArabic ? 'م²' : 'm²'}`
-                                    : isArabic ? 'غير محدد' : 'Not specified'}
-                                </span>
                               </div>
                             </div>
                             {selectedRoom?.id === room.id && (
@@ -408,18 +411,6 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ lang }) => {
                                 <i className="fas fa-check text-white text-xs"></i>
                               </div>
                             )}
-                          </div>
-
-                          <div className="flex flex-wrap gap-2 mb-4">
-                            {Object.entries(ROOM_AMENITY_ICONS).slice(0, 4).map(([key, item]) => (
-                              <span
-                                key={key}
-                                className="inline-flex items-center gap-1 text-xs text-charcoal-600 bg-charcoal-100 px-2 py-1 rounded-lg"
-                              >
-                                <i className={`fas ${item.icon} text-charcoal-500`}></i>
-                                {isArabic ? item.labelAr : item.label}
-                              </span>
-                            ))}
                           </div>
 
                           <div className="flex flex-wrap gap-2 mb-4">
@@ -445,23 +436,83 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ lang }) => {
                                 /{isArabic ? 'ليلة' : 'night'}
                               </span>
                             </div>
-                            <Button
-                              variant={selectedRoom?.id === room.id ? 'primary' : 'secondary'}
-                              size="sm"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setSelectedRoom(room);
-                              }}
-                            >
-                              {selectedRoom?.id === room.id
-                                ? isArabic ? 'تم الاختيار' : 'Selected'
-                                : isArabic ? 'اختيار' : 'Select'}
-                            </Button>
+                            <div className="flex items-center gap-2">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  toggleRoomDetails(room.id);
+                                }}
+                                className="text-sm text-brand-800 hover:text-brand-900 font-medium flex items-center gap-1 transition-colors"
+                              >
+                                {isArabic ? 'تفاصيل أكثر' : 'More details'}
+                                <i className={`fas fa-chevron-down text-xs transition-transform ${isExpanded ? 'rotate-180' : ''}`}></i>
+                              </button>
+                              <Button
+                                variant={selectedRoom?.id === room.id ? 'primary' : 'secondary'}
+                                size="sm"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setSelectedRoom(room);
+                                }}
+                              >
+                                {selectedRoom?.id === room.id
+                                  ? isArabic ? 'تم الاختيار' : 'Selected'
+                                  : isArabic ? 'اختيار' : 'Select'}
+                              </Button>
+                            </div>
                           </div>
                         </div>
                       </div>
+
+                      {isExpanded && (
+                        <div className="border-t border-charcoal-100 bg-cream-50 p-4 md:p-6">
+                          <h4 className="text-lg font-semibold text-charcoal-900 mb-4">
+                            {isArabic ? 'تفاصيل الغرفة' : 'Room Details'}
+                          </h4>
+                          
+                          <div className="space-y-3 mb-5">
+                            {(room.sizeSqm || room.size) && (
+                              <div className="flex items-center gap-2 text-charcoal-700">
+                                <i className="fas fa-ruler-combined text-brand-800 w-5"></i>
+                                <span className="font-medium">{isArabic ? 'مساحة الغرفة:' : 'Room size:'}</span>
+                                <span>{room.sizeSqm || room.size} {isArabic ? 'م²' : 'm²'}</span>
+                              </div>
+                            )}
+                            <div className="flex items-center gap-2 text-charcoal-700">
+                              <i className="fas fa-bed text-brand-800 w-5"></i>
+                              <span className="font-medium">{isArabic ? 'نوع السرير:' : 'Bed type:'}</span>
+                              <span>{room.bedType}</span>
+                            </div>
+                            <div className="flex items-center gap-2 text-charcoal-700">
+                              <i className="fas fa-users text-brand-800 w-5"></i>
+                              <span className="font-medium">{isArabic ? 'الحد الأقصى للنزلاء:' : 'Max guests:'}</span>
+                              <span>{room.capacity} {isArabic ? 'ضيوف' : 'guests'}</span>
+                            </div>
+                          </div>
+
+                          <p className="text-charcoal-600 mb-5 leading-relaxed">
+                            {isArabic 
+                              ? `غرفة واسعة ومريحة مع تكييف، واي فاي مجاني، تلفاز ذكي${room.breakfastIncluded ? '، وإفطار مشمول' : ''}.`
+                              : `Spacious and comfortable room with air conditioning, free WiFi, smart TV${room.breakfastIncluded ? ', and breakfast included' : ''}.`
+                            }
+                          </p>
+
+                          <div className="flex flex-wrap gap-2">
+                            {Object.entries(ROOM_AMENITY_ICONS).map(([key, item]) => (
+                              <span
+                                key={key}
+                                className="inline-flex items-center gap-2 text-sm text-charcoal-700 bg-white border border-charcoal-200 px-3 py-2 rounded-xl"
+                              >
+                                <i className={`fas ${item.icon} text-brand-800`}></i>
+                                {isArabic ? item.labelAr : item.label}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
-                  ))}
+                  );
+                  })}
                 </div>
               </div>
             </section>
