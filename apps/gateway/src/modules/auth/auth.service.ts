@@ -35,7 +35,7 @@ export class AuthService {
     const user = await this.db.user.create({
       data: {
         email: data.email,
-        password: passwordHash,
+        passwordHash: passwordHash,
         name: data.name,
         phone: data.phone,
       },
@@ -67,11 +67,11 @@ export class AuthService {
       where: { email: data.email },
     });
 
-    if (!user || !user.password) {
+    if (!user || !user.passwordHash) {
       throw new UnauthorizedException('Invalid email or password');
     }
 
-    const isValid = await bcrypt.compare(data.password, user.password);
+    const isValid = await bcrypt.compare(data.password, user.passwordHash);
     if (!isValid) {
       throw new UnauthorizedException('Invalid email or password');
     }

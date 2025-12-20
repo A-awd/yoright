@@ -1,5 +1,5 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { PaymentStatus, BookingStatus } from '@prisma/client';
+import { BookingStatus } from '@prisma/client';
 import { FlagsService } from '../../core/flags/flags.service';
 import { TapMockService } from './tap-mock.service';
 import { BookingsService } from '../bookings/bookings.service';
@@ -29,12 +29,12 @@ export class PaymentsService {
 
     await this.db.payment.create({
       data: {
-        providerIntentId: intentResponse.intentId,
+        intentId: intentResponse.intentId,
         bookingId: booking.id,
         amount: data.amount,
         currency: data.currency || 'SAR',
-        provider: 'TAP',
-        rawJson: data.metadata || null,
+        method: 'TAP',
+        metadata: data.metadata || null,
       },
     });
 
@@ -43,7 +43,7 @@ export class PaymentsService {
 
   async getPayment(id: string) {
     const payment = await this.db.payment.findFirst({
-      where: { providerIntentId: id },
+      where: { intentId: id },
     });
 
     return payment || this.tapMock.getPayment(id);
@@ -54,19 +54,19 @@ export class PaymentsService {
     
     if (payload.intentId && payload.status === 'PAID') {
       const payment = await this.db.payment.findFirst({
-        where: { providerIntentId: payload.intentId },
+        where: { intentId: payload.intentId },
         include: { booking: true }
       });
 
       if (payment) {
         await this.db.payment.update({
           where: { id: payment.id },
-          data: { status: PaymentStatus.SUCCEEDED },
+          data: { status: 'SUCCEEDED' },
         });
 
         await this.bookingsService.updateBookingStatus(
           payment.booking.reference,
-          BookingStatus.PAID
+          BookingStatus.CONFIRMED
         );
       }
     }

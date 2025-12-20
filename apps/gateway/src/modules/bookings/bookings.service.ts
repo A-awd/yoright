@@ -4,16 +4,20 @@ import { BookingStatus } from '@prisma/client';
 
 interface CreateBookingDto {
   hotelId: string;
-  cityId: string;
-  roomData: Record<string, any>;
+  roomId?: string;
+  roomData?: Record<string, any>;
   guestInfo: Record<string, any>;
   checkIn: string;
   checkOut: string;
   total: number;
   vat: number;
+  netPrice?: number;
   currency?: string;
   userId?: string;
-  supplier?: string;
+  hotelName?: string;
+  nights?: number;
+  adults?: number;
+  children?: number;
 }
 
 @Injectable()
@@ -24,21 +28,27 @@ export class BookingsService {
 
   async createBooking(data: CreateBookingDto) {
     const reference = this.generateReference();
+    const netPrice = data.netPrice || data.total - data.vat;
     
     const booking = await this.db.booking.create({
       data: {
         reference,
-        cityId: data.cityId,
         hotelId: data.hotelId,
-        roomJson: data.roomData || {},
-        guestJson: data.guestInfo || {},
+        hotelName: data.hotelName,
+        roomId: data.roomId || 'default',
+        roomSnapshot: data.roomData || {},
+        guestInfo: data.guestInfo || {},
         checkIn: new Date(data.checkIn),
         checkOut: new Date(data.checkOut),
+        nights: data.nights || 1,
+        adults: data.adults || 2,
+        children: data.children || 0,
+        netPrice: netPrice,
+        subtotal: data.total - data.vat,
         total: data.total,
         vat: data.vat || 0,
         currency: data.currency || 'SAR',
         userId: data.userId || undefined,
-        supplier: data.supplier || 'RATEHAWK',
       },
     });
 
@@ -54,7 +64,6 @@ export class BookingsService {
         user: {
           select: { id: true, name: true, email: true, phone: true }
         },
-        city: true,
       }
     });
 
@@ -72,9 +81,6 @@ export class BookingsService {
         payments: {
           select: { id: true, status: true, amount: true }
         },
-        city: {
-          select: { nameEn: true, nameAr: true }
-        }
       }
     });
   }
@@ -94,9 +100,6 @@ export class BookingsService {
         payments: {
           select: { id: true, status: true, amount: true }
         },
-        city: {
-          select: { nameEn: true, nameAr: true }
-        }
       }
     });
   }
@@ -105,7 +108,7 @@ export class BookingsService {
     const updateData: any = { status };
     
     if (status === 'CONFIRMED') {
-      updateData.paidAt = new Date();
+      updateData.confirmedAt = new Date();
     } else if (status === 'CANCELLED') {
       updateData.cancelledAt = new Date();
     }
