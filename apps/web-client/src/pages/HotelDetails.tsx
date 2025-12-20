@@ -413,16 +413,16 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ lang }) => {
                             )}
                           </div>
 
-                          <div className="flex flex-wrap gap-2 mb-4">
+                          <div className="flex flex-wrap gap-3 mb-4">
                             {room.breakfastIncluded && (
                               <Badge variant="success" size="sm">
-                                <i className="fas fa-utensils mr-1"></i>
+                                <i className="fas fa-utensils mr-1.5"></i>
                                 {isArabic ? 'إفطار مشمول' : 'Breakfast Included'}
                               </Badge>
                             )}
                             {room.freeCancellation && (
                               <Badge variant="success" size="sm">
-                                <i className="fas fa-undo mr-1"></i>
+                                <i className="fas fa-undo mr-1.5"></i>
                                 {isArabic ? 'إلغاء مجاني' : 'Free Cancellation'}
                               </Badge>
                             )}
@@ -470,20 +470,20 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ lang }) => {
                             {isArabic ? 'تفاصيل الغرفة' : 'Room Details'}
                           </h4>
                           
-                          <div className="space-y-3 mb-5">
+                          <div className="space-y-2 mb-4">
                             {(room.sizeSqm || room.size) && (
-                              <div className="flex items-center gap-2 text-charcoal-700">
+                              <div className="flex items-center gap-1.5 text-charcoal-700">
                                 <i className="fas fa-ruler-combined text-brand-800 w-5"></i>
                                 <span className="font-medium">{isArabic ? 'مساحة الغرفة:' : 'Room size:'}</span>
                                 <span>{room.sizeSqm || room.size} {isArabic ? 'م²' : 'm²'}</span>
                               </div>
                             )}
-                            <div className="flex items-center gap-2 text-charcoal-700">
+                            <div className="flex items-center gap-1.5 text-charcoal-700">
                               <i className="fas fa-bed text-brand-800 w-5"></i>
                               <span className="font-medium">{isArabic ? 'نوع السرير:' : 'Bed type:'}</span>
                               <span>{room.bedType}</span>
                             </div>
-                            <div className="flex items-center gap-2 text-charcoal-700">
+                            <div className="flex items-center gap-1.5 text-charcoal-700">
                               <i className="fas fa-users text-brand-800 w-5"></i>
                               <span className="font-medium">{isArabic ? 'الحد الأقصى للنزلاء:' : 'Max guests:'}</span>
                               <span>{room.capacity} {isArabic ? 'ضيوف' : 'guests'}</span>
