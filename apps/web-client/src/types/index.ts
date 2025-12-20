@@ -40,6 +40,8 @@ export interface Room {
   bedType: string;
   breakfastIncluded: boolean;
   freeCancellation: boolean;
+  size?: number | string;
+  sizeSqm?: number;
 }
 
 export interface Hotel {

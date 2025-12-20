@@ -386,7 +386,7 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ lang }) => {
                               <h3 className="text-xl font-semibold text-charcoal-900 mb-1">
                                 {isArabic ? room.nameAr : room.nameEn}
                               </h3>
-                              <div className="flex items-center gap-4 text-sm text-charcoal-600">
+                              <div className="flex items-center gap-4 text-sm text-charcoal-600 flex-wrap">
                                 <span className="flex items-center gap-1">
                                   <i className="fas fa-bed text-brand-800"></i>
                                   {room.bedType}
@@ -394,6 +394,12 @@ const HotelDetails: React.FC<HotelDetailsProps> = ({ lang }) => {
                                 <span className="flex items-center gap-1">
                                   <i className="fas fa-users text-brand-800"></i>
                                   {room.capacity} {isArabic ? 'ضيوف' : 'guests'}
+                                </span>
+                                <span className="flex items-center gap-1">
+                                  <i className="fas fa-ruler-combined text-brand-800"></i>
+                                  {room.sizeSqm || room.size
+                                    ? `${room.sizeSqm || room.size} ${isArabic ? 'م²' : 'm²'}`
+                                    : isArabic ? 'غير محدد' : 'Not specified'}
                                 </span>
                               </div>
                             </div>
