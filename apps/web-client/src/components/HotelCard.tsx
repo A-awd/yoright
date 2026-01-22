@@ -93,10 +93,10 @@ export const HotelCard: React.FC<HotelCardProps> = ({
 
   return (
     <div
-      className="group bg-white rounded-3xl shadow-card hover:shadow-card-hover transition-all duration-300 overflow-hidden cursor-pointer"
+      className="group bg-white rounded-3xl shadow-card hover:shadow-card-hover transition-all duration-300 overflow-hidden cursor-pointer h-full flex flex-col"
       onClick={() => navigate(`/hotel/${id}`)}
     >
-      <div className="relative aspect-[4/3] overflow-hidden">
+      <div className="relative aspect-[4/3] overflow-hidden flex-shrink-0">
         <img
           src={image}
           alt={name}
@@ -132,28 +132,28 @@ export const HotelCard: React.FC<HotelCardProps> = ({
         </div>
       </div>
 
-      <div className="p-5">
-        <h3 className="font-display text-xl font-semibold text-charcoal-900 mb-2 line-clamp-1">
+      <div className="p-5 flex flex-col flex-grow">
+        <h3 className="font-display text-lg font-semibold text-charcoal-900 mb-2 line-clamp-2 min-h-[3.5rem]">
           {name}
         </h3>
 
         <div className="flex items-center gap-1.5 text-charcoal-500 mb-2">
           <LocationIcon className="w-4 h-4 flex-shrink-0" />
-          <span className="text-sm">{city}, {country}</span>
+          <span className="text-sm line-clamp-1">{city}, {country}</span>
         </div>
 
         {tagline && (
-          <p className="text-sm text-charcoal-400 mb-3">{tagline}</p>
+          <p className="text-sm text-charcoal-400 mb-3 line-clamp-1">{tagline}</p>
         )}
 
-        <div className="mb-4">
-          <Rating rating={rating} reviewCount={reviewCount} size="sm" />
+        <div className="mb-3">
+          <Rating rating={rating || 0} reviewCount={reviewCount || 0} size="sm" />
         </div>
 
-        <div className="flex items-center justify-between pt-4 border-t border-charcoal-100">
+        <div className="flex items-center justify-between pt-4 border-t border-charcoal-100 mt-auto">
           <div>
             <span className="text-brand-900 font-display text-2xl font-bold">
-              {pricePerNight.toLocaleString()}
+              {(pricePerNight || 0).toLocaleString()}
             </span>
             <span className="text-charcoal-500 text-sm ml-1">
               {currency} / {isArabic ? 'ليلة' : 'night'}
