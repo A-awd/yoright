@@ -396,8 +396,8 @@ const SearchResults: React.FC<SearchResultsProps> = ({ lang }) => {
                         id={hotel.id}
                         nameAr={hotel.nameAr}
                         nameEn={hotel.nameEn}
-                        cityAr={hotel.location.addressAr.split(',')[0] || ''}
-                        cityEn={hotel.location.addressEn.split(',')[0] || ''}
+                        cityAr={(hotel.location?.addressAr || '').split(',')[0] || ''}
+                        cityEn={(hotel.location?.addressEn || '').split(',')[0] || ''}
                         countryAr="السعودية"
                         countryEn="Saudi Arabia"
                         image={hotel.thumbnail}
@@ -424,7 +424,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ lang }) => {
                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                           />
                           <div className="absolute bottom-3 left-3 flex gap-0.5">
-                            {Array.from({ length: hotel.stars }).map((_, i) => (
+                            {Array.from({ length: hotel.stars || 0 }).map((_, i) => (
                               <svg key={i} className="w-4 h-4 text-brand-600" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                               </svg>
@@ -439,19 +439,19 @@ const SearchResults: React.FC<SearchResultsProps> = ({ lang }) => {
                           <div className="flex items-center gap-1.5 text-charcoal-500 mb-2">
                             <LocationIcon />
                             <span className="text-sm">
-                              {isArabic ? hotel.location.addressAr : hotel.location.addressEn}
+                              {isArabic ? (hotel.location?.addressAr || '') : (hotel.location?.addressEn || '')}
                             </span>
                           </div>
                           <div className="flex items-center gap-2 mb-3">
                             <span className="bg-brand-800 text-charcoal-950 px-2 py-1 rounded-lg text-sm font-semibold">
-                              {hotel.rating}
+                              {hotel.rating || 0}
                             </span>
                             <span className="text-sm text-charcoal-500">
-                              ({hotel.reviewCount} {isArabic ? 'تقييم' : 'reviews'})
+                              ({hotel.reviewCount || 0} {isArabic ? 'تقييم' : 'reviews'})
                             </span>
                           </div>
                           <div className="flex flex-wrap gap-2">
-                            {hotel.amenities.slice(0, 4).map((amenity) => (
+                            {(hotel.amenities || []).slice(0, 4).map((amenity) => (
                               <span
                                 key={amenity}
                                 className="text-xs bg-cream-100 text-charcoal-600 px-2.5 py-1 rounded-full"
@@ -459,9 +459,9 @@ const SearchResults: React.FC<SearchResultsProps> = ({ lang }) => {
                                 {amenity}
                               </span>
                             ))}
-                            {hotel.amenities.length > 4 && (
+                            {(hotel.amenities || []).length > 4 && (
                               <span className="text-xs text-charcoal-400">
-                                +{hotel.amenities.length - 4} {isArabic ? 'المزيد' : 'more'}
+                                +{(hotel.amenities || []).length - 4} {isArabic ? 'المزيد' : 'more'}
                               </span>
                             )}
                           </div>
