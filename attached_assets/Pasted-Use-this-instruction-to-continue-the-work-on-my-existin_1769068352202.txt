@@ -1,0 +1,64 @@
+Use this instruction to continue the work on my existing YoRight project. Do not create a new project and do not change any UI design or layout. Only connect my existing hotel search and booking flows to the RateHawk sandbox API.
+	1.	RateHawk sandbox credentials
+
+	•	I already received a sandbox API key from RateHawk:
+	•	API key ID (username): 178
+	•	API key token (password): e9f483d9-2909-4245-86ba-18c3cc751dba
+	•	In the backend, configure HTTP Basic Authentication for all RateHawk API calls, where:
+	•	basic auth username = 178
+	•	basic auth password = e9f483d9-2909-4245-86ba-18c3cc751dba
+	•	Do not hardcode these values directly in the code. Store them in Replit Secrets as environment variables, for example:
+	•	RATEHAWK_API_ID = 178
+	•	RATEHAWK_API_TOKEN = e9f483d9-2909-4245-86ba-18c3cc751dba
+Then read them from the environment in the backend.
+
+	2.	Use sandbox environment only
+
+	•	Use only the sandbox endpoints and base URL from the official RateHawk documentation (api-sandbox).
+	•	Do not call any production endpoints yet.
+	•	Follow the docs sent by RateHawk:
+	•	API Documentation
+	•	Sandbox Documentation
+	•	Sandbox Integration Guide
+	•	Sandbox Best Practices
+	•	Pre-Certification Checklist
+
+	3.	Hotel search and results
+
+	•	Replace all fake or hardcoded hotel and room data in my app with real data from RateHawk sandbox.
+	•	When a user searches for a city, dates, and guests in YoRight, call the appropriate RateHawk sandbox search / availability methods and map the response into my existing hotel cards and room cards.
+	•	Keep all existing components and styling exactly as they are. Only change the data source.
+
+	4.	Booking flow and status handling
+Implement the booking flow according to RateHawk’s recommendations:
+
+	•	Use the correct sequence: search → prebooking → booking → check booking status.
+	•	Do not use the “Retrieve bookings” method during the booking process.
+	•	“Retrieve bookings” must only be used to fetch booking information after the booking is already completed (for example in a “My bookings” page).
+	•	Do not rely on “Retrieve bookings” to confirm that a booking succeeded.
+	•	For the final booking status, implement:
+	•	The “Check booking process” call, and
+	•	A booking status webhook handler (if possible in this project).
+	•	In the booking flow, consider the booking successful only when:
+	•	“Check booking process” returns status = “ok”, or
+	•	The booking status webhook sends status = “completed”.
+	•	Handle and display error states to the user if the booking fails or returns any other status.
+
+	5.	Webhook endpoint
+
+	•	If technically possible in this Replit setup, create a secure webhook endpoint in the backend to receive booking status updates from RateHawk sandbox.
+	•	Validate the incoming webhook, store the booking status in our database or in-memory store, and make it available to the frontend so the user can see the final confirmation state.
+
+	6.	Code quality and configuration
+
+	•	Keep the code organized: create a dedicated RateHawk API client module that wraps all calls (search, prebooking, booking, check booking process, retrieve bookings, etc.).
+	•	Add basic logging for all outbound requests and responses (without logging secrets) to help with debugging during sandbox integration.
+	•	Make sure all timeouts, retries, and error handling follow RateHawk best practices from their documentation.
+
+	7.	Do not touch unrelated parts of the app
+
+	•	Do not modify any branding, colors, layout, or navigation.
+	•	Do not remove or rename existing pages or components.
+	•	Only add the minimum backend and integration logic required to make YoRight use RateHawk sandbox for hotels and bookings in a stable way, ready for the later certification stage.
+
+After you implement this, summarize for me in simple language which endpoints you connected, how the booking status is determined, and where I should configure or change anything (for example environment variables) if needed.

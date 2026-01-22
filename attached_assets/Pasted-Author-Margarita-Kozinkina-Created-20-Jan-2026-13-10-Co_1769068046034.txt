@@ -1,0 +1,59 @@
+Author: Margarita Kozinkina
+
+Created: 20 Jan 2026 13:10
+
+Comment: Hello Abdulrahman and team,
+
+I hope this email finds you well. I'm Margarita from the ETG team, and I'm reaching out to you regarding the upcoming integration development.
+
+Please be informed that the sandbox API key has been issued. The API key - 178:e9f483d9-2909-4245-86ba-18c3cc751dba, where:
+
+178 - API key ID. Use it as an HTTP Basic Authentication username.
+
+e9f483d9-2909-4245-86ba-18c3cc751dba - API key access token. Use it as an HTTP Basic Authentication password. 
+
+With this, when do you plan to start the integration development? 
+
+Please find the action plan to go live below:
+
+{}Integration Stage{}: You develop the integration itself. During this stage, please use this opportunity to ask us as many questions as possible regarding integration logic. We are glad to assist!
+
+{}Certification Stage{}: We verify the integration implementation and, if necessary, request adjustments to ensure compliance. Please note that certification is conducted via email, as we prioritize quality control and allow partners sufficient time to adjust their development as needed.
+
+{}Launch Stage{}: Once the certification is completed, we issue the production API keys for you to go live with. 
+
+We will remain available throughout this journey to assist you with any questions or concerns you may have. Please don't hesitate to contact us at apisupport@ratehawk.com.
+
+I'm sending our API Documentation, Sandbox Documentation, Integration and Certification Guidelines, Best Practices, and Pre-Certification Checklist.
+
+{}API Documentation{}: https://docs.emergingtravel.com 
+
+{}API Documentation for Sandbox{}: https://docs.emergingtravel.com/docs/sandbox/ 
+
+{}Integration and Certification Guidelines{}: https://docs.emergingtravel.com/docs/sandbox/sandbox-integration-guide/ 
+
+{}Best Practices{}: https://docs.emergingtravel.com/docs/sandbox/sandbox-best-practices-for-apiv3/ 
+
+{}Pre-Certification Checklist{}: https://docs.google.com/document/d/1jCsIKai6qd7ze-TyKh4hPV8EUpzGjjwuh3MvC9_163c/edit?tab=t.0 
+
+Additionally, after reviewing your responses to the Pre-Integration Questionnaire, I would like to share our integration recommendations:
+
+Retrieve bookings
+
+In the questionnaire, you specified that you require the extraction of booking order details via API and expect the rate details to change during booking. 
+
+Since you need to retrieve order details through the API, please be informed that our "Retrieve bookings" API method is meant to retrieve booking information {}after the booking process has been completed{}; {}it should not be used during the booking process ({}{}as the details of the rate won't change during booking, they can only change during prebooking{}{}){}. Due to internal synchronization processes, we cannot guarantee that a response from the "Retrieve bookings" method will be returned right after the order is confirmed. 
+
+I want to note that the final booking status should be obtained through the "Check booking process" call or by receiving the booking status webhook. Only the "ok" status in the "Check booking process" response or "completed" status in the webhook should indicate successful order creation and booking confirmation. 
+
+Please consider these points as you move forward with the integration.
+
+Please let me know if you have any questions or concerns; I will be happy to assist.
+
+ 
+
+Best regards, 
+
+Margarita Kozinkina 
+
+Integration Launch Specialist 
