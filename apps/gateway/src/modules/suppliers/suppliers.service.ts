@@ -129,7 +129,47 @@ export class SuppliersService {
     }
     
     this.logger.log(`RateHawk returned ${response.hotels.length} hotels`);
-    return this.ratehawkApi.transformSearchResponse(response.hotels);
+    
+    const transformedHotels = this.ratehawkApi.transformSearchResponse(response.hotels);
+    
+    const hotelIds = response.hotels.slice(0, 20).map((h: any) => h.id || h.hid);
+    this.logger.log(`Fetching static info for first ${hotelIds.length} hotels...`);
+    
+    try {
+      const hotelInfoMap = await this.ratehawkApi.getHotelsInfoBatch(hotelIds);
+      this.logger.log(`Got static info for ${hotelInfoMap.size} hotels`);
+      const mapKeys = Array.from(hotelInfoMap.keys()).slice(0, 3);
+      this.logger.log(`Map keys sample: ${JSON.stringify(mapKeys)}`);
+      
+      return transformedHotels.map((hotel: any) => {
+        const staticInfo = hotelInfoMap.get(hotel.id) || hotelInfoMap.get(hotel.hid?.toString());
+        if (staticInfo) {
+          this.logger.log(`Found static info for hotel: ${hotel.id}, images count: ${staticInfo.images?.length || 0}`);
+          return {
+            ...hotel,
+            nameAr: staticInfo.name || hotel.nameAr,
+            nameEn: staticInfo.name || hotel.nameEn,
+            stars: staticInfo.star_rating || hotel.stars,
+            location: {
+              ...hotel.location,
+              addressAr: staticInfo.address || hotel.location.addressAr,
+              addressEn: staticInfo.address || hotel.location.addressEn,
+              lat: staticInfo.latitude || hotel.location.lat,
+              lng: staticInfo.longitude || hotel.location.lng,
+            },
+            thumbnail: staticInfo.images?.[0]?.replace('{size}', '640x400') || hotel.thumbnail,
+            images: (staticInfo.images || []).map((img: string) => img.replace('{size}', '1024x768')).slice(0, 10) || hotel.images,
+            amenities: staticInfo.amenity_groups?.flatMap((g: any) => g.amenities?.map((a: any) => a.title) || []).slice(0, 10) || hotel.amenities,
+            rating: staticInfo.serp_filters?.reviews_rating || staticInfo.review_score || hotel.rating,
+            reviewCount: staticInfo.reviews_count || hotel.reviewCount,
+          };
+        }
+        return hotel;
+      });
+    } catch (error) {
+      this.logger.warn(`Failed to fetch hotel static info: ${error.message}`);
+      return transformedHotels;
+    }
   }
 
   async getHotelDetails(id: string, params?: Partial<SearchParams>) {

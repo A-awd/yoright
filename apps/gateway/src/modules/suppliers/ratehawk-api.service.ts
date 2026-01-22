@@ -162,6 +162,46 @@ export class RatehawkApiService {
     return this.makeRequest('/search/multicomplete/', requestBody);
   }
 
+  async getHotelInfo(hotelId: string | number, language: string = 'en'): Promise<any> {
+    const requestBody: any = {
+      language,
+    };
+
+    if (typeof hotelId === 'number' || /^\d+$/.test(hotelId.toString())) {
+      requestBody.hid = hotelId.toString();
+    } else {
+      requestBody.id = hotelId;
+    }
+
+    this.logger.log(`Getting hotel info for: ${hotelId}`);
+    return this.makeRequest('/hotel/info/', requestBody);
+  }
+
+  async getHotelsInfoBatch(hotelIds: (string | number)[], language: string = 'en'): Promise<Map<string, any>> {
+    const hotelInfoMap = new Map<string, any>();
+    
+    const batchSize = 5;
+    for (let i = 0; i < Math.min(hotelIds.length, 20); i += batchSize) {
+      const batch = hotelIds.slice(i, i + batchSize);
+      const promises = batch.map(id => 
+        this.getHotelInfo(id, language).catch(err => {
+          this.logger.warn(`Failed to get info for hotel ${id}: ${err.message}`);
+          return null;
+        })
+      );
+      
+      const results = await Promise.all(promises);
+      results.forEach((result, idx) => {
+        if (result) {
+          const id = batch[idx];
+          hotelInfoMap.set(id.toString(), result);
+        }
+      });
+    }
+    
+    return hotelInfoMap;
+  }
+
   async prebook(params: RatehawkPrebookParams): Promise<any> {
     const requestBody = {
       hash: params.hash,
