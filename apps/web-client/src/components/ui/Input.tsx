@@ -66,9 +66,9 @@ export const Input: React.FC<InputProps> = ({
           onFocus={handleFocus}
           onBlur={handleBlur}
           className={`
-            w-full px-4 py-3.5 rounded-2xl
+            w-full px-4 h-12 rounded-xl
             bg-white border-2 transition-all duration-200
-            text-charcoal-900 placeholder:text-charcoal-400
+            text-charcoal-700 text-sm font-medium placeholder:text-charcoal-400
             focus:outline-none focus:ring-0
             ${leftIcon ? 'pl-12' : ''}
             ${rightIcon ? 'pr-12' : ''}

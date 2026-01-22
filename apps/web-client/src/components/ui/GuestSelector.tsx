@@ -242,21 +242,18 @@ export const GuestSelector: React.FC<GuestSelectorProps> = ({
         type="button"
         onClick={() => setIsOpen(true)}
         className={`
-          w-full flex items-center justify-between px-4 py-3.5
-          bg-white rounded-2xl border-2 transition-all duration-200
+          w-full flex items-center gap-2 px-4 h-12
+          bg-white rounded-xl border-2 transition-all duration-200
           border-charcoal-200 hover:border-charcoal-300
           ${className}
         `}
       >
-        <div className="flex items-center gap-3">
-          <span className="text-charcoal-400">
-            <UsersIcon />
-          </span>
-          <div className="text-start">
-            <p className="text-xs font-medium text-charcoal-500">{t.search.guests}</p>
-            <p className="text-charcoal-900 font-medium text-sm">{getSummaryText()}</p>
-          </div>
-        </div>
+        <span className="text-charcoal-400">
+          <UsersIcon />
+        </span>
+        <span className="text-charcoal-700 text-sm font-medium truncate flex-1 text-start">
+          {getSummaryText()}
+        </span>
         <span className="text-charcoal-400">
           <ChevronDown />
         </span>

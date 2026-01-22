@@ -294,8 +294,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     <>
       <div
         className={`
-          flex bg-white rounded-2xl border-2 border-charcoal-200 
-          hover:border-charcoal-300 transition-colors overflow-hidden
+          flex gap-2
           ${layout === 'vertical' ? 'flex-col' : 'flex-row'}
           ${className}
         `}
@@ -303,40 +302,27 @@ export const DatePicker: React.FC<DatePickerProps> = ({
         <button
           type="button"
           onClick={() => setShowCheckIn(true)}
-          className={`
-            relative flex-1 text-start hover:bg-cream-50 transition-colors
-            ${layout === 'horizontal' ? 'border-e-2 border-charcoal-200' : 'border-b-2 border-charcoal-200'}
-          `}
+          className="flex-1 flex items-center gap-2 px-4 h-12 bg-white rounded-xl border-2 border-charcoal-200 hover:border-charcoal-300 transition-colors"
         >
-          <span className="absolute start-4 top-2 text-xs font-medium text-charcoal-500">
-            {t.search.checkIn}
+          <span className="text-charcoal-400">
+            <CalendarIcon />
           </span>
-          <div className="flex items-center px-4 pt-6 pb-3">
-            <span className="text-charcoal-400 me-3">
-              <CalendarIcon />
-            </span>
-            <span className="text-charcoal-900 font-medium">
-              {formatDateDisplay(checkInDate)}
-            </span>
-          </div>
+          <span className="text-charcoal-700 text-sm font-medium truncate">
+            {formatDateDisplay(checkInDate)}
+          </span>
         </button>
 
         <button
           type="button"
           onClick={() => setShowCheckOut(true)}
-          className="relative flex-1 text-start hover:bg-cream-50 transition-colors"
+          className="flex-1 flex items-center gap-2 px-4 h-12 bg-white rounded-xl border-2 border-charcoal-200 hover:border-charcoal-300 transition-colors"
         >
-          <span className="absolute start-4 top-2 text-xs font-medium text-charcoal-500">
-            {t.search.checkOut}
+          <span className="text-charcoal-400">
+            <CalendarIcon />
           </span>
-          <div className="flex items-center px-4 pt-6 pb-3">
-            <span className="text-charcoal-400 me-3">
-              <CalendarIcon />
-            </span>
-            <span className="text-charcoal-900 font-medium">
-              {formatDateDisplay(checkOutDate)}
-            </span>
-          </div>
+          <span className="text-charcoal-700 text-sm font-medium truncate">
+            {formatDateDisplay(checkOutDate)}
+          </span>
         </button>
       </div>
 

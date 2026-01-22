@@ -219,22 +219,22 @@ const Home: React.FC<HomeProps> = ({ lang }) => {
             </p>
           </div>
 
-          <div className="w-full max-w-4xl bg-white/95 backdrop-blur-lg rounded-2xl md:rounded-3xl shadow-luxury-xl p-5 md:p-6 mx-4 animate-slide-up">
-            <div className="flex flex-col lg:flex-row gap-4 items-end">
-              <div className="flex-1 w-full lg:w-auto">
-                <label className="block text-xs font-semibold text-charcoal-600 mb-1.5 uppercase tracking-wide">
+          <div className="w-full max-w-4xl bg-white/95 backdrop-blur-lg rounded-2xl shadow-luxury-xl p-4 md:p-5 mx-4 animate-slide-up">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+              <div className="lg:col-span-1">
+                <label className="block text-xs font-semibold text-charcoal-500 mb-1.5">
                   {isArabic ? 'الوجهة' : 'Destination'}
                 </label>
                 <Input
-                  placeholder={isArabic ? 'إلى أين تريد الذهاب؟' : 'Where to?'}
+                  placeholder={isArabic ? 'إلى أين؟' : 'Where to?'}
                   value={destination}
                   onChange={(e) => setDestination(e.target.value)}
                   className="w-full"
                 />
               </div>
               
-              <div className="flex-1 w-full lg:w-auto">
-                <label className="block text-xs font-semibold text-charcoal-600 mb-1.5 uppercase tracking-wide">
+              <div className="lg:col-span-2">
+                <label className="block text-xs font-semibold text-charcoal-500 mb-1.5">
                   {isArabic ? 'التواريخ' : 'Dates'}
                 </label>
                 <DatePicker
@@ -247,8 +247,8 @@ const Home: React.FC<HomeProps> = ({ lang }) => {
                 />
               </div>
 
-              <div className="flex-1 w-full lg:w-auto">
-                <label className="block text-xs font-semibold text-charcoal-600 mb-1.5 uppercase tracking-wide">
+              <div className="lg:col-span-1">
+                <label className="block text-xs font-semibold text-charcoal-500 mb-1.5">
                   {isArabic ? 'الضيوف' : 'Guests'}
                 </label>
                 <GuestSelector
@@ -262,15 +262,12 @@ const Home: React.FC<HomeProps> = ({ lang }) => {
                 />
               </div>
               
-              <div className="flex-shrink-0 w-full lg:w-auto">
-                <label className="block text-xs font-semibold text-charcoal-600 mb-1.5 opacity-0 pointer-events-none uppercase tracking-wide">
-                  Search
-                </label>
+              <div className="lg:col-span-1 flex items-end">
                 <Button
                   size="lg"
                   onClick={handleSearch}
                   leftIcon={<SearchIcon />}
-                  className="w-full lg:w-auto px-8 h-12"
+                  className="w-full h-12"
                 >
                   {isArabic ? 'بحث' : 'Search'}
                 </Button>
