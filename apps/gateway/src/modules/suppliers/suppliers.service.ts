@@ -195,6 +195,83 @@ export class SuppliersService {
     return this.ratehawkApi.getOrderStatus(orderId);
   }
 
+  async bookingForm(partnerOrderId: string, bookHash: string, language: string = 'en') {
+    this.logger.log(`Creating booking form for order: ${partnerOrderId}`);
+    
+    if (this.shouldUseMock()) {
+      return {
+        partnerOrderId,
+        itemId: `mock_item_${Date.now()}`,
+        paymentTypes: [
+          { type: 'deposit', amount: '1500.00', currencyCode: 'SAR' },
+        ],
+        cancellationInfo: {
+          freeCancellationBefore: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+        },
+        hotelData: { name: 'Mock Hotel' },
+        roomData: { name: 'Deluxe Room' },
+      };
+    }
+
+    return this.ratehawkApi.bookingForm(partnerOrderId, bookHash, language);
+  }
+
+  async bookingFinish(params: {
+    partnerOrderId: string;
+    language: string;
+    guests: Array<{
+      firstName: string;
+      lastName: string;
+      isChild?: boolean;
+      age?: number;
+    }>;
+    paymentType: {
+      type: 'deposit' | 'now' | 'hotel';
+      amount: string;
+      currencyCode: string;
+    };
+    userIp?: string;
+  }) {
+    this.logger.log(`Finishing booking for order: ${params.partnerOrderId}`);
+    
+    if (this.shouldUseMock()) {
+      return {
+        orderId: `mock_order_${Date.now()}`,
+        partnerOrderId: params.partnerOrderId,
+        status: 'ok',
+        itemId: `YR-${Date.now().toString(36).toUpperCase()}`,
+      };
+    }
+
+    return this.ratehawkApi.bookingFinish({
+      partnerOrderId: params.partnerOrderId,
+      language: params.language,
+      guests: params.guests.map(g => ({
+        first_name: g.firstName,
+        last_name: g.lastName,
+        is_child: g.isChild,
+        age: g.age,
+      })),
+      paymentType: params.paymentType,
+      userIp: params.userIp,
+    });
+  }
+
+  async checkBookingProcess(partnerOrderId: string) {
+    this.logger.log(`Checking booking process for order: ${partnerOrderId}`);
+    
+    if (this.shouldUseMock()) {
+      return {
+        status: 'ok',
+        orderId: `mock_order_${Date.now()}`,
+        partnerOrderId,
+        itemId: `YR-${Date.now().toString(36).toUpperCase()}`,
+      };
+    }
+
+    return this.ratehawkApi.checkBookingProcess(partnerOrderId);
+  }
+
   async cancelOrder(orderId: string, partnerOrderId?: string) {
     if (this.shouldUseMock()) {
       return {
@@ -205,6 +282,24 @@ export class SuppliersService {
     }
 
     return this.ratehawkApi.cancelOrder(orderId, partnerOrderId);
+  }
+
+  async retrieveBookings(params: {
+    orderId?: string;
+    partnerOrderId?: string;
+    createdFrom?: string;
+    createdTo?: string;
+  }) {
+    this.logger.log('Retrieving bookings for display');
+    
+    if (this.shouldUseMock()) {
+      return {
+        orders: [],
+        total: 0,
+      };
+    }
+
+    return this.ratehawkApi.retrieveBookings(params);
   }
 
   private mockPrebook(params: PrebookParams) {

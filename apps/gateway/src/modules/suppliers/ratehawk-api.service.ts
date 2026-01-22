@@ -47,26 +47,30 @@ interface RatehawkBookParams {
 export class RatehawkApiService {
   private readonly logger = new Logger(RatehawkApiService.name);
   private readonly apiUrl: string;
-  private readonly apiKey: string;
-  private readonly partnerId: string;
+  private readonly apiId: string;
+  private readonly apiToken: string;
 
   constructor(private configService: ConfigService) {
-    this.apiUrl = this.configService.get<string>('RATEHAWK_API_URL') || 'https://api.worldota.net/api/b2b/v3';
-    this.apiKey = this.configService.get<string>('RATEHAWK_API_KEY') || '';
-    this.partnerId = this.configService.get<string>('RATEHAWK_PARTNER_ID') || '';
+    this.apiUrl = this.configService.get<string>('RATEHAWK_API_URL') || 'https://api-sandbox.worldota.net/api/b2b/v3';
+    this.apiId = this.configService.get<string>('RATEHAWK_API_ID') || '';
+    this.apiToken = this.configService.get<string>('RATEHAWK_API_TOKEN') || '';
+    
+    if (this.isConfigured()) {
+      this.logger.log('RateHawk API configured with sandbox credentials');
+    } else {
+      this.logger.warn('RateHawk API credentials not configured - using mock data');
+    }
   }
 
   isConfigured(): boolean {
     return (
-      this.apiKey !== '' &&
-      this.apiKey !== 'TO_BE_ADDED_LATER' &&
-      this.partnerId !== '' &&
-      this.partnerId !== 'TO_BE_ADDED_LATER'
+      this.apiId !== '' &&
+      this.apiToken !== ''
     );
   }
 
   private getAuthHeader(): string {
-    const credentials = Buffer.from(`${this.partnerId}:${this.apiKey}`).toString('base64');
+    const credentials = Buffer.from(`${this.apiId}:${this.apiToken}`).toString('base64');
     return `Basic ${credentials}`;
   }
 
@@ -203,6 +207,95 @@ export class RatehawkApiService {
     return this.makeRequest('/hotel/order/info/', requestBody);
   }
 
+  async checkBookingProcess(partnerOrderId: string): Promise<any> {
+    const requestBody = {
+      partner_order_id: partnerOrderId,
+    };
+
+    this.logger.log(`Checking booking process for partner_order_id: ${partnerOrderId}`);
+    
+    const result = await this.makeRequest<any>('/hotel/order/booking/finish/status/', requestBody);
+    
+    return {
+      status: result.status,
+      orderId: result.order_id,
+      partnerOrderId: result.partner_order_id,
+      itemId: result.item_id,
+      errorCode: result.error?.code,
+      errorMessage: result.error?.message,
+    };
+  }
+
+  async bookingForm(partnerOrderId: string, bookHash: string, language: string = 'en'): Promise<any> {
+    const requestBody = {
+      partner_order_id: partnerOrderId,
+      book_hash: bookHash,
+      language: language,
+    };
+
+    this.logger.log(`Creating booking form for partner_order_id: ${partnerOrderId}`);
+    
+    const result = await this.makeRequest<any>('/hotel/order/booking/form/', requestBody);
+    
+    return {
+      partnerOrderId: result.partner_order_id,
+      itemId: result.item_id,
+      paymentTypes: result.payment_types,
+      cancellationInfo: result.cancellation_info,
+      hotelData: result.hotel_data,
+      roomData: result.room_data,
+      taxes: result.taxes,
+      vatData: result.vat_data,
+    };
+  }
+
+  async bookingFinish(params: {
+    partnerOrderId: string;
+    language: string;
+    guests: Array<{
+      first_name: string;
+      last_name: string;
+      is_child?: boolean;
+      age?: number;
+    }>;
+    paymentType: {
+      type: 'deposit' | 'now' | 'hotel';
+      amount: string;
+      currencyCode: string;
+    };
+    userIp?: string;
+  }): Promise<any> {
+    const requestBody = {
+      partner_order_id: params.partnerOrderId,
+      language: params.language || 'en',
+      guests: params.guests.map(guest => ({
+        first_name: guest.first_name,
+        last_name: guest.last_name,
+        is_child: guest.is_child || false,
+        age: guest.age,
+      })),
+      payment_type: {
+        type: params.paymentType.type,
+        amount: params.paymentType.amount,
+        currency_code: params.paymentType.currencyCode,
+      },
+      user_ip: params.userIp || '0.0.0.0',
+    };
+
+    this.logger.log(`Finishing booking for partner_order_id: ${params.partnerOrderId}`);
+    
+    const result = await this.makeRequest<any>('/hotel/order/booking/finish/', requestBody);
+
+    return {
+      orderId: result.order_id,
+      partnerOrderId: result.partner_order_id,
+      status: result.status,
+      itemId: result.item_id,
+      errorCode: result.error?.code,
+      errorMessage: result.error?.message,
+    };
+  }
+
   async cancelOrder(orderId: string, partnerOrderId?: string): Promise<any> {
     const requestBody = {
       order_id: orderId,
@@ -210,6 +303,24 @@ export class RatehawkApiService {
     };
 
     return this.makeRequest('/hotel/order/cancel/', requestBody);
+  }
+
+  async retrieveBookings(params: {
+    orderId?: string;
+    partnerOrderId?: string;
+    createdFrom?: string;
+    createdTo?: string;
+  }): Promise<any> {
+    const requestBody: any = {};
+    
+    if (params.orderId) requestBody.order_id = params.orderId;
+    if (params.partnerOrderId) requestBody.partner_order_id = params.partnerOrderId;
+    if (params.createdFrom) requestBody.created_from = params.createdFrom;
+    if (params.createdTo) requestBody.created_to = params.createdTo;
+
+    this.logger.log('Retrieving bookings (for display only, not for booking status)');
+    
+    return this.makeRequest('/hotel/order/info/', requestBody);
   }
 
   private buildGuestsArray(adults: number, children?: number[]): Array<{ adults: number; children: number[] }> {

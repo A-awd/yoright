@@ -26,6 +26,27 @@ class PrebookDto {
   priceHash: string;
 }
 
+class BookingFormDto {
+  bookHash: string;
+  bookingReference: string;
+  language?: string;
+}
+
+class BookingFinishDto {
+  bookingReference: string;
+  guests: Array<{
+    firstName: string;
+    lastName: string;
+    isChild?: boolean;
+    age?: number;
+  }>;
+  paymentType: {
+    type: 'deposit' | 'now' | 'hotel';
+    amount: string;
+    currencyCode: string;
+  };
+}
+
 class ConfirmBookingDto {
   bookHash: string;
   bookingReference: string;
@@ -60,8 +81,101 @@ export class BookingsController {
     };
   }
 
+  @Post('booking-form')
+  @ApiOperation({ summary: 'Step 2: Create booking form after prebook (RateHawk flow)' })
+  async bookingForm(@Body() dto: BookingFormDto) {
+    const prebookResult = this.suppliersService.validatePrebookHash(dto.bookHash);
+    if (!prebookResult) {
+      return {
+        success: false,
+        error: 'Invalid or expired book hash. Please prebook the room again.',
+      };
+    }
+
+    const result = await this.suppliersService.bookingForm(
+      dto.bookingReference,
+      dto.bookHash,
+      dto.language || 'en',
+    );
+    
+    return {
+      success: true,
+      data: result,
+    };
+  }
+
+  @Post('booking-finish')
+  @ApiOperation({ summary: 'Step 3: Complete booking with guest details (RateHawk flow)' })
+  async bookingFinish(
+    @Body() dto: BookingFinishDto,
+    @Ip() userIp?: string,
+  ) {
+    const result = await this.suppliersService.bookingFinish({
+      partnerOrderId: dto.bookingReference,
+      language: 'en',
+      guests: dto.guests,
+      paymentType: dto.paymentType,
+      userIp,
+    });
+
+    if (result.status === 'ok') {
+      await this.bookingsService.updateBookingStatus(
+        dto.bookingReference,
+        BookingStatus.CONFIRMED,
+        result.itemId || result.orderId,
+      );
+    } else if (result.errorCode) {
+      await this.bookingsService.updateBookingStatus(
+        dto.bookingReference,
+        BookingStatus.CANCELLED,
+      );
+    }
+
+    return {
+      success: result.status === 'ok',
+      data: result,
+    };
+  }
+
+  @Post('check-status')
+  @ApiOperation({ summary: 'Step 4: Check booking process status (RateHawk flow)' })
+  async checkBookingStatus(@Body() body: { bookingReference: string }) {
+    const result = await this.suppliersService.checkBookingProcess(body.bookingReference);
+
+    if (result.status === 'ok') {
+      await this.bookingsService.updateBookingStatus(
+        body.bookingReference,
+        BookingStatus.CONFIRMED,
+        result.itemId || result.orderId,
+      );
+      return {
+        success: true,
+        status: 'confirmed',
+        confirmationNumber: result.itemId,
+        orderId: result.orderId,
+      };
+    } else if (result.status === 'error') {
+      await this.bookingsService.updateBookingStatus(
+        body.bookingReference,
+        BookingStatus.CANCELLED,
+      );
+      return {
+        success: false,
+        status: 'failed',
+        errorCode: result.errorCode,
+        errorMessage: result.errorMessage,
+      };
+    } else {
+      return {
+        success: false,
+        status: 'pending',
+        message: 'Booking is still being processed. Please check again.',
+      };
+    }
+  }
+
   @Post('confirm')
-  @ApiOperation({ summary: 'Confirm booking after prebook (RateHawk flow)' })
+  @ApiOperation({ summary: 'Confirm booking after prebook (simplified legacy flow)' })
   async confirmBooking(
     @Body() dto: ConfirmBookingDto,
     @Headers('authorization') authHeader?: string,
@@ -85,20 +199,65 @@ export class BookingsController {
       };
     }
 
-    const booking = await this.bookingsService.getBookingByReference(dto.bookingReference);
-    
-    const result = await this.suppliersService.bookRoom({
+    await this.suppliersService.bookingForm(
+      dto.bookingReference,
+      dto.bookHash,
+      'en',
+    );
+
+    const finishResult = await this.suppliersService.bookingFinish({
       partnerOrderId: dto.bookingReference,
-      bookHash: dto.bookHash,
+      language: 'en',
       guests: dto.guests,
-      paymentType: 'deposit',
+      paymentType: {
+        type: 'deposit',
+        amount: prebookResult.finalPrice?.toString() || '0',
+        currencyCode: prebookResult.currencyCode || 'SAR',
+      },
       userIp,
     });
+
+    if (finishResult.status !== 'ok') {
+      const statusResult = await this.suppliersService.checkBookingProcess(dto.bookingReference);
+      
+      if (statusResult.status === 'ok') {
+        await this.bookingsService.updateBookingStatus(
+          dto.bookingReference,
+          BookingStatus.CONFIRMED,
+          statusResult.itemId || statusResult.orderId,
+        );
+        return {
+          success: true,
+          booking: {
+            reference: dto.bookingReference,
+            status: 'confirmed',
+            confirmationNumber: statusResult.itemId,
+          },
+        };
+      } else if (statusResult.status === 'error') {
+        await this.bookingsService.updateBookingStatus(
+          dto.bookingReference,
+          BookingStatus.CANCELLED,
+        );
+        return {
+          success: false,
+          error: statusResult.errorMessage || 'Booking failed',
+          errorCode: statusResult.errorCode,
+        };
+      } else {
+        return {
+          success: false,
+          status: 'pending',
+          message: 'Booking is being processed. Please check status later.',
+          reference: dto.bookingReference,
+        };
+      }
+    }
 
     await this.bookingsService.updateBookingStatus(
       dto.bookingReference,
       BookingStatus.CONFIRMED,
-      result.orderId,
+      finishResult.itemId || finishResult.orderId,
     );
 
     return {
@@ -106,11 +265,7 @@ export class BookingsController {
       booking: {
         reference: dto.bookingReference,
         status: 'confirmed',
-        confirmationNumber: result.confirmationNumber || result.orderId,
-        hotelData: result.hotelData,
-        guestData: result.guestData,
-        paymentData: result.paymentData,
-        roomData: result.roomData,
+        confirmationNumber: finishResult.itemId || finishResult.orderId,
       },
     };
   }
