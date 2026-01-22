@@ -138,13 +138,10 @@ export class SuppliersService {
     try {
       const hotelInfoMap = await this.ratehawkApi.getHotelsInfoBatch(hotelIds);
       this.logger.log(`Got static info for ${hotelInfoMap.size} hotels`);
-      const mapKeys = Array.from(hotelInfoMap.keys()).slice(0, 3);
-      this.logger.log(`Map keys sample: ${JSON.stringify(mapKeys)}`);
       
       return transformedHotels.map((hotel: any) => {
         const staticInfo = hotelInfoMap.get(hotel.id) || hotelInfoMap.get(hotel.hid?.toString());
         if (staticInfo) {
-          this.logger.log(`Found static info for hotel: ${hotel.id}, images count: ${staticInfo.images?.length || 0}`);
           return {
             ...hotel,
             nameAr: staticInfo.name || hotel.nameAr,
