@@ -1,0 +1,42 @@
+
+⸻
+
+The summary you gave me is not correct from the user point of view.
+Right now, the hotel search in my YoRight app is STILL using fake/mock data. I want you to fix this.
+
+Please do ALL of the following:
+	1.	Verify how the search is really working
+
+	•	Trace exactly what happens when I press the main “Search” button in the app.
+	•	Confirm which backend endpoint is called from the frontend (for example /api/hotels/search or something else).
+	•	Open that backend handler and check if it is still using any mock data, static arrays, JSON files, or fake hotels.
+
+	2.	Remove fake data from the search
+
+	•	Completely remove any mock hotel search logic from the path that the frontend actually uses.
+	•	The search results shown to the user must come ONLY from the RateHawk sandbox API call.
+	•	If the RateHawk API fails, show a clear error message like “No results from RateHawk sandbox” or “Temporary error”, but DO NOT silently show fake hotels.
+
+	3.	Check flags / environment variables
+
+	•	Look for any flags like MOCK_MODE, USE_MOCK_DATA, USE_SANDBOX_MOCK, etc.
+	•	Make sure that for hotel search they are set so that REAL RateHawk sandbox data is used, not mocks.
+	•	Only fall back to mock data if credentials are missing. Right now credentials exist, so mock should be completely disabled for search.
+
+	4.	Make sure search calls RateHawk for real
+
+	•	In the hotel search handler, log (in server logs) that a real RateHawk request is being made, and log the URL and status code (without logging secrets).
+	•	Ensure the handler reads the RateHawk response and maps it into the hotel cards the UI displays.
+	•	If the RateHawk response is empty, the UI should show “no hotels found”, not a default list of fake hotels.
+
+	5.	Keep everything else the same
+
+	•	Do NOT change any UI design, layout, colors, or navigation.
+	•	Only fix the data source of the search results so that it uses RateHawk sandbox.
+
+	6.	Final confirmation for me
+After you fix this, explain to me in very simple English:
+
+	•	Which exact backend endpoint the frontend now calls for hotel search.
+	•	Which function in the backend calls RateHawk.
+	•	How you ensured that no mock hotels are used anymore in the real search flow.

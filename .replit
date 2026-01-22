@@ -48,9 +48,7 @@ channel = "stable-25_05"
 [userenv]
 
 [userenv.shared]
-RATEHAWK_API_KEY = "TO_BE_ADDED_LATER"
-RATEHAWK_PARTNER_ID = "TO_BE_ADDED_LATER"
-RATEHAWK_API_URL = "https://api.worldota.net/api/b2b/v3"
+RATEHAWK_API_URL = "https://api-sandbox.worldota.net/api/b2b/v3"
 
 [deployment]
 deploymentTarget = "autoscale"

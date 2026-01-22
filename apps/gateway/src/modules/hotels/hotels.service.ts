@@ -3,6 +3,7 @@ import { SuppliersService } from '../suppliers/suppliers.service';
 
 export interface SearchParams {
   cityId: string;
+  regionId?: number;
   checkIn: string;
   checkOut: string;
   adults: number;

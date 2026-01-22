@@ -70,55 +70,104 @@ export class SuppliersService {
     return false;
   }
 
+  private readonly cityToRegionId: Record<string, number> = {
+    'dubai': 6053839,
+    'los_angeles': 2011,
+    'losangeles': 2011,
+    'la': 2011,
+  };
+
   async searchHotels(params: SearchParams) {
     this.logger.log(`Searching hotels with params: ${JSON.stringify(params)}`);
 
-    if (this.shouldUseMock()) {
+    if (!this.ratehawkApi.isConfigured()) {
+      this.logger.warn('RateHawk API not configured - returning empty results');
+      return [];
+    }
+
+    if (this.flags.isEnabled('mockProviders')) {
+      this.logger.log('Mock providers enabled via flag - using mock data');
       return this.ratehawkMock.searchHotels(params);
     }
 
-    try {
-      const ratehawkParams = {
-        regionId: params.regionId,
-        cityId: params.cityId,
-        checkIn: params.checkIn || this.getDefaultCheckIn(),
-        checkOut: params.checkOut || this.getDefaultCheckOut(),
-        adults: params.adults || 2,
-        children: params.children || [],
-        currency: params.currency || 'SAR',
-      };
-
-      const response = await this.ratehawkApi.searchByRegion(ratehawkParams);
-      return this.ratehawkApi.transformSearchResponse(response.hotels || []);
-    } catch (error) {
-      this.logger.error(`RateHawk search failed, falling back to mock: ${error.message}`);
-      return this.ratehawkMock.searchHotels(params);
+    let regionId = params.regionId || this.cityToRegionId[params.cityId?.toLowerCase() || ''];
+    
+    if (!regionId && params.cityId) {
+      this.logger.log(`Region not cached, looking up: ${params.cityId}`);
+      try {
+        const searchResult = await this.ratehawkApi.multicomplete(params.cityId, 'en');
+        if (searchResult.regions && searchResult.regions.length > 0) {
+          regionId = searchResult.regions[0].id;
+          this.logger.log(`Found region_id ${regionId} for ${params.cityId}`);
+        }
+      } catch (error) {
+        this.logger.error(`Failed to lookup region for ${params.cityId}: ${error.message}`);
+      }
     }
+    
+    if (!regionId) {
+      this.logger.error(`No region ID found for city: ${params.cityId}`);
+      throw new BadRequestException(`City "${params.cityId}" not found. Please try a different city like Dubai or Los Angeles.`);
+    }
+
+    const ratehawkParams = {
+      regionId: regionId,
+      checkIn: params.checkIn || this.getDefaultCheckIn(),
+      checkOut: params.checkOut || this.getDefaultCheckOut(),
+      adults: params.adults || 2,
+      children: params.children || [],
+      currency: 'USD',
+    };
+
+    this.logger.log(`Calling RateHawk API with region_id: ${regionId}`);
+    
+    const response = await this.ratehawkApi.searchByRegion(ratehawkParams);
+    
+    if (!response || !response.hotels || response.hotels.length === 0) {
+      this.logger.log('RateHawk returned no hotels for this search');
+      return [];
+    }
+    
+    this.logger.log(`RateHawk returned ${response.hotels.length} hotels`);
+    return this.ratehawkApi.transformSearchResponse(response.hotels);
   }
 
   async getHotelDetails(id: string, params?: Partial<SearchParams>) {
     this.logger.log(`Getting hotel details for: ${id}`);
 
-    if (this.shouldUseMock()) {
+    if (!this.ratehawkApi.isConfigured()) {
+      this.logger.warn('RateHawk API not configured - cannot get hotel details');
+      throw new BadRequestException('Hotel search service is not configured');
+    }
+
+    if (this.flags.isEnabled('mockProviders')) {
+      this.logger.log('Mock providers enabled via flag - using mock data');
       return this.ratehawkMock.getHotelDetails(id);
     }
 
-    try {
-      const ratehawkParams = {
-        hotelId: id,
-        checkIn: params?.checkIn || this.getDefaultCheckIn(),
-        checkOut: params?.checkOut || this.getDefaultCheckOut(),
-        adults: params?.adults || 2,
-        children: params?.children || [],
-        currency: params?.currency || 'SAR',
-      };
+    const ratehawkParams = {
+      hotelId: id,
+      checkIn: params?.checkIn || this.getDefaultCheckIn(),
+      checkOut: params?.checkOut || this.getDefaultCheckOut(),
+      adults: params?.adults || 2,
+      children: params?.children || [],
+      currency: 'USD',
+    };
 
-      const response = await this.ratehawkApi.getHotelPage(ratehawkParams);
-      return this.ratehawkApi.transformHotelPageResponse(response);
-    } catch (error) {
-      this.logger.error(`RateHawk hotel details failed, falling back to mock: ${error.message}`);
-      return this.ratehawkMock.getHotelDetails(id);
+    this.logger.log(`Calling RateHawk hotel page API for hotel: ${id}`);
+    const response = await this.ratehawkApi.getHotelPage(ratehawkParams);
+    return this.ratehawkApi.transformHotelPageResponse(response);
+  }
+
+  async searchRegions(query: string, language: string = 'en') {
+    this.logger.log(`Searching regions for query: ${query}`);
+    
+    if (!this.ratehawkApi.isConfigured()) {
+      this.logger.warn('RateHawk API not configured');
+      return { hotels: [], regions: [] };
     }
+
+    return this.ratehawkApi.multicomplete(query, language);
   }
 
   async prebookRoom(params: PrebookParams): Promise<PrebookResult> {

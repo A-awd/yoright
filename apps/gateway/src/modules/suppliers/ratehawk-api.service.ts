@@ -120,7 +120,8 @@ export class RatehawkApiService {
       currency: params.currency || 'SAR',
     };
 
-    return this.makeRequest('/hotel/search/serp/region/', requestBody);
+    this.logger.log(`Searching by region_id: ${params.regionId}, checkin: ${params.checkIn}, checkout: ${params.checkOut}`);
+    return this.makeRequest('/search/serp/region/', requestBody);
   }
 
   async searchByHotelIds(hotelIds: string[], params: RatehawkSearchParams): Promise<any> {
@@ -134,7 +135,7 @@ export class RatehawkApiService {
       currency: params.currency || 'SAR',
     };
 
-    return this.makeRequest('/hotel/search/serp/hotels/', requestBody);
+    return this.makeRequest('/search/serp/hotels/', requestBody);
   }
 
   async getHotelPage(params: RatehawkHotelPageParams): Promise<any> {
@@ -148,7 +149,17 @@ export class RatehawkApiService {
       currency: params.currency || 'SAR',
     };
 
-    return this.makeRequest('/hotel/search/hp/', requestBody);
+    return this.makeRequest('/search/hp/', requestBody);
+  }
+
+  async multicomplete(query: string, language: string = 'en'): Promise<any> {
+    const requestBody = {
+      query,
+      language,
+    };
+
+    this.logger.log(`Searching regions/hotels for query: ${query}`);
+    return this.makeRequest('/search/multicomplete/', requestBody);
   }
 
   async prebook(params: RatehawkPrebookParams): Promise<any> {
@@ -157,7 +168,7 @@ export class RatehawkApiService {
       price_hash: params.price_hash,
     };
 
-    const result = await this.makeRequest<any>('/hotel/prebook/', requestBody);
+    const result = await this.makeRequest<any>('/search/prebook/', requestBody);
     
     return {
       prebookHash: result.book_hash,
@@ -185,7 +196,7 @@ export class RatehawkApiService {
       user_ip: params.user_ip || '0.0.0.0',
     };
 
-    const result = await this.makeRequest<any>('/hotel/order/book/', requestBody);
+    const result = await this.makeRequest<any>('/order/book/', requestBody);
 
     return {
       orderId: result.order_id,
@@ -204,7 +215,7 @@ export class RatehawkApiService {
       order_id: orderId,
     };
 
-    return this.makeRequest('/hotel/order/info/', requestBody);
+    return this.makeRequest('/order/info/', requestBody);
   }
 
   async checkBookingProcess(partnerOrderId: string): Promise<any> {
@@ -214,7 +225,7 @@ export class RatehawkApiService {
 
     this.logger.log(`Checking booking process for partner_order_id: ${partnerOrderId}`);
     
-    const result = await this.makeRequest<any>('/hotel/order/booking/finish/status/', requestBody);
+    const result = await this.makeRequest<any>('/order/booking/finish/status/', requestBody);
     
     return {
       status: result.status,
@@ -235,7 +246,7 @@ export class RatehawkApiService {
 
     this.logger.log(`Creating booking form for partner_order_id: ${partnerOrderId}`);
     
-    const result = await this.makeRequest<any>('/hotel/order/booking/form/', requestBody);
+    const result = await this.makeRequest<any>('/order/booking/form/', requestBody);
     
     return {
       partnerOrderId: result.partner_order_id,
@@ -284,7 +295,7 @@ export class RatehawkApiService {
 
     this.logger.log(`Finishing booking for partner_order_id: ${params.partnerOrderId}`);
     
-    const result = await this.makeRequest<any>('/hotel/order/booking/finish/', requestBody);
+    const result = await this.makeRequest<any>('/order/booking/finish/', requestBody);
 
     return {
       orderId: result.order_id,
@@ -302,7 +313,7 @@ export class RatehawkApiService {
       partner_order_id: partnerOrderId,
     };
 
-    return this.makeRequest('/hotel/order/cancel/', requestBody);
+    return this.makeRequest('/order/cancel/', requestBody);
   }
 
   async retrieveBookings(params: {
@@ -320,7 +331,7 @@ export class RatehawkApiService {
 
     this.logger.log('Retrieving bookings (for display only, not for booking status)');
     
-    return this.makeRequest('/hotel/order/info/', requestBody);
+    return this.makeRequest('/order/info/', requestBody);
   }
 
   private buildGuestsArray(adults: number, children?: number[]): Array<{ adults: number; children: number[] }> {
