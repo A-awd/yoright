@@ -1,4 +1,4 @@
-modules = ["nodejs-20", "postgresql-16", "python-3.11"]
+modules = ["nodejs-20", "postgresql-16"]
 [agent]
 expertMode = true
 integrations = ["javascript_database:1.0.0", "github:1.0.0"]
@@ -24,16 +24,8 @@ outputType = "webview"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd apps/gateway && PORT=5000 npm run dev"
+args = "npm run build:web && cd apps/gateway && PORT=5000 npm run dev"
 waitForPort = 5000
-
-[[ports]]
-localPort = 3000
-externalPort = 3000
-
-[[ports]]
-localPort = 3001
-externalPort = 3001
 
 [[ports]]
 localPort = 5000
@@ -53,4 +45,4 @@ RATEHAWK_API_URL = "https://api-sandbox.worldota.net/api/b2b/v3"
 [deployment]
 deploymentTarget = "autoscale"
 run = ["bash", "-c", "cd apps/gateway && PORT=5000 node dist/main.js"]
-build = ["bash", "-c", "cd apps/gateway && npm run build"]
+build = ["bash", "-c", "npm run build"]

@@ -1,23 +1,8 @@
 # dependencies
-/node_modules
-/.pnp
-.pnp.js
-apps/*/node_modules
-packages/*/node_modules
-tools/*/node_modules
+node_modules/
 
-# testing
-/coverage
-
-# next.js
-/.next/
-/out/
-
-# production
-/build
-/dist
+# production builds
 apps/*/dist
-apps/gateway/dist
 
 # misc
 .DS_Store
@@ -25,23 +10,16 @@ apps/gateway/dist
 
 # debug
 npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
 *.log
 
 # local env files
 .env
 .env*.local
 
-# vercel
-.vercel
-
 # typescript
 *.tsbuildinfo
-next-env.d.ts
 
 # prisma
-prisma/migrations/migration_lock.toml
 apps/gateway/prisma/migrations
 
 # IDE
@@ -49,6 +27,3 @@ apps/gateway/prisma/migrations
 .idea/
 *.swp
 *.swo
-
-# NestJS
-apps/gateway/.nest-cli.json

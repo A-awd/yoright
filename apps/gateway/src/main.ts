@@ -24,16 +24,12 @@ async function bootstrap() {
 
   const fastify = app.getHttpAdapter().getInstance();
 
-  const webClientDistPath = join(__dirname, '../../web-client/dist');
-  const webAdminPath = join(__dirname, '../../web/admin');
+  // Gzip/Brotli compression for all responses
+  await fastify.register(require('@fastify/compress'), {
+    encodings: ['br', 'gzip', 'deflate'],
+  });
 
-  if (existsSync(webAdminPath)) {
-    await fastify.register(require('@fastify/static'), {
-      root: webAdminPath,
-      prefix: '/admin/',
-      decorateReply: false,
-    });
-  }
+  const webClientDistPath = join(__dirname, '../../web-client/dist');
 
   if (existsSync(webClientDistPath)) {
     const assetsPath = join(webClientDistPath, 'assets');
@@ -42,24 +38,36 @@ async function bootstrap() {
         root: assetsPath,
         prefix: '/assets/',
         decorateReply: false,
+        maxAge: '1y',
+        immutable: true,
       });
     }
 
-    logger.log(`📱 React App: Serving from ${webClientDistPath}`);
+    // Serve images with long cache
+    const imagesPath = join(webClientDistPath, 'images');
+    if (existsSync(imagesPath)) {
+      await fastify.register(require('@fastify/static'), {
+        root: imagesPath,
+        prefix: '/images/',
+        decorateReply: false,
+        maxAge: '30d',
+      });
+    }
+
+    logger.log(`React App: Serving from ${webClientDistPath}`);
   } else {
-    logger.warn(`⚠️  React build not found at ${webClientDistPath}`);
-    logger.warn(`   Run: cd apps/web-client && npm install && npm run build`);
+    logger.warn(`React build not found at ${webClientDistPath}`);
+    logger.warn(`Run: cd apps/web-client && npm install && npm run build`);
   }
 
   const config = new DocumentBuilder()
     .setTitle('YoRight API')
-    .setDescription('Production-grade travel booking API - Arabic first, global ready')
+    .setDescription('Travel booking API')
     .setVersion('1.0')
     .addTag('hotels')
     .addTag('bookings')
     .addTag('payments')
     .addTag('auth')
-    .addServer(`http://localhost:${port}`, 'Development')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
@@ -71,12 +79,8 @@ async function bootstrap() {
 
   await app.listen(port, '0.0.0.0');
 
-  logger.log(`🚀 YoRight Gateway running on http://0.0.0.0:${port}`);
-  logger.log(`📖 API Documentation: http://0.0.0.0:${port}/api-docs`);
-  logger.log(`📄 OpenAPI Spec: http://0.0.0.0:${port}/openapi.json`);
-  logger.log(`🎭 Mock Mode: ${mockMode ? 'ENABLED' : 'DISABLED'}`);
-  logger.log(`🌐 React App: http://0.0.0.0:${port}/`);
-  logger.log(`⚙️  Admin Panel: http://0.0.0.0:${port}/admin/`);
+  logger.log(`YoRight Gateway running on port ${port}`);
+  logger.log(`Mock Mode: ${mockMode ? 'ENABLED' : 'DISABLED'}`);
 }
 
 bootstrap();

@@ -1,20 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { Language } from './types';
 import { Navbar } from './components/layout/Navbar';
 import { MapsProvider } from './contexts/MapsContext';
 import Home from './pages/Home';
-import Explore from './pages/Explore';
-import SearchResults from './pages/SearchResults';
-import DestinationDetail from './pages/DestinationDetail';
-import HotelDetails from './pages/HotelDetails';
-import Checkout from './pages/Checkout';
-import Confirmation from './pages/Confirmation';
-import MyTrips from './pages/MyTrips';
-import Profile from './pages/Profile';
-import Login from './pages/Login';
-import SignUp from './pages/SignUp';
-import Favorites from './pages/Favorites';
+
+const Explore = lazy(() => import('./pages/Explore'));
+const SearchResults = lazy(() => import('./pages/SearchResults'));
+const DestinationDetail = lazy(() => import('./pages/DestinationDetail'));
+const HotelDetails = lazy(() => import('./pages/HotelDetails'));
+const Checkout = lazy(() => import('./pages/Checkout'));
+const Confirmation = lazy(() => import('./pages/Confirmation'));
+const MyTrips = lazy(() => import('./pages/MyTrips'));
+const Profile = lazy(() => import('./pages/Profile'));
+const Login = lazy(() => import('./pages/Login'));
+const SignUp = lazy(() => import('./pages/SignUp'));
+const Favorites = lazy(() => import('./pages/Favorites'));
 
 interface NavItem {
   path: string;
@@ -104,10 +105,12 @@ const AppContent: React.FC<{ lang: Language; setLang: (lang: Language) => void }
 
   if (isAuthPage) {
     return (
-      <Routes>
-        <Route path="/login" element={<Login lang={lang} />} />
-        <Route path="/signup" element={<SignUp lang={lang} />} />
-      </Routes>
+      <Suspense fallback={null}>
+        <Routes>
+          <Route path="/login" element={<Login lang={lang} />} />
+          <Route path="/signup" element={<SignUp lang={lang} />} />
+        </Routes>
+      </Suspense>
     );
   }
 
@@ -115,19 +118,21 @@ const AppContent: React.FC<{ lang: Language; setLang: (lang: Language) => void }
     <div className="min-h-screen flex flex-col">
       <Navbar lang={lang} setLang={setLang} />
       <main className="flex-grow">
-        <Routes>
-          <Route path="/" element={<Home lang={lang} />} />
-          <Route path="/explore" element={<Explore lang={lang} />} />
-          <Route path="/destination/:cityId" element={<DestinationDetail lang={lang} />} />
-          <Route path="/search" element={<SearchResults lang={lang} />} />
-          <Route path="/hotel/:id" element={<HotelDetails lang={lang} />} />
-          <Route path="/checkout" element={<Checkout lang={lang} />} />
-          <Route path="/confirmation/:ref" element={<Confirmation lang={lang} />} />
-          <Route path="/my-trips" element={<MyTrips lang={lang} />} />
-          <Route path="/profile" element={<Profile lang={lang} />} />
-          <Route path="/favorites" element={<Favorites lang={lang} />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+        <Suspense fallback={<div className="flex items-center justify-center min-h-[50vh]"><div className="w-8 h-8 border-4 border-primary-500 border-t-transparent rounded-full animate-spin" /></div>}>
+          <Routes>
+            <Route path="/" element={<Home lang={lang} />} />
+            <Route path="/explore" element={<Explore lang={lang} />} />
+            <Route path="/destination/:cityId" element={<DestinationDetail lang={lang} />} />
+            <Route path="/search" element={<SearchResults lang={lang} />} />
+            <Route path="/hotel/:id" element={<HotelDetails lang={lang} />} />
+            <Route path="/checkout" element={<Checkout lang={lang} />} />
+            <Route path="/confirmation/:ref" element={<Confirmation lang={lang} />} />
+            <Route path="/my-trips" element={<MyTrips lang={lang} />} />
+            <Route path="/profile" element={<Profile lang={lang} />} />
+            <Route path="/favorites" element={<Favorites lang={lang} />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Suspense>
       </main>
       <BottomNavigation lang={lang} />
     </div>
