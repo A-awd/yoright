@@ -15,7 +15,7 @@ export interface FeatureFlags {
 export class FlagsService {
   private readonly logger = new Logger(FlagsService.name);
   private flags: FeatureFlags;
-  private readonly flagsPath = join(process.cwd(), 'flags.json');
+  private readonly flagsPath = join(__dirname, '../../../../../flags.json');
 
   constructor() {
     this.loadFlags();

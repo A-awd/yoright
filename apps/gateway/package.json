@@ -9,7 +9,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@fastify/compress": "^8.3.1",
+    "@fastify/compress": "^7.0.3",
     "@fastify/cors": "^8.5.0",
     "@fastify/static": "^6.12.0",
     "@nestjs/common": "^10.3.0",

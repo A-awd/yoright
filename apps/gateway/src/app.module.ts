@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { join } from 'path';
 import { HealthModule } from './modules/health/health.module';
 import { HotelsModule } from './modules/hotels/hotels.module';
 import { BookingsModule } from './modules/bookings/bookings.module';
@@ -18,7 +19,10 @@ import { SpaFallbackController } from './spa-fallback.controller';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env',
+      envFilePath: [
+        join(__dirname, '../../../.env'),
+        '.env',
+      ],
     }),
     LoggerModule,
     DatabaseModule,
