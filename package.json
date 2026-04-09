@@ -10,9 +10,9 @@
     "start": "node apps/gateway/dist/main.js",
     "dev": "cd apps/gateway && npm run dev",
     "dev:web": "cd apps/web-client && npm run dev",
-    "build": "npm run build:web && cd apps/gateway && npm run build",
+    "build": "npm run build:web && npm run build:gateway",
     "build:web": "cd apps/web-client && npm run build",
-    "build:gateway": "cd apps/gateway && npm run build",
+    "build:gateway": "cd apps/gateway && npx prisma generate && npm run build",
     "seed": "node tools/scripts/seed.js",
     "smoke": "node tools/scripts/smoke.js"
   },

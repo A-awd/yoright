@@ -24,7 +24,7 @@ outputType = "webview"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "npm run build:web && cd apps/gateway && PORT=5000 npm run dev"
+args = "npm run build:web && npm run build:gateway && PORT=5000 node apps/gateway/dist/main.js"
 waitForPort = 5000
 
 [[ports]]
@@ -44,5 +44,5 @@ RATEHAWK_API_URL = "https://api-sandbox.worldota.net/api/b2b/v3"
 
 [deployment]
 deploymentTarget = "autoscale"
-run = ["bash", "-c", "cd apps/gateway && PORT=5000 node dist/main.js"]
-build = ["bash", "-c", "npm run build"]
+run = ["bash", "-c", "PORT=5000 node apps/gateway/dist/main.js"]
+build = ["bash", "-c", "npm install && npm run build:web && npm run build:gateway"]
