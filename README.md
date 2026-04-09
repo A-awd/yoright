@@ -1,27 +1,16 @@
 # YoRight - Online Travel Agency Platform
 
-A production-ready bilingual (Arabic/English) OTA web application for hotel search and booking, built with Next.js 14, TypeScript, Prisma, and PostgreSQL.
+A bilingual (Arabic/English) OTA web application for hotel search and booking, built with React, NestJS, TypeScript, Prisma, and PostgreSQL.
 
-## 🌟 Features
+## Features
 
-### Core Functionality
-- **Bilingual Support**: Full Arabic (RTL) and English (LTR) support with next-intl
+- **Bilingual Support**: Full Arabic (RTL) and English (LTR) support
 - **Hotel Search & Booking**: Live hotel search with RateHawk supplier integration
 - **Multi-Currency**: SAR, USD, EUR with live exchange rates
-- **Payment Processing**: Tap Payments integration (Apple Pay, mada, credit cards)
-- **City Intelligence**: Weather, holidays, cost-of-living, and flight data
-- **Email Notifications**: Booking confirmations via Resend
-- **User Authentication**: NextAuth with email/password
-- **Admin Dashboard**: Booking management, supplier health, FX rates
-
-### Technical Features
-- Server-Side Rendering (SSR) with Next.js App Router
-- Type-safe database queries with Prisma ORM
-- RESTful API architecture
-- Responsive mobile-first UI with Tailwind CSS
-- Modern UI components with shadcn/ui
-- PWA-ready configuration
-- SEO optimized with metadata and OpenGraph tags
+- **Payment Processing**: Tap Payments integration
+- **User Authentication**: OTP and JWT-based auth
+- **React SPA Frontend**: Vite + React 18 + Tailwind CSS
+- **NestJS Backend**: Fastify-based API gateway with Prisma ORM
 
 ## 🚀 Quick Start
 
