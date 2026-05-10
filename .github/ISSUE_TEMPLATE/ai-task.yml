@@ -1,0 +1,39 @@
+name: AI Task
+about: Structured AI task for YoRight
+title: "[AI Task]: "
+labels: ["ai-task"]
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: What should change or be decided?
+    validations:
+      required: true
+  - type: dropdown
+    id: primary_agent
+    attributes:
+      label: Primary agent
+      options:
+        - Claude architect
+        - Codex execution engineer
+        - Gemini research/review
+        - MCP/tool automation
+        - Human/manual
+    validations:
+      required: true
+  - type: checkboxes
+    id: risk_area
+    attributes:
+      label: Risk area
+      options:
+        - label: Auth/session
+        - label: Payments/webhooks
+        - label: Bookings/supplier API
+        - label: Database/migrations
+        - label: Admin operations
+        - label: User/private data
+  - type: textarea
+    id: verification
+    attributes:
+      label: Verification expectations
