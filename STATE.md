@@ -16,6 +16,10 @@ One Brain foundation, clone reconciliation, and security review.
 
 The inventory reports competing clones or architecture paths and insecure default administrative access. No credential value is recorded here. Privacy treatment for traveler and booking data also requires explicit validation.
 
+## Merge gate
+
+Do not merge the migration branch until clone reconciliation, removal of insecure default access, and the traveler-data privacy review are complete and independently validated.
+
 ## Next action
 
 Reconcile clones and architecture paths, remove insecure default access through an authorized security change, and complete a privacy review before approving a canonical implementation line.
@@ -23,4 +27,3 @@ Reconcile clones and architecture paths, remove insecure default access through 
 ## Constraints
 
 Do not copy traveler, booking, identity, payment, or supplier-response data into documentation. Do not change production systems during repository migration.
-
