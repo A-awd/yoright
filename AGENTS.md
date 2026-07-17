@@ -1,21 +1,23 @@
-# AGENTS.md
+# Agent Instructions
 
-This repository participates in the A-awd GitHub-first AI operating system.
+These instructions apply equally to Claude, Codex, ChatGPT, Hermes, and future launchers.
 
-## Repository Role
+## Start every session
 
-`yoright` is a production-style online travel agency platform. Treat it as high-risk application infrastructure because it touches bookings, suppliers, payments, users, and operational workflows.
+1. Open yoright and inspect the latest GitHub branch and commit state.
+2. Read README.md, this file, STATE.md, HANDOFF.md, and relevant DECISIONS.md entries.
+3. Use ai-operating-system only for global guidance; yoright operational memory belongs here.
+4. Treat local clones, hosted-platform state, AI memory, and raw conversations as non-authoritative until reconciled with GitHub.
 
-## AI Role Contract
+## Working rules
 
-- Claude: architecture, product direction, supplier/payment strategy, risk analysis.
-- Codex: implementation, tests, migrations, CI, operational hardening.
-- Gemini: research, external API comparison, product and security critique.
+- Preserve useful implementation and Git history while clones and architectures are reconciled.
+- Never commit credentials, traveler records, bookings, identity documents, payment data, or unsanitized supplier responses.
+- Do not alter live booking, hosting, database, authentication, repository settings, or production state without explicit authorization.
+- Remove insecure defaults through an approved change without documenting their values.
+- Resolve conflicts through the latest approved GitHub state and DECISIONS.md.
 
-## Operating Rules
+## End every meaningful session
 
-- Read `docs/ai/OPERATING_MODEL.md` before substantial work.
-- Never commit supplier credentials, payment secrets, user data, booking data, JWT secrets, or database credentials.
-- Prefer additive migrations and reversible changes.
-- Payment, auth, webhook, and booking changes require tests or explicit verification notes.
-- Use GitHub issues/PRs as durable memory; chat context is not authoritative.
+Update STATE.md and HANDOFF.md, record decisions when needed, and commit and push approved work when authorized. Leave a precise next action independent of launcher-local memory.
+
