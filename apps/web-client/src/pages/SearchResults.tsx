@@ -154,6 +154,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ lang }) => {
 
       const response = await api.hotels.search({
         cityId: searchParams.get('cityId') || undefined,
+        regionId: searchParams.get('regionId') || undefined,
         checkIn: searchParams.get('checkIn') || undefined,
         checkOut: searchParams.get('checkOut') || undefined,
         adults: parseInt(searchParams.get('guests') || '2'),

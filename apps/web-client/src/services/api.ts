@@ -73,12 +73,14 @@ export const api = {
   hotels: {
     search: async (params: {
       cityId?: string;
+      regionId?: string;
       checkIn?: string;
       checkOut?: string;
       adults?: number;
     }): Promise<HotelSearchResponse> => {
       const query = new URLSearchParams();
       if (params.cityId) query.append('cityId', params.cityId);
+      if (params.regionId) query.append('regionId', params.regionId);
       if (params.checkIn) query.append('checkIn', params.checkIn);
       if (params.checkOut) query.append('checkOut', params.checkOut);
       if (params.adults) query.append('adults', params.adults.toString());
