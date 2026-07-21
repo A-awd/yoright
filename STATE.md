@@ -20,6 +20,13 @@ The inventory reports competing clones or architecture paths and insecure defaul
 
 Do not merge the migration branch until clone reconciliation, removal of insecure default access, and the traveler-data privacy review are complete and independently validated.
 
+## Foundation UI preservation review
+
+- Draft pull request [#2](https://github.com/A-awd/yoright/pull/2) preserves seven UI source files from a distinct foundation-based working state on `codex/preserve-foundation-ui-20260721`.
+- The preserved source snapshot is commit `8146d2e23e8a08d5e7b0b9b36882ffd79799591f`, based on `migration/one-brain-foundation` at `273f45b24166b7fbe392faba979f62c90062aa01`.
+- Incidental generated lockfile drift was excluded. The web-client production build passed for the preserved source snapshot.
+- This review branch is preservation evidence, not a decision that its UI or architecture is canonical. The existing merge, security, and privacy gates remain unchanged.
+
 ## Next action
 
 Reconcile clones and architecture paths, remove insecure default access through an authorized security change, and complete a privacy review before approving a canonical implementation line.
