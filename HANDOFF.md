@@ -12,6 +12,16 @@ The One Brain operating foundation is defined. The repository still requires a d
 4. Review how traveler, booking, identity, and payment data are handled.
 5. Update STATE.md and DECISIONS.md with validated outcomes.
 
+## Foundation UI preservation branch
+
+- Draft pull request: [#2](https://github.com/A-awd/yoright/pull/2).
+- Review branch: `codex/preserve-foundation-ui-20260721`.
+- Base revision: `migration/one-brain-foundation` at `273f45b24166b7fbe392faba979f62c90062aa01`.
+- Preserved source snapshot: `8146d2e23e8a08d5e7b0b9b36882ffd79799591f`.
+- Scope: seven web-client UI source files. Generated lockfile drift and unrelated files were excluded.
+- Validation: the preserved source snapshot passed the web-client production build and contains no added credential values, private records, or generated outputs.
+- Next safe action: review the UI changes against the chosen canonical implementation, security remediation, and traveler-data privacy gate. Keep the pull request Draft and unmerged until those gates close.
+
 ## Do not do
 
 Do not paste credential values, import live booking data, merge competing implementations by assumption, or modify live services without an approved execution plan.

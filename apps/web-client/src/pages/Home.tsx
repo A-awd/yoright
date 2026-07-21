@@ -193,7 +193,12 @@ const Home: React.FC<HomeProps> = ({ lang }) => {
   ];
 
   const handleSearch = () => {
-    navigate('/search');
+    const params = new URLSearchParams();
+    if (destination) params.set('cityId', destination);
+    if (checkInDate) params.set('checkIn', checkInDate.toISOString().split('T')[0]);
+    if (checkOutDate) params.set('checkOut', checkOutDate.toISOString().split('T')[0]);
+    params.set('guests', adults.toString());
+    navigate(`/search?${params.toString()}`);
   };
 
   return (
@@ -207,9 +212,9 @@ const Home: React.FC<HomeProps> = ({ lang }) => {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-charcoal-950/60 via-charcoal-950/40 to-charcoal-950/70" />
         
-        <div className="relative h-full flex flex-col items-center justify-center px-4 md:px-6 pt-8 pb-12 md:pt-16 md:pb-16">
-          <div className="text-center mb-6 md:mb-10 animate-fade-in">
-            <h1 className="font-display text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-3 md:mb-4 leading-tight">
+        <div className="relative h-full flex flex-col items-center justify-center px-4 md:px-6 pt-4 pb-6 md:pt-16 md:pb-16">
+          <div className="text-center mb-4 md:mb-10 animate-fade-in">
+            <h1 className={`font-display font-bold text-white mb-2 md:mb-4 leading-tight ${isArabic ? 'text-4xl md:text-6xl' : 'text-2xl md:text-5xl lg:text-6xl'}`}>
               {isArabic ? 'اكتشف إقامات استثنائية' : 'Discover Extraordinary Stays'}
             </h1>
             <p className="text-base md:text-xl text-cream-200 max-w-2xl mx-auto px-4">
@@ -219,8 +224,8 @@ const Home: React.FC<HomeProps> = ({ lang }) => {
             </p>
           </div>
 
-          <div className="w-full max-w-4xl bg-white/95 backdrop-blur-lg rounded-2xl shadow-luxury-xl p-4 md:p-5 mx-4 animate-slide-up">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+          <div className="w-full md:max-w-4xl bg-white/95 backdrop-blur-lg rounded-2xl shadow-luxury-xl p-3 md:p-5 mx-4 animate-slide-up">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 md:gap-3">
               <div className="lg:col-span-1">
                 <label className="block text-xs font-semibold text-charcoal-500 mb-1.5">
                   {isArabic ? 'الوجهة' : 'Destination'}
@@ -232,7 +237,7 @@ const Home: React.FC<HomeProps> = ({ lang }) => {
                   className="w-full"
                 />
               </div>
-              
+
               <div className="lg:col-span-2">
                 <label className="block text-xs font-semibold text-charcoal-500 mb-1.5">
                   {isArabic ? 'التواريخ' : 'Dates'}
@@ -244,6 +249,8 @@ const Home: React.FC<HomeProps> = ({ lang }) => {
                   onCheckOutChange={setCheckOutDate}
                   lang={lang}
                   layout="horizontal"
+                  checkInPlaceholder={isArabic ? 'تاريخ الوصول' : 'Check-in'}
+                  checkOutPlaceholder={isArabic ? 'تاريخ المغادرة' : 'Check-out'}
                 />
               </div>
 
@@ -261,7 +268,7 @@ const Home: React.FC<HomeProps> = ({ lang }) => {
                   lang={lang}
                 />
               </div>
-              
+
               <div className="lg:col-span-1 flex items-end">
                 <Button
                   size="lg"
