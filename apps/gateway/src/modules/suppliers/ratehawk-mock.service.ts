@@ -2,6 +2,78 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class RatehawkMockService {
+  private readonly cityAliases: Record<string, string> = {
+    'الرياض': 'riyadh',
+    'riyadh': 'riyadh',
+    'جدة': 'jeddah',
+    'jeddah': 'jeddah',
+    'مكة': 'makkah',
+    'مكة المكرمة': 'makkah',
+    'makkah': 'makkah',
+    'mecca': 'makkah',
+    'المدينة': 'madinah',
+    'المدينة المنورة': 'madinah',
+    'madinah': 'madinah',
+    'medina': 'madinah',
+    'دبي': 'dubai',
+    'dubai': 'dubai',
+    'أبوظبي': 'abu-dhabi',
+    'ابوظبي': 'abu-dhabi',
+    'أبو ظبي': 'abu-dhabi',
+    'ابو ظبي': 'abu-dhabi',
+    'abu dhabi': 'abu-dhabi',
+    'abu-dhabi': 'abu-dhabi',
+    'الدوحة': 'doha',
+    'doha': 'doha',
+    'الكويت': 'kuwait',
+    'kuwait': 'kuwait',
+    'مسقط': 'muscat',
+    'muscat': 'muscat',
+    'البحرين': 'bahrain',
+    'المنامة': 'bahrain',
+    'bahrain': 'bahrain',
+    'manama': 'bahrain',
+    'باريس': 'paris',
+    'paris': 'paris',
+    'لندن': 'london',
+    'london': 'london',
+    'إسطنبول': 'istanbul',
+    'اسطنبول': 'istanbul',
+    'istanbul': 'istanbul',
+    'روما': 'rome',
+    'rome': 'rome',
+    'برشلونة': 'barcelona',
+    'barcelona': 'barcelona',
+    'أمستردام': 'amsterdam',
+    'امستردام': 'amsterdam',
+    'amsterdam': 'amsterdam',
+    'المالديف': 'maldives',
+    'maldives': 'maldives',
+    'طوكيو': 'tokyo',
+    'tokyo': 'tokyo',
+    'سنغافورة': 'singapore',
+    'singapore': 'singapore',
+    'بالي': 'bali',
+    'bali': 'bali',
+    'بانكوك': 'bangkok',
+    'bangkok': 'bangkok',
+    'هونغ كونغ': 'hong-kong',
+    'هونج كونج': 'hong-kong',
+    'hong kong': 'hong-kong',
+    'hong-kong': 'hong-kong',
+    'نيويورك': 'new-york',
+    'new york': 'new-york',
+    'new-york': 'new-york',
+    'ميامي': 'miami',
+    'miami': 'miami',
+    'كانكون': 'cancun',
+    'cancun': 'cancun',
+    'لوس أنجلوس': 'los-angeles',
+    'لوس انجليس': 'los-angeles',
+    'los angeles': 'los-angeles',
+    'los-angeles': 'los-angeles',
+  };
+
   private mockHotels = [
     // Gulf - Riyadh
     {
@@ -1167,7 +1239,8 @@ export class RatehawkMockService {
     let results = this.mockHotels;
 
     if (params.cityId) {
-      results = results.filter(h => h.cityId === params.cityId);
+      const cityId = this.normalizeCityId(params.cityId);
+      results = results.filter(h => h.cityId === cityId);
     }
 
     if (params.query) {
@@ -1421,6 +1494,11 @@ export class RatehawkMockService {
 
   async getHotelsByCity(cityId: string) {
     return this.searchHotels({ cityId });
+  }
+
+  private normalizeCityId(value: string) {
+    const normalized = value.trim().toLowerCase().replace(/_/g, '-');
+    return this.cityAliases[normalized] || normalized;
   }
 
   async getAllCities() {

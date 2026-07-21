@@ -80,13 +80,8 @@ export class SuppliersService {
   async searchHotels(params: SearchParams) {
     this.logger.log(`Searching hotels with params: ${JSON.stringify(params)}`);
 
-    if (!this.ratehawkApi.isConfigured()) {
-      this.logger.warn('RateHawk API not configured - returning empty results');
-      return [];
-    }
-
-    if (this.flags.isEnabled('mockProviders')) {
-      this.logger.log('Mock providers enabled via flag - using mock data');
+    if (this.shouldUseMock()) {
+      this.logger.log('Using mock hotel data');
       return this.ratehawkMock.searchHotels(params);
     }
 
@@ -172,13 +167,8 @@ export class SuppliersService {
   async getHotelDetails(id: string, params?: Partial<SearchParams>) {
     this.logger.log(`Getting hotel details for: ${id}`);
 
-    if (!this.ratehawkApi.isConfigured()) {
-      this.logger.warn('RateHawk API not configured - cannot get hotel details');
-      throw new BadRequestException('Hotel search service is not configured');
-    }
-
-    if (this.flags.isEnabled('mockProviders')) {
-      this.logger.log('Mock providers enabled via flag - using mock data');
+    if (this.shouldUseMock()) {
+      this.logger.log('Using mock hotel details');
       return this.ratehawkMock.getHotelDetails(id);
     }
 
