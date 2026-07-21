@@ -153,7 +153,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ lang }) => {
       }
 
       const response = await api.hotels.search({
-        cityId: searchParams.get('cityId') || undefined,
+        cityId: searchParams.get('cityId') || searchParams.get('city') || undefined,
         checkIn: searchParams.get('checkIn') || undefined,
         checkOut: searchParams.get('checkOut') || undefined,
         adults: parseInt(searchParams.get('guests') || '2'),
@@ -213,7 +213,8 @@ const SearchResults: React.FC<SearchResultsProps> = ({ lang }) => {
 
   const handleSearch = () => {
     const params = new URLSearchParams();
-    if (destination) params.set('cityId', destination);
+    const trimmedDestination = destination.trim();
+    if (trimmedDestination) params.set('cityId', trimmedDestination);
     if (checkInDate) params.set('checkIn', checkInDate.toISOString().split('T')[0]);
     if (checkOutDate) params.set('checkOut', checkOutDate.toISOString().split('T')[0]);
     params.set('guests', adults.toString());

@@ -193,7 +193,16 @@ const Home: React.FC<HomeProps> = ({ lang }) => {
   ];
 
   const handleSearch = () => {
-    navigate('/search');
+    const params = new URLSearchParams();
+    const trimmedDestination = destination.trim();
+
+    if (trimmedDestination) params.set('cityId', trimmedDestination);
+    if (checkInDate) params.set('checkIn', checkInDate.toISOString().split('T')[0]);
+    if (checkOutDate) params.set('checkOut', checkOutDate.toISOString().split('T')[0]);
+    params.set('guests', adults.toString());
+
+    const query = params.toString();
+    navigate(query ? `/search?${query}` : '/search');
   };
 
   return (
@@ -297,7 +306,7 @@ const Home: React.FC<HomeProps> = ({ lang }) => {
             {destinations.map((dest) => (
               <div
                 key={dest.id}
-                onClick={() => navigate(`/search?city=${dest.id}`)}
+                onClick={() => navigate(`/search?cityId=${dest.id}`)}
                 className="flex-shrink-0 w-40 md:w-56 snap-start cursor-pointer group"
               >
                 <div className="relative h-56 md:h-72 rounded-xl md:rounded-2xl overflow-hidden shadow-card group-hover:shadow-card-hover transition-all duration-300">
