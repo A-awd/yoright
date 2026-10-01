@@ -6,7 +6,9 @@ Official-source research covers 17 hotel supplier/access routes, additional acti
 
 The existing RateHawk account and attractive historical prices are owner-reported, not live-verified. No email was read, supplier contacted, account created, terms accepted, booking placed, payment made, or production integration changed. No cheapest-supplier result or Saudi onboarding approval is established.
 
-Next: collect five target destinations and hotel segment; complete Kimi sign-in and Claude review if pending; review travel correspondence only when the owner starts that phase, then prepare accurate supplier applications. Private document paths are not established in this checkpoint. Preserve the migration merge gate and security work below.
+Next: collect five target destinations and hotel segment; complete Kimi sign-in and any pending Claude source corrections; review travel correspondence only when the owner starts that phase, then prepare accurate supplier applications. Private document paths are not established in this checkpoint. Preserve the migration merge gate and security work below.
+
+Additional live findings: the September 2026 Saudi regulation explicitly includes concierge in the General category; category and existing licence require private verification. The 25 September guarantee decision is category-specific. TBO public terms restrict digital B2C display and forfeit unclaimed/unused advances after 360 days; clarify private WhatsApp quoting in writing before selecting or funding this supplier. See linked primary sources in the report. These are research findings, not a licence determination.
 
 Verified starting approved ref: `migration/one-brain-foundation`, revision `a4ac915848523f75f3e8400cc3295606dcd0d3a2` (PR #3 merged). This is documentation-only progress.
 

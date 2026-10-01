@@ -9,3 +9,5 @@ Automation should begin with request qualification and offer preparation, then a
 Email review is explicitly deferred to a later owner-started phase. No supplier outreach or account creation is authorized by this direction alone. Do not invent booking volumes, licensing status or application failure reasons. Private customer and company documents stay outside GitHub.
 
 Preserve existing application history and all migration/security/privacy merge gates. This decision does not select a canonical code architecture, remediate insecure access, merge to main or authorize production changes.
+
+Research clarification: the September 2026 regulation distinguishes Agency from General Travel & Tourism Services and explicitly lists concierge in the latter. The owner has not supplied a verified licence in this phase; current licence scope and any required transition remain unresolved. This product direction does not substitute for that verification. TBO is a conditional candidate pending written permission for the intended digital sales channel and clarification of advance-balance terms.
