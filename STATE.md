@@ -1,3 +1,15 @@
+## Owner direction and research checkpoint — 2026-10-01
+
+The owner is restarting YoRight as a WhatsApp travel concierge and explicitly deferred email review to a later phase. Current priority is supplier access and a practical automation path rather than building a new customer app. This does not resolve the historical clone or security gates below.
+
+Official-source research covers 17 hotel supplier/access routes, additional activities and transfers, retail versus API access, Saudi licensing/TIDS distinctions, payment and cancellation risks, and a proposed 30-case matched-quote pilot. See [research report](docs/research/2026-10-01-whatsapp-concierge/YoRight-Travel-Research-2026-10-01.md) and [AI review audit](docs/research/2026-10-01-whatsapp-concierge/YoRight-AI-Research-Audit.md).
+
+The existing RateHawk account and attractive historical prices are owner-reported, not live-verified. No email was read, supplier contacted, account created, terms accepted, booking placed, payment made, or production integration changed. No cheapest-supplier result or Saudi onboarding approval is established.
+
+Next: collect five target destinations and hotel segment; complete Kimi sign-in and Claude review if pending; review travel correspondence only when the owner starts that phase, then prepare accurate supplier applications. Private document paths are not established in this checkpoint. Preserve the migration merge gate and security work below.
+
+Verified starting approved ref: `migration/one-brain-foundation`, revision `a4ac915848523f75f3e8400cc3295606dcd0d3a2` (PR #3 merged). This is documentation-only progress.
+
 ## Instruction reconciliation — 2026-09-11
 
 Consolidated duplicated session instructions while preserving project-specific safeguards, current decisions, and implementation history. Preserved the approved migration ref and its unmerged gates.
