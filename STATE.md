@@ -1,3 +1,9 @@
+## Owner clarification: net-rate agency portals — 2026-10-02
+
+The owner clarified that the target buying model is a ready B2B agency portal: purchase hotels at net rates, add YoRight's own margin, and book for clients. Host-agency commission-sharing proposals do not answer this requirement. The owner also requested an industry taxonomy separating wholesalers/bedbanks, booking portals, direct suppliers, DMCs, GDSs, connectivity hubs, booking engines, host agencies, consortia and preferred partner programmes. These are overlapping roles, not a ranking ladder. No cheapest-platform conclusion or live quote comparison has been established.
+
+The explanatory classification and official sources are saved at `/Users/awd./Documents/Codex/2026-10-01/youright/outputs/YoRight-Travel-Industry-Taxonomy-2026-10-02.md`. Next: evaluate net-rate agency portals and the buying chain on this corrected scope; do not revert to commission-sharing recommendations. Outreach, registrations, funding and bookings remain separate actions.
+
 ## Private correspondence review checkpoint — 2026-10-02
 
 The owner explicitly authorized the historical mail review, superseding the earlier deferral below. The requested account connector was verified and the available all-folder inventory returned 64 messages in 29 threads, without a continuation token. Message bodies and quoted correspondence were reviewed; attachment contents and current supplier access were not verified. No messages were sent or mailbox changes made.

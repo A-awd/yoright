@@ -1,3 +1,7 @@
+## Corrected buying model handoff — 2026-10-02
+
+Current owner requirement: ready agency booking portals with net hotel rates and owner-controlled resale margin, like the buying workflow of the existing supplier accounts. The host-agency/commission-sharing detour was rejected as answering a different question. Resume from the industry taxonomy artifact referenced in STATE.md and the private correspondence report. Distinguish commercial supplier, inventory source, access technology and financial model; do not claim a single platform guarantees all suppliers or lowest prices. No live supplier quote benchmark is complete.
+
 ## Current mail review handoff — 2026-10-02
 
 Historical correspondence review is now explicitly authorized and its available message-body inventory has been completed. Resume from the private local report referenced in STATE.md; do not infer present supplier access from historical mail or claim attachment evidence has been verified. Only a sanitized execution checkpoint belongs in GitHub. Original mail and private source links remain outside this repository.
