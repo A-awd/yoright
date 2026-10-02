@@ -1,3 +1,11 @@
+## Private correspondence review checkpoint — 2026-10-02
+
+The owner explicitly authorized the historical mail review, superseding the earlier deferral below. The requested account connector was verified and the available all-folder inventory returned 64 messages in 29 threads, without a continuation token. Message bodies and quoted correspondence were reviewed; attachment contents and current supplier access were not verified. No messages were sent or mailbox changes made.
+
+Private analysis and source links are saved locally at `/Users/awd./Documents/Codex/2026-10-01/youright/outputs/YoRight-Email-Audit-2026-10-02.md`. Do not copy original correspondence, supplier-response data, customer details, credentials, or private evidence links into this repository or external AI research services. The inventory describes currently accessible mail, not permanently deleted or other-account history.
+
+Next: use the private analysis to prepare an accurate current WhatsApp concierge supplier dossier and reviewable follow-up drafts if requested. Outreach and account/contract/payment actions remain separate. The owner has existing licences and explicitly stopped unsolicited licensing research. Earlier supplier proposals below are historical and do not override the owner's rejection of previously used suppliers or the revised global operating-model scope. Preserve all migration and security gates.
+
 ## Owner direction and research checkpoint — 2026-10-01
 
 The owner is restarting YoRight as a WhatsApp travel concierge and explicitly deferred email review to a later phase. Current priority is supplier access and a practical automation path rather than building a new customer app. This does not resolve the historical clone or security gates below.

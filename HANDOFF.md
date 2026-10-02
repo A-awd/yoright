@@ -1,3 +1,9 @@
+## Current mail review handoff — 2026-10-02
+
+Historical correspondence review is now explicitly authorized and its available message-body inventory has been completed. Resume from the private local report referenced in STATE.md; do not infer present supplier access from historical mail or claim attachment evidence has been verified. Only a sanitized execution checkpoint belongs in GitHub. Original mail and private source links remain outside this repository.
+
+The owner is operating through WhatsApp concierge and has asked to stop unsolicited licensing research. Earlier research proposals and the mail deferral below are historical. Prepare any future supplier follow-up around the current business model and actual correspondence evidence; sending requires owner authorization. Migration/security merge gates remain unchanged.
+
 ## Current restart handoff — 2026-10-01
 
 Start from [the WhatsApp concierge research](docs/research/2026-10-01-whatsapp-concierge/YoRight-Travel-Research-2026-10-01.md), [supplier access table](docs/research/2026-10-01-whatsapp-concierge/YoRight-Supplier-Access.csv), [blank 30-case pilot](docs/research/2026-10-01-whatsapp-concierge/YoRight-Quote-Pilot-Blank.csv), and [unsubmitted supplier dossier](docs/research/2026-10-01-whatsapp-concierge/YoRight-Supplier-Dossier-Draft.md).
