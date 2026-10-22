@@ -99,18 +99,6 @@ const BottomNavigation: React.FC<{ lang: Language }> = ({ lang }) => {
 };
 
 const AppContent: React.FC<{ lang: Language; setLang: (lang: Language) => void }> = ({ lang, setLang }) => {
-  const location = useLocation();
-  const isAuthPage = location.pathname === '/login' || location.pathname === '/signup';
-
-  if (isAuthPage) {
-    return (
-      <Routes>
-        <Route path="/login" element={<Login lang={lang} />} />
-        <Route path="/signup" element={<SignUp lang={lang} />} />
-      </Routes>
-    );
-  }
-
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar lang={lang} setLang={setLang} />
@@ -126,6 +114,8 @@ const AppContent: React.FC<{ lang: Language; setLang: (lang: Language) => void }
           <Route path="/my-trips" element={<MyTrips lang={lang} />} />
           <Route path="/profile" element={<Profile lang={lang} />} />
           <Route path="/favorites" element={<Favorites lang={lang} />} />
+          <Route path="/login" element={<Login lang={lang} />} />
+          <Route path="/signup" element={<SignUp lang={lang} />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
