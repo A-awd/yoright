@@ -1,3 +1,9 @@
+## Current licensing comparison handoff — 2026-11-01
+
+The requested public Saudi licensing crosswalk is saved at [the research note](docs/research/2026-11-01-saudi-licensing/YoRight-Saudi-Licensing-Crosswalk.md). The owner expressly authorized this review; older no-unsolicited-licensing wording below does not prohibit the requested comparison. Current licence inspection is still missing, so do not claim YoRight is authorized for every General service or that an upgrade is necessary. Distinguish resale of an existing programme from programme creation and distinguish buying through a foreign hotel portal from foreign-IATA air-ticket arrangements. Net-rate hotel portals remain the target; host commission-sharing is a rejected detour.
+
+Resume with the actual licence category/services if available through approved private access. A transition mechanism applies to older categories; its owner-specific deadline requires the existing licence expiry. Do not revive Easy Life or use runtime checkpoints: current owner/global startup is GitHub-only. No external submission or operational change has been made. All prior migration/privacy/security gates remain.
+
 ## Corrected buying model handoff — 2026-10-02
 
 Current owner requirement: ready agency booking portals with net hotel rates and owner-controlled resale margin, like the buying workflow of the existing supplier accounts. The host-agency/commission-sharing detour was rejected as answering a different question. Resume from the industry taxonomy artifact referenced in STATE.md and the private correspondence report. Distinguish commercial supplier, inventory source, access technology and financial model; do not claim a single platform guarantees all suppliers or lowest prices. No live supplier quote benchmark is complete.
