@@ -1,0 +1,137 @@
+<div id="yr-licence-explainer" dir="rtl">
+  <style>
+    #yr-licence-explainer{color:var(--foreground);--yr-gap:calc(var(--font-size-base)*1);display:grid;gap:var(--yr-gap)}
+    #yr-licence-explainer .yr-stack{display:grid;gap:var(--yr-gap)}
+    #yr-licence-explainer .yr-group{display:grid;gap:calc(var(--font-size-base)*.5)}
+    #yr-licence-explainer .yr-fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:var(--yr-gap)}
+    #yr-licence-explainer .yr-pair{display:flex;flex-wrap:wrap;justify-content:space-between;gap:calc(var(--font-size-base)*.5)}
+    #yr-licence-explainer .yr-key{font-weight:500}
+    #yr-licence-explainer .yr-coverage{display:grid;grid-template-columns:64px repeat(5,minmax(0,1fr));gap:calc(var(--font-size-base)*.25);align-items:stretch}
+    #yr-licence-explainer .yr-cell{display:grid;align-content:center;text-align:center;min-height:44px;overflow-wrap:anywhere}
+    #yr-licence-explainer .yr-yes{background:color-mix(in srgb,var(--viz-series-1) 13%,transparent)}
+    #yr-licence-explainer .yr-no{background:var(--muted);color:var(--muted-foreground)}
+    #yr-licence-explainer .yr-dl{display:grid;grid-template-columns:minmax(75px,auto) minmax(0,1fr);gap:calc(var(--font-size-base)*.5) var(--yr-gap);margin:0}
+    #yr-licence-explainer dt{font-weight:500}#yr-licence-explainer dd{margin:0;overflow-wrap:anywhere}
+    #yr-licence-explainer .yr-chart{width:100%;min-width:0;display:block;overflow:visible}
+    #yr-licence-explainer .yr-chart text{fill:var(--foreground);font-size:12px;font-weight:400}
+    #yr-licence-explainer .yr-plot-frame{fill:none;stroke:var(--border);stroke-width:1}
+    #yr-licence-explainer .yr-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr));gap:var(--yr-gap)}
+    #yr-licence-explainer .yr-case{display:grid;gap:calc(var(--font-size-base)*.5)}
+    #yr-licence-explainer .yr-case-mark{height:calc(var(--font-size-base)*.3);background:var(--viz-series-1)}
+    #yr-licence-explainer summary{padding-block:calc(var(--font-size-base)*.5)}
+    #yr-licence-explainer [hidden]{display:none!important}
+    #yr-licence-explainer .yr-note{color:var(--muted-foreground)}
+    #yr-licence-explainer .yr-sources{display:flex;gap:var(--yr-gap);flex-wrap:wrap}
+    @media(max-width:480px){#yr-licence-explainer .yr-coverage{grid-template-columns:46px repeat(5,minmax(0,1fr))}#yr-licence-explainer .yr-dl{grid-template-columns:1fr}#yr-licence-explainer dd{margin-bottom:calc(var(--font-size-base)*.5)}}
+  </style>
+  <h2>افهم الفئة، ثم احسب الرسم</h2>
+  <div class="nav nav-pills" role="tablist" aria-label="دليل تراخيص السياحة">
+    <button class="nav-link active" id="yr-tab-classes" type="button" role="tab" aria-selected="true" aria-controls="yr-panel-classes">أ، ب، ج، د</button>
+    <button class="nav-link" id="yr-tab-costs" type="button" role="tab" aria-selected="false" aria-controls="yr-panel-costs">كل الرسوم</button>
+    <button class="nav-link" id="yr-tab-fit" type="button" role="tab" aria-selected="false" aria-controls="yr-panel-fit">ما يخص YoRight</button>
+  </div>
+  <section id="yr-panel-classes" role="tabpanel" aria-labelledby="yr-tab-classes" class="yr-stack">
+    <h3>شركة إدارة الضيافة: المنشآت المسموح بإدارتها</h3>
+    <div class="yr-coverage" role="table" aria-label="نطاق فئات شركات إدارة الضيافة">
+      <div class="yr-cell yr-key" role="columnheader">الفئة</div><div class="yr-cell" role="columnheader">5 نجوم</div><div class="yr-cell" role="columnheader">4 نجوم</div><div class="yr-cell" role="columnheader">3 نجوم فأقل</div><div class="yr-cell" role="columnheader">الدرجات والأنواع الأخرى</div><div class="yr-cell" role="columnheader">الوحدات الخاصة</div>
+      <div class="yr-cell yr-key" role="rowheader">أ</div><div class="yr-cell yr-yes">✓</div><div class="yr-cell yr-yes">✓</div><div class="yr-cell yr-yes">✓</div><div class="yr-cell yr-yes">جميعها</div><div class="yr-cell yr-yes">✓</div>
+      <div class="yr-cell yr-key" role="rowheader">ب</div><div class="yr-cell yr-no">—</div><div class="yr-cell yr-yes">✓</div><div class="yr-cell yr-yes">✓</div><div class="yr-cell yr-yes">جميعها</div><div class="yr-cell yr-yes">✓</div>
+      <div class="yr-cell yr-key" role="rowheader">ج</div><div class="yr-cell yr-no">—</div><div class="yr-cell yr-no">—</div><div class="yr-cell yr-yes">✓</div><div class="yr-cell yr-yes">أولى فأقل، وغير المصنف</div><div class="yr-cell yr-yes">✓</div>
+      <div class="yr-cell yr-key" role="rowheader">د</div><div class="yr-cell yr-no">—</div><div class="yr-cell yr-no">—</div><div class="yr-cell yr-no">—</div><div class="yr-cell yr-yes">أولى فأقل، وغير المصنف</div><div class="yr-cell yr-yes">✓</div>
+    </div>
+    <div class="yr-fields">
+      <label class="form-label">فئة الإدارة<select class="form-select" id="yr-class"><option value="A">أ — أوسع نطاق</option><option value="B">ب — حتى أربع نجوم</option><option value="C">ج — حتى ثلاث نجوم</option><option value="D">د — الدرجات والأنواع الأخرى</option></select></label>
+      <label class="form-label">مدة الترخيص<select class="form-select" id="yr-class-years"><option value="1">سنة</option><option value="2">سنتان</option><option value="3">ثلاث سنوات</option></select></label>
+    </div>
+    <dl class="yr-dl" id="yr-class-detail" aria-live="polite"></dl>
+    <svg class="yr-chart" id="yr-class-chart" role="img" aria-label="رسوم الإدارة موحدة لجميع الفئات عند ثبات المدة والإجراء"></svg>
+    <div class="yr-note text-small">✓ مسموح ضمن نطاق الفئة · — خارج النطاق · الدرجة ليست عدد نجوم.</div>
+    <div class="yr-sources text-small"><a href="https://www.uqn.gov.sa/details?p=21115" target="_blank" rel="noreferrer">المصدر: لائحة الإدارة، المواد 4–6 وجدول الرسوم</a></div>
+  </section>
+  <section id="yr-panel-costs" role="tabpanel" aria-labelledby="yr-tab-costs" class="yr-stack" hidden>
+    <div class="yr-fields">
+      <label class="form-label">الترخيص<select class="form-select" id="yr-family"><option value="general">السفر والسياحة — العامة</option><option value="agency">السفر والسياحة — الوكالة</option><option value="management">إدارة مرافق الضيافة — أ/ب/ج/د</option><option value="guide">مرشد سياحي — منطقة/متخصص</option><option value="consultOffice">استشارات سياحية — مكتب</option><option value="consultPerson">استشارات سياحية — فرد</option><option value="privateUnit">وحدة ضيافة خاصة</option><option value="hotel">تشغيل مرفق ضيافة وتصنيفه</option></select></label>
+      <label class="form-label">المدة<select class="form-select" id="yr-term"></select></label>
+      <label class="form-label" id="yr-place-label">المرفق<select class="form-select" id="yr-place"><option value="main">رئيسي</option><option value="branch">فرعي</option></select></label>
+      <label class="form-label" id="yr-kind-label" hidden>نوع المرفق<select class="form-select" id="yr-kind"><option value="hotel">فندق/منتجع/فلل فندقية</option><option value="heritage">فندق تراثي</option><option value="temporary">مرفق مؤقت</option><option value="hotelApt">شقق فندقية</option><option value="serviced">شقق مخدومة/بيوت عطلات/شاليهات</option><option value="camp">مخيم</option><option value="hostel">نُزل</option></select></label>
+      <label class="form-label" id="yr-capacity-label" hidden>عدد الغرف/الوحدات<select class="form-select" id="yr-capacity"></select></label>
+      <label class="form-label" id="yr-stars-label" hidden>التصنيف<select class="form-select" id="yr-stars"><option value="2">نجمتان</option><option value="3">ثلاث نجوم</option><option value="4">أربع نجوم</option><option value="5">خمس نجوم</option><option value="lux">خمس نجوم فاخر</option></select></label>
+    </div>
+    <label class="form-check" id="yr-visa-label"><input type="checkbox" class="form-check-input" id="yr-visa"><span class="form-check-label">تشمل الخدمة ترتيب تأشيرات القدوم إلى المملكة</span></label>
+    <div class="yr-pair" aria-live="polite"><span class="yr-key" id="yr-total-label">إجمالي إصدار الترخيص</span><span class="yr-key tabular-nums" id="yr-total"></span></div>
+    <svg class="yr-chart" id="yr-cost-chart" role="img" aria-label="مقارنة رسوم الإصدار والتجديد والتصنيف"></svg>
+    <dl class="yr-dl" id="yr-cost-detail" aria-live="polite"></dl>
+    <details><summary>الرسوم والشروط المساندة</summary><dl class="yr-dl" id="yr-extra"></dl></details>
+    <div class="yr-sources text-small"><a id="yr-source" target="_blank" rel="noreferrer">اللائحة وجدول المقابل الرسمي</a><a href="https://www.uqn.gov.sa/decisions-and-regulations/4001942" target="_blank" rel="noreferrer">قرار الضمان البنكي</a><span>تحقق: 1 نوفمبر 2026 · رسوم الوزارة فقط؛ بقية الجهات وتكلفة البنك منفصلة</span></div>
+  </section>
+  <section id="yr-panel-fit" role="tabpanel" aria-labelledby="yr-tab-fit" class="yr-stack" hidden>
+    <h3>خريطة العمل: ما تفعله يحدد الترخيص</h3>
+    <div class="yr-steps">
+      <div class="yr-case"><div class="yr-case-mark"></div><span class="yr-key">بيع حجوزات الفنادق</span><span>مورد ← YoRight ← المسافر</span><span class="viz-badge">نطاق الوكالة؛ وتشمله العامة</span></div>
+      <div class="yr-case"><div class="yr-case-mark"></div><span class="yr-key">إعداد الرحلات والكونسيرج</span><span>تصميم برنامج، ترتيب نقل وطلبات خاصة</span><span class="viz-badge">نطاق العامة</span></div>
+      <div class="yr-case"><div class="yr-case-mark"></div><span class="yr-key">إدارة الفندق نفسه</span><span>دعم إداري وفني لمشغّل المنشأة</span><span class="viz-badge">إدارة الضيافة — أ/ب/ج/د</span></div>
+      <div class="yr-case"><div class="yr-case-mark"></div><span class="yr-key">تشغيل الفندق أو الوحدة</span><span>تقديم الإقامة وإدارة تشغيلها</span><span class="viz-badge">رخصة المنشأة أو الوحدة</span></div>
+    </div>
+    <dl class="yr-dl"><dt>نطاق YoRight المقصود</dt><dd>العامة، عند شمول إعداد الرحلات والكونسيرج والنقل</dd><dt>فئة الترخيص الموجود</dt><dd>لم تُفحص؛ لا توجد مطالبة مالية محسوبة على المالك</dd><dt>الهيئة السعودية للسياحة</dt><dd>تسويق وشراكات؛ ترخيص النشاط من الوزارة</dd><dt>الأنشطة التجريبية القديمة</dt><dd>أُلغي تنظيمها في 8 مايو 2026</dd><dt>تعديل تشغيل الضيافة</dt><dd>يبدأ 1 يوليو 2027؛ الحاسبة تعرض الساري في تاريخ التحقق</dd></dl>
+    <div class="yr-sources text-small"><a href="https://www.uqn.gov.sa/decisions-and-regulations/4001822" target="_blank" rel="noreferrer">فئات السفر</a><a href="https://www.uqn.gov.sa/decisions-and-regulations/4001830" target="_blank" rel="noreferrer">موعد تعديل الضيافة</a></div>
+  </section>
+  <script>
+  (()=>{
+    const root=document.getElementById('yr-licence-explainer');
+    const el=id=>root.querySelector('#'+id);
+    const fmt=n=>new Intl.NumberFormat('en-US',{maximumFractionDigits:0}).format(Math.ceil(n));
+    const money=n=>n===null?'غير محدد في الجدول':n===0?'دون مقابل':fmt(n)+' ر.س';
+    const sources={travel:'https://www.uqn.gov.sa/decisions-and-regulations/4001822',management:'https://www.uqn.gov.sa/details?p=21115',guide:'https://www.uqn.gov.sa/decisions-and-regulations/4001829',consult:'https://www.uqn.gov.sa/details?p=21118',private:'https://www.uqn.gov.sa/decisions-and-regulations/4001819',hotel:'https://www.uqn.gov.sa/details?p=21130'};
+    const management={A:{scope:'جميع الأنواع والدرجات، بما فيها خمس نجوم',experience:'4 سنوات في إدارة/تشغيل منشأة خمس نجوم'},B:{scope:'حتى أربع نجوم، وجميع الدرجات والأنواع الأخرى',experience:'4 سنوات في إدارة/تشغيل منشأة أربع نجوم'},C:{scope:'حتى ثلاث نجوم؛ ودرجة أولى فأقل وغير المصنف',experience:'3 سنوات في إدارة/تشغيل منشأة ثلاث نجوم'},D:{scope:'درجة أولى فأقل والأنواع غير المصنفة؛ والوحدات الخاصة',experience:'سنتان في إدارة/تشغيل الأنواع المعنية'}};
+    const data={
+      agency:{terms:[12,24,36,48,60],issue:[10000,11000,12000,13000,14000],renew:[1000,2000,3000,4000,5000],scope:'بيع إقامة وتذاكر وبرامج جاهزة وخدمات مساندة',conditions:'سجل مناسب؛ مقر مرخص أو قناة إلكترونية موثقة؛ حق العلامة؛ مؤهلات وتشغيل',fit:'حجز وإعادة بيع؛ الإعداد والكونسيرج من إضافات العامة',source:sources.travel,branch:true},
+      general:{terms:[12,24,36,48,60],issue:[20000,22000,24000,26000,28000],renew:[2000,4000,6000,8000,10000],scope:'خدمات الوكالة وإعداد البرامج والكونسيرج والنقل والحجوزات الخاصة',conditions:'سجل 791101 و791223؛ مقر/توثيق إلكتروني؛ ضمان؛ مؤهلات وتشغيل',fit:'الأقرب لنطاق YoRight الكامل الموصوف',source:sources.travel,branch:true},
+      management:{terms:[12,24,36],issue:[2250,3200,4150],renew:[950,1900,2850],scope:'إدارة ودعم مشغّل منشآت الضيافة؛ النطاق حسب أ/ب/ج/د',conditions:'سجل ورخصة مقر؛ خبرة للفئة؛ إجراءات إدارة؛ مؤهلات العاملين',fit:'لا يلزم لشراء الغرف وإعادة بيعها فقط',source:sources.management,branch:true},
+      guide:{terms:[12,24,36],issue:[500,750,1000],renew:[250,500,750],scope:'إرشاد السائح ميدانيًا ضمن منطقة/تخصص معتمد',conditions:'سعودي؛ 18+؛ ملاءمة صحية؛ خلو سوابق؛ إسعافات؛ لغة وتأهيل',fit:'للشخص الذي يرشد بنفسه؛ يمكن التعاقد مع مرشد مرخص',source:sources.guide},
+      consultPerson:{terms:[12,24,36],issue:[750,750,750],renew:[0,0,0],scope:'استشارات مهنية متخصصة في قطاع السياحة',conditions:'سعودي؛ مؤهل وخبرة مثبتان؛ نقاط متخصص/متقدم/خبير',fit:'ليس مطلوبًا لمجرد نصائح رحلة ضمن خدمة الوكالة',source:sources.consult},
+      consultOffice:{terms:[12,24,36],issue:[4000,6500,9000],renew:[2500,5000,7500],scope:'مكتب دراسات واستشارات مهنية للقطاع',conditions:'سجل ومقر/توثيق؛ خبرة؛ للمستثمر السعودي تأهيل متقدم أو خبير',fit:'ليس مطلوبًا لمجرد تخطيط الرحلة ضمن نطاقها المرخص',source:sources.consult,branch:true},
+      privateUnit:{terms:[12],issue:[1100],renew:[null],scope:'تقديم إقامة في وحدة خاصة مرخصة',conditions:'ملكية/انتفاع بحسب الحالة؛ استخدام مسموح؛ معايير؛ شموس',fit:'على مقدم الإقامة؛ لا يلزم الوكالة التي تحجز من مزود مرخص',source:sources.private},
+      hotel:{terms:[12,24,36],scope:'تشغيل منشأة تقدم المبيت، مع التصنيف المنطبق',conditions:'سجل؛ بلدية؛ دفاع مدني؛ شموس ورصد؛ معايير ومعاينة',fit:'على المشغّل؛ لا يلزم لبيع الغرف فقط',source:sources.hotel}
+    };
+    function dl(node,rows){node.replaceChildren();for(const [k,v] of rows){const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=k;dd.textContent=v;node.append(dt,dd)}}
+    function option(node,items,keep){node.replaceChildren();for(const [value,label] of items){const o=document.createElement('option');o.value=String(value);o.textContent=label;node.append(o)}if(keep!==undefined&&items.some(x=>String(x[0])===String(keep)))node.value=String(keep)}
+    function termName(m){return m<12?m+' أشهر':m===12?'سنة':m===24?'سنتان':m/12+' سنوات'}
+    function chart(svg,rows,title){
+      const usable=rows.filter(r=>Number.isFinite(r.value));const w=Math.max(280,Math.round(svg.getBoundingClientRect().width||root.getBoundingClientRect().width||320));const h=65+rows.length*54;const left=76,right=64,plotW=Math.max(80,w-left-right);const max=Math.max(1,...usable.map(r=>r.value));const upper=max*1.14;const ns='http://www.w3.org/2000/svg';svg.replaceChildren();svg.setAttribute('viewBox','0 0 '+w+' '+h);svg.setAttribute('height',h);svg.setAttribute('aria-label',title+'؛ '+rows.map(r=>r.name+': '+money(r.value)).join('؛ '));
+      svg.setAttribute('direction','ltr');
+      const add=(tag,attrs,text)=>{const n=document.createElementNS(ns,tag);for(const [k,v]of Object.entries(attrs))n.setAttribute(k,v);if(text!==undefined)n.textContent=text;svg.append(n);return n};
+      add('title',{},title);add('rect',{x:left,y:25,width:plotW,height:rows.length*54+4,class:'yr-plot-frame','data-chart-frame':''});
+      add('text',{x:left+plotW/2,y:14,'text-anchor':'middle','data-axis':'x',class:'axis-title'},'المقابل بالريال السعودي');
+      add('text',{x:0,y:14,'data-axis':'y',class:'axis-title'},'الإجراء');
+      for(const [i,r]of rows.entries()) {const y=40+i*54;add('text',{x:left-8,y:y+13,'text-anchor':'end'},r.name);if(r.value!==null){const len=r.value/upper*plotW;const rect=add('rect',{x:left,y,width:len,height:20,fill:'var(--viz-series-'+(r.series||1)+')','data-tooltip':r.name+' — '+money(r.value),'data-chart-hit':''});add('text',{x:Math.min(w-4,left+len+5),y:y+14,'text-anchor':'start'},r.value===0?'0':fmt(r.value));}else add('text',{x:left+4,y:y+14,'text-anchor':'start'},'غير محدد');}
+      const bottom=31+rows.length*54;add('text',{x:left,y:bottom+18,'text-anchor':'middle'},'0');add('text',{x:left+plotW,y:bottom+18,'text-anchor':'end'},fmt(upper));
+    }
+    function drawManagement(){const k=el('yr-class').value,y=+el('yr-class-years').value;dl(el('yr-class-detail'),[['النطاق',management[k].scope],['الخبرة المطلوبة',management[k].experience],['سبب اختلاف الفئات','حدود المنشآت المسموح بإدارتها؛ الرسوم واحدة لكل الفئات']]);chart(el('yr-class-chart'),[{name:'إصدار',value:[2250,3200,4150][y-1],series:1},{name:'تجديد',value:[950,1900,2850][y-1],series:2}],'رسوم الإدارة — الفئة '+({A:'أ',B:'ب',C:'ج',D:'د'}[k])+' — '+termName(y*12));}
+    function hotelOptions(){const k=el('yr-kind').value;const capacity=k==='hotelApt'?[['0','1–30 وحدة'],['1','31–70 وحدة'],['2','71 وحدة فأكثر']]:k==='serviced'?[['0','1–30 وحدة'],['1','31–70 وحدة'],['2','71–100 وحدة']]:[['0','1–99 غرفة'],['1','100–299 غرفة'],['2','300–499 غرفة'],['3','500 غرفة فأكثر']];option(el('yr-capacity'),capacity,el('yr-capacity').value);el('yr-capacity-label').hidden=['camp','hostel'].includes(k);el('yr-stars-label').hidden=!['hotel','hotelApt'].includes(k);}
+    function setupTerms(){const f=el('yr-family').value;let terms=data[f].terms;if(f==='hotel'&&['camp','temporary'].includes(el('yr-kind').value))terms=[3,6,9,12,24,36];option(el('yr-term'),terms.map(t=>[t,termName(t)]),el('yr-term').value||12);}
+    function calcHotel(months){const kind=el('yr-kind').value,c=+el('yr-capacity').value,star=el('yr-stars').value;const ix=Math.max(0,months/12-1);let issue=0,renew=0,classification=0,amend=null;
+      if(['hotel','heritage','temporary'].includes(kind)){const a=[[2500,3750,5000],[5000,7500,10000],[10000,13500,17000],[12500,17500,22500]],b=[[1250,2500,3750],[2500,5000,7500],[3500,7000,10500],[5000,10000,15000]];issue=months<12?a[c][0]*months/12:a[c][ix];renew=months<12?b[c][0]*months/12:b[c][ix];if(kind==='hotel'){classification={2:0,3:3000,4:5000,5:7500,lux:10000}[star];amend={2:0,3:2000,4:3500,5:5000,lux:7500}[star]}}
+      if(kind==='hotelApt'){issue=[[1500,2200,2900],[2000,3000,4000],[2500,3750,5000]][c][ix];renew=[[700,1400,2100],[1000,2000,3000],[1250,2500,3750]][c][ix];classification={2:0,3:500,4:1000,5:2000,lux:2500}[star];amend=['5','lux'].includes(star)?500:0;}
+      if(kind==='serviced'){issue=[[1000,1500,2000],[1500,2250,3000],[2000,3000,4000]][c][ix];renew=[[500,1000,1500],[750,1500,2250],[1000,2000,3000]][c][ix];amend=0;}
+      if(kind==='camp'){issue=months<12?months/3*1000:[4000,6000,8000][ix];renew=months<12?null:[2000,4000,6000][ix];amend=0;}
+      return {issue,renew,classification,amend};
+    }
+    function updateCosts(){const f=el('yr-family').value,d=data[f],months=+el('yr-term').value,i=d.terms.indexOf(months),branch=d.branch&&el('yr-place').value==='branch';el('yr-place-label').hidden=!d.branch;el('yr-kind-label').hidden=f!=='hotel';el('yr-capacity-label').hidden=f!=='hotel'||['camp','hostel'].includes(el('yr-kind').value);el('yr-stars-label').hidden=f!=='hotel'||!['hotel','hotelApt'].includes(el('yr-kind').value);el('yr-visa-label').hidden=f!=='general';
+      let issue,renew,classification=0,amend=0;if(f==='hotel')({issue,renew,classification,amend}=calcHotel(months));else{issue=d.issue[i];renew=d.renew[i];if(branch){issue=months/12*1000;renew=['agency','general'].includes(f)?months/12*1000:null;}}
+      const rows=[{name:'إصدار',value:issue,series:1},{name:'تجديد',value:renew,series:2}];if(f==='hotel'&&classification>0)rows.push({name:'تصنيف',value:classification,series:3});chart(el('yr-cost-chart'),rows,'رسوم '+el('yr-family').selectedOptions[0].textContent+' — '+termName(months));el('yr-total-label').textContent=classification>0?'إجمالي الإصدار والتصنيف':'إجمالي إصدار الترخيص';el('yr-total').textContent=money(issue+classification);
+      const details=[['الغرض',d.scope],['أهم الشروط',d.conditions],['بالنسبة لـYoRight',d.fit]];if(f==='general'){details.unshift(['الضمان البنكي — منفصل',money(el('yr-visa').checked?800000:50000)]);if(el('yr-visa').checked)details.push(['تأشيرات القدوم','تتطلب تأهيل الوزارة؛ رسومه ومدته المستقلة لم تُثبت']);}if(f==='agency')details.push(['الضمان','قرار 25 سبتمبر المحدد للمبلغ يخص العامة']);if(renew===null)details.push(['التجديد','غياب رقم مستقل في الجدول لا يعني المجانية']);if(f==='hotel')details.push(['النظام المعروض','الساري قبل تعديل 1 يوليو 2027']);dl(el('yr-cost-detail'),details);
+      let extras=[];if(['agency','general'].includes(f))extras=[['نقل الملكية',money(f==='agency'?700:1000)],['تغيير موقع المرفق',money(400)],['تغيير السجل أو الاسم التجاري','دون مقابل'],['إغلاق مؤقت/إلغاء الترخيص','دون مقابل'],['ترقية الوكالة إلى العامة','فرق سنوي بحسب المدة؛ يحتاج حساب حالة الترخيص القائم'],['الضمان','ليس رسم إصدار؛ تكلفة البنك خارج جدول الوزارة']];else if(['management','consultOffice'].includes(f))extras=[['تغيير الموقع',money(400)],['التغيير التجاري/الإغلاق/الإلغاء','دون مقابل'],['الفرع','1,000 ر.س لكل سنة للإصدار؛ تجديد الفرع غير مفصل مستقلًا هنا']];else if(f==='privateUnit')extras=[['زيارة إضافية',money(500)+' بعد أول زيارتين'],['حد العقار المشترك','3 تراخيص للمرخص له، وفق النص وصلاحيات الوزارة'],['زيادة الوحدات','متطلبات صيانة ونظافة بحسب العدد']];else if(f==='guide')extras=[['عند تقديم الطلب','25% من مقابل الإصدار غير مسترد'],['عند الإصدار','75% المتبقية'],['تدريب واختبارات','تكلفتها خارج جدول الترخيص'],['الفئتان','منطقة، أو متخصص؛ يمكن الجمع وفق الضوابط']];else if(f==='consultPerson')extras=[['متخصص','10 نقاط على الأقل'],['متقدم','15 نقطة على الأقل'],['خبير','20 نقطة على الأقل'],['الخبرة','السنة نقطة؛ ويضاف للمؤهل وفق الدليل'],['التجديد','دون مقابل وفق الجدول']];else if(f==='hotel')extras=[['نقل الملكية',money(500)],['زيارة إضافية',money(500)+' بعد أول زيارتين'],['تعديل التصنيف المختار',amend===null?'لا ينطبق':money(amend)],['التغيير التجاري/الإغلاق/الإلغاء','دون مقابل'],['التجديد','الأرقام تشمل التصنيف حيث ينطبق؛ لا يضاف التصنيف الأولي مرة أخرى'],['المرفق المؤقت','ربع رسم السنة لكل ثلاثة أشهر حسب الشريحة']];dl(el('yr-extra'),extras);el('yr-source').href=d.source;
+    }
+    function resetFamily(){hotelOptions();setupTerms();updateCosts();}
+    const saved=window.openai?.widgetState?.privateContent;
+    if(saved&&data[saved.family])el('yr-family').value=saved.family;
+    if(saved&&management[saved.managementClass])el('yr-class').value=saved.managementClass;
+    function save(){window.openai?.setWidgetState?.({modelContent:{licence:el('yr-family').value,months:+el('yr-term').value,managementClass:el('yr-class').value},privateContent:{family:el('yr-family').value,managementClass:el('yr-class').value}})?.catch(()=>{});}
+    el('yr-class').addEventListener('change',()=>{drawManagement();save()});el('yr-class-years').addEventListener('change',()=>{drawManagement();save()});el('yr-family').addEventListener('change',()=>{resetFamily();save()});el('yr-kind').addEventListener('change',()=>{hotelOptions();setupTerms();updateCosts();save()});for(const id of ['yr-term','yr-place','yr-capacity','yr-stars','yr-visa'])el(id).addEventListener('change',()=>{updateCosts();save()});
+    root.querySelectorAll('[role="tab"]').forEach(tab=>tab.addEventListener('click',()=>{setTimeout(()=>{drawManagement();updateCosts()},0)}));
+    let lastWidth=0;new ResizeObserver(entries=>{const width=Math.round(entries[0].contentRect.width);if(width!==lastWidth){lastWidth=width;drawManagement();updateCosts()}}).observe(root);
+    window.addEventListener('openai:set_globals',event=>{const state=event.detail?.globals?.widgetState?.privateContent;if(state&&data[state.family])el('yr-family').value=state.family;if(state&&management[state.managementClass])el('yr-class').value=state.managementClass;resetFamily();drawManagement()});
+    resetFamily();drawManagement();
+  })();
+  </script>
+</div>
