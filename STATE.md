@@ -1,3 +1,7 @@
+## Private-document fit check — 2026-11-01
+
+The owner supplied commercial-register screenshots and asked for a concise required-action answer. Reviewed privately; no identifiers, contact data or originals are recorded here. Commercial-register activity evidence is not a Ministry tourism licence and does not establish the existing licence category, validity, bank guarantee or premises/electronic-documentation status. Refreshed official Commerce suspension guidance and Ministry activity-code/General-guarantee requirements. Next: reconcile privately observed register indicators through the authorized Commerce workflow, and inspect the actual Ministry licence before deciding issue versus amendment or quoting owner-specific costs. No application, payment, account change or outreach occurred; prior safeguards remain.
+
 ## Visual licensing explanation — 2026-11-01
 
 The owner requested a clear visual explanation after the fee tables caused confusion. The [interactive explanation source](docs/research/2026-11-01-saudi-licensing/tourism-licence-explainer.html) separates management categories A/B/C/D from property star/grade classification and from licence costs. All four management categories share the published fee table; category changes permitted scope and required experience, while term, procedure and branch status determine the applicable amount. The calculator also covers travel, guiding, consultancy, private units and current hospitality operation/classification, with unknown fees distinguished from zero and guarantees separated from fees.
