@@ -1,3 +1,9 @@
+## Current complete licensing inventory handoff — 2026-11-01
+
+Resume from [all Ministry/STA licence families and fees](docs/research/2026-11-01-saudi-licensing/YoRight-Saudi-Tourism-Licences-Fees.md). The report includes conditions, issue/renewal duration tables, hospitality size/classification tables and the owner-specific fit boundary. Do not treat the hospitality amendment effective 1 July 2027 as already effective on 1 November 2026. Do not resurrect the experimental licence framework repealed on 8 May 2026. Distinguish General's guarantee from a licensing fee and avoid adding the Agency fee to General or assuming a fresh issue fee for an existing licence amendment.
+
+Owner category/expiry question is pending; no licence document or current operational licence state has been verified. The relevant next step is reconciling existing category/services/expiry, not submitting new applications. Private numbers/documents remain outside GitHub. Current work is documentation-only and all existing merge/security gates continue. Easy Life remains stopped.
+
 ## Current licensing comparison handoff — 2026-11-01
 
 The requested public Saudi licensing crosswalk is saved at [the research note](docs/research/2026-11-01-saudi-licensing/YoRight-Saudi-Licensing-Crosswalk.md). The owner expressly authorized this review; older no-unsolicited-licensing wording below does not prohibit the requested comparison. Current licence inspection is still missing, so do not claim YoRight is authorized for every General service or that an upgrade is necessary. Distinguish resale of an existing programme from programme creation and distinguish buying through a foreign hotel portal from foreign-IATA air-ticket arrangements. Net-rate hotel portals remain the target; host commission-sharing is a rejected detour.
