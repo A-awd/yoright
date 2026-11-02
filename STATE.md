@@ -1,3 +1,7 @@
+## Web, iOS and Android kickoff — 2026-11-03
+
+Owner authorized starting YoRight for responsive web, iOS and Android with Claude Fable 5.1. Prepared isolated branch `work/yoright-fable-platforms` from verified revision `71aa19a`. Claude displayed Fable 5.1 on Max and rejected the implementation prompt with an expired OAuth token. Implementation was not verified as started. Subscription reauthorization was opened in Codex.
+
 ## Internal mapping scoped effort estimate — 2026-11-02
 
 Owner asks build cost/time and feasibility inside the existing project. Focused static code review found reusable gateway/front-end scaffolding but RateHawk-specific search and no cross-supplier canonical hotel/room models in either Prisma schema. [Preliminary estimate and candidate scope](docs/research/2026-11-02-internal-mapping-build-estimate.md): bounded two-supplier pilot, 170–270 engineering hours (~4–7 full-time engineering weeks), with 20–30 hour synthetic prototype as first milestone. A hypothetical external labor rate yields a budgeting scenario, not an actual quote or required assistant fee. Verified small pilot VM/backups hosting example is separate from total development/operations cost. Existing architecture/security/privacy gates and mock/live distinction remain. Next: obtain permitted representative property/room catalogues, refine effort and prepare an isolated candidate; no software, schema migration, purchase or live operation changed in this assessment.
