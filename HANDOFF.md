@@ -1,5 +1,7 @@
 ## Web, iOS and Android kickoff — 2026-11-03
 
+Continue from the Claude Code browser session “YoRight implementation plan”. Review the phased web, iOS and Android plan before implementation. The local Claude Code OAuth blocker does not apply to the browser session.
+
 After Claude subscription reauthorization, relaunch Fable 5.1 in `work/yoright-fable-platforms` and verify the first model response. Plan web, iOS and Android using the existing code and a shared API. Start with synthetic two-supplier hotel search, hotel crosswalk, review of uncertain matches, conservative room matching and comparison of equivalent total rates. Preserve privacy, security and production gates. No paid mapping or live bookings in the pilot.
 
 ## Internal mapping scoped effort estimate — 2026-11-02

@@ -1,5 +1,7 @@
 ## Web, iOS and Android kickoff — 2026-11-03
 
+Owner switched to Claude Code in the browser with Fable 5.1 High and Plan permissions. Submitted the cross-platform plan request against A-awd/yoright on migration/one-brain-foundation. The session reported repository cloning and responding. Implementation awaits plan review.
+
 Owner authorized starting YoRight for responsive web, iOS and Android with Claude Fable 5.1. Prepared isolated branch `work/yoright-fable-platforms` from verified revision `71aa19a`. Claude displayed Fable 5.1 on Max and rejected the implementation prompt with an expired OAuth token. Implementation was not verified as started. Subscription reauthorization was opened in Codex.
 
 ## Internal mapping scoped effort estimate — 2026-11-02
