@@ -1,3 +1,11 @@
+## Future sports and event ticket packages - 2026-11-09
+
+Owner directed saving B2B match/event ticket sourcing and resale as a future YoRight plan, including travel packages with flights and accommodation. Travel Connection and TicketNetwork are explicit candidates, with other relevant supply routes recorded for later comparison. See [the deferred plan](docs/plans/2026-11-09-sports-and-event-ticket-packages.md) and [decision 0003](decisions/0003-future-sports-and-event-ticket-packages.md). This is a future backlog item, not a change to the current implementation priority or a supplier award.
+
+Supplier access, commercial terms, event-specific authorisation and distribution/bundling rights remain unverified. Require matched final payable totals in SAR, clear seat/delivery conditions and cancellation exposure across the ticket, flight and hotel components. No account, outreach, purchase, integration, contract or production change is authorised by this record. Resume this initiative only when the owner starts that phase; first define target events/packages and refresh published supplier evidence. Existing clone, security/privacy, migration and live-operation gates remain.
+
+Documentation baseline verified through GitHub at `d0844676a61d0c492772264442e1b3734dfdb05d` on the approved ref `migration/one-brain-foundation`. Work used the remote connector; no local clone or working-tree synchronisation is asserted.
+
 ## Web, iOS and Android kickoff — 2026-11-03
 
 Owner switched to Claude Code in the browser with Fable 5.1 High and Plan permissions. Submitted the cross-platform plan request against A-awd/yoright on migration/one-brain-foundation. The session reported repository cloning and responding. Implementation awaits plan review.

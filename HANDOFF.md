@@ -1,3 +1,11 @@
+## Deferred ticketing and travel-package plan - 2026-11-09
+
+The owner requested preserving a future sports/event ticket resale and package capability for YoRight. Resume from [the deferred plan](docs/plans/2026-11-09-sports-and-event-ticket-packages.md) and [decision 0003](decisions/0003-future-sports-and-event-ticket-packages.md) when the owner returns to this business phase. Travel Connection and TicketNetwork are named evaluation candidates, with no vendor selected or account/commercial terms verified.
+
+Keep official supply/hospitality distinct from secondary resale. Compare final payable totals in SAR for equivalent seats and quantities, verify event-specific distribution and bundling rights, and assess ticket delivery and full-trip cancellation exposure. This documentation task did not implement or launch the feature, contact suppliers, create/fund accounts, purchase inventory, or alter existing app work. Earlier security, privacy and migration gates remain. Easy Life is stopped.
+
+Next action for this item: wait for the owner's resumption, then define target event/package scope and refresh published supplier evidence before any separately authorised commercial or implementation step.
+
 ## Web, iOS and Android kickoff — 2026-11-03
 
 Continue from the Claude Code browser session “YoRight implementation plan”. Review the phased web, iOS and Android plan before implementation. The local Claude Code OAuth blocker does not apply to the browser session.
