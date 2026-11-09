@@ -1,0 +1,881 @@
+{
+  "schema_version": 1,
+  "title": "سجل منصات البحث عن تذكرة",
+  "maintained_for": "A-awd/yoright",
+  "as_of": "2026-11-09",
+  "scope": "سجل هوية وملاءمة منشورة؛ ليس سجل تغطية لبحث أسعار أو شهادة اعتماد. جميع الصفحات استُرجعت مباشرة؛ لا يُعتمد نجاح HTTP وحده.",
+  "confirmation_definition": "confirmed يعني اسم/نطاق ومحتوى نشاط ذي صلة مقروء من المصدر المباشر. candidate يعني تعذر تأكيد النشاط من الاسترجاع الحالي، ولو كانت الجهة معروفة تاريخيًا.",
+  "platforms": [
+    {
+      "id": "stubhub-us",
+      "name": "StubHub.com",
+      "domain": "stubhub.com",
+      "category": "سوق إعادة بيع",
+      "verification": "confirmed",
+      "status": "event_content_read",
+      "source": [
+        {
+          "url": "https://www.stubhub.com/",
+          "requested_url": "https://www.stubhub.com/",
+          "observed_at": "2026-11-09T05:35:17+00:00",
+          "method": "direct_http_curl",
+          "http_status": 200,
+          "evidence_excerpt": "Buy sports, concert and theater tickets on StubHub!",
+          "limitation": "عنوان أو استجابة فارغة؛ المحتوى التشغيلي لم يُثبت."
+        },
+        {
+          "url": "https://www.stubhub.com/sporting-cp-lisboa-tickets-1-20-2027/event/161831088/?quantity=1",
+          "observed_at": "2026-11-09T05:36:59Z",
+          "method": "cloud_chromium_playwright",
+          "http_status": 200,
+          "evidence_excerpt": "Sporting CP vs FC Barcelona - European Cup; Superior B; 1 ticket; $169 incl. fees",
+          "limitation": "نهاية نافذة تقريبية للجلب الأول05:35–05:36؛ لا timestamp فردي محفوظ. عروض لا إجمالي دفع؛ إعادة الفتح التالية503.",
+          "observed_at_window": {
+            "start": "2026-11-09T05:35:00Z",
+            "end": "2026-11-09T05:36:59Z"
+          }
+        }
+      ],
+      "observed_at": "2026-11-09T05:40:54.496926+00:00",
+      "notes": "عنوان أو استجابة فارغة؛ المحتوى التشغيلي لم يُثبت. محتوى المناسبة قُرئ لاحقًا بالمتصفح، ثم تعذر الاستكمال503؛ لا يثبت إجماليًا نهائيًا.",
+      "coverage": "الجلب HTTP الأول أعاد عنوانًا فقط؛ القراءة اللاحقة بالمتصفح أثبتت محتوى المباراة والعروض. لم يكتمل إجمالي الدفع بسبب503 لاحقًا.",
+      "event_authorisation": "غير مثبتة؛ تحقق خاص بالمناسبة والمنظم",
+      "inventory_and_final_price": "لم يُفحصا في إنشاء سجل الهوية هذا"
+    },
+    {
+      "id": "stubhub-intl",
+      "name": "StubHub International",
+      "domain": "stubhub.ie",
+      "category": "سوق إعادة بيع مرشح",
+      "verification": "candidate",
+      "status": "access_denied",
+      "source": [
+        {
+          "url": "https://www.stubhub.ie/",
+          "requested_url": "https://www.stubhub.ie/",
+          "observed_at": "2026-11-09T05:35:17+00:00",
+          "method": "direct_http_curl",
+          "http_status": 403,
+          "evidence_excerpt": "Access Denied",
+          "limitation": "Access Denied"
+        }
+      ],
+      "observed_at": "2026-11-09T05:35:17+00:00",
+      "notes": "Access Denied",
+      "coverage": "نطاق .ie مدخل دولي مرشح من القائمة التاريخية؛ الحظر يمنع تثبيت النشاط الحالي أو العلاقة بالحساب والمخزون والرسوم في .com.",
+      "event_authorisation": "غير مثبتة؛ تحقق خاص بالمناسبة والمنظم",
+      "inventory_and_final_price": "لم يُفحصا في إنشاء سجل الهوية هذا"
+    },
+    {
+      "id": "viagogo",
+      "name": "Viagogo",
+      "domain": "viagogo.com",
+      "category": "سوق إعادة بيع",
+      "verification": "confirmed",
+      "status": "event_content_read",
+      "source": [
+        {
+          "url": "https://www.viagogo.com/",
+          "requested_url": "https://www.viagogo.com/",
+          "observed_at": "2026-11-09T05:35:17+00:00",
+          "method": "direct_http_curl",
+          "http_status": 200,
+          "evidence_excerpt": "Tickets - Concert, Sport & Theatre Tickets | viagogo the Ticket Marketplace",
+          "limitation": "عنوان أو استجابة فارغة؛ المحتوى التشغيلي لم يُثبت."
+        },
+        {
+          "url": "https://www.viagogo.at/Sport-Tickets/Fussball/F-C-Barcelona-Karten/E-161831088?quantity=1",
+          "observed_at": "2026-11-09T05:36:59.990454Z",
+          "method": "cloud_chromium_playwright",
+          "http_status": 200,
+          "evidence_excerpt": "Sporting CP vs FC Barcelona - European Cup; Section B28; 1 ticket; $176 No extra fees",
+          "limitation": "صفحة Viagogo قُرئت2026-11-09T05:36:59.990454Z؛ عروض مرئية لا إجمالي دفع، وإعادة الفتح التالية503."
+        }
+      ],
+      "observed_at": "2026-11-09T05:40:54.497951+00:00",
+      "notes": "عنوان أو استجابة فارغة؛ المحتوى التشغيلي لم يُثبت. محتوى المناسبة قُرئ لاحقًا بالمتصفح، ثم تعذر الاستكمال503؛ لا يثبت إجماليًا نهائيًا.",
+      "coverage": "الجلب HTTP الأول أعاد عنوانًا فقط؛ القراءة اللاحقة بالمتصفح أثبتت محتوى المباراة والعروض. لم يكتمل إجمالي الدفع بسبب503 لاحقًا.",
+      "event_authorisation": "غير مثبتة؛ تحقق خاص بالمناسبة والمنظم",
+      "inventory_and_final_price": "لم يُفحصا في إنشاء سجل الهوية هذا"
+    },
+    {
+      "id": "ticombo",
+      "name": "Ticombo",
+      "domain": "ticombo.com",
+      "category": "سوق تذاكر",
+      "verification": "confirmed",
+      "status": "public_catalogue_observed",
+      "source": [
+        {
+          "url": "https://www.ticombo.com/",
+          "requested_url": "https://www.ticombo.com/",
+          "observed_at": "2026-11-09T05:35:17+00:00",
+          "method": "direct_http_curl",
+          "http_status": 200,
+          "evidence_excerpt": "Ticombo – world of events - world’s No. 1 Ticket Marketplace",
+          "limitation": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة."
+        }
+      ],
+      "observed_at": "2026-11-09T05:35:17+00:00",
+      "notes": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة.",
+      "coverage": "تعرض الصفحة مناسبات رياضية دولية وخيار Sell your tickets؛ يلزم مطابقة كل مناسبة وشروط الجمهور.",
+      "event_authorisation": "غير مثبتة؛ تحقق خاص بالمناسبة والمنظم",
+      "inventory_and_final_price": "لم يُفحصا في إنشاء سجل الهوية هذا"
+    },
+    {
+      "id": "ticketnetwork",
+      "name": "TicketNetwork",
+      "domain": "ticketnetwork.com",
+      "category": "سوق إعادة بيع",
+      "verification": "confirmed",
+      "status": "public_catalogue_observed",
+      "source": [
+        {
+          "url": "https://www.ticketnetwork.com/",
+          "requested_url": "https://www.ticketnetwork.com/",
+          "observed_at": "2026-11-09T05:35:17+00:00",
+          "method": "direct_http_curl",
+          "http_status": 200,
+          "evidence_excerpt": "Resale ticket prices may be above face value.",
+          "limitation": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة."
+        }
+      ],
+      "observed_at": "2026-11-09T05:35:17+00:00",
+      "notes": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة.",
+      "coverage": "رياضة وحفلات ومسرح؛ نطاق البطولات المتاحة يتحدد بالبحث الداخلي وليس بقائمة عامة.",
+      "event_authorisation": "غير مثبتة؛ تحقق خاص بالمناسبة والمنظم",
+      "inventory_and_final_price": "لم يُفحصا في إنشاء سجل الهوية هذا"
+    },
+    {
+      "id": "tickpick",
+      "name": "TickPick",
+      "domain": "tickpick.com",
+      "category": "شراء وبيع تذاكر",
+      "verification": "confirmed",
+      "status": "public_catalogue_observed",
+      "source": [
+        {
+          "url": "https://www.tickpick.com/",
+          "requested_url": "https://www.tickpick.com/",
+          "observed_at": "2026-11-09T05:35:17+00:00",
+          "method": "direct_http_curl",
+          "http_status": 200,
+          "evidence_excerpt": "Buy & Sell Tickets to Concerts, Sports & Theater Events - No Hidden Fees - TickPick",
+          "limitation": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة."
+        }
+      ],
+      "observed_at": "2026-11-09T05:35:17+00:00",
+      "notes": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة.",
+      "coverage": "كتالوج رياضة وحفلات ومسرح؛ عنوان No Hidden Fees لا يعوض التحقق من إجمالي عرض محدد.",
+      "event_authorisation": "غير مثبتة؛ تحقق خاص بالمناسبة والمنظم",
+      "inventory_and_final_price": "لم يُفحصا في إنشاء سجل الهوية هذا"
+    },
+    {
+      "id": "seatgeek",
+      "name": "SeatGeek",
+      "domain": "seatgeek.com",
+      "category": "منصة تذاكر متعددة القنوات",
+      "verification": "confirmed",
+      "status": "public_catalogue_observed",
+      "source": [
+        {
+          "url": "https://seatgeek.com/",
+          "requested_url": "https://seatgeek.com/",
+          "observed_at": "2026-11-09T05:35:17+00:00",
+          "method": "direct_http_curl",
+          "http_status": 200,
+          "evidence_excerpt": "SeatGeek | Your Ticket to Sports Games, Concerts & Live Shows so Fans Can Fan",
+          "limitation": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة."
+        }
+      ],
+      "observed_at": "2026-11-09T05:35:17+00:00",
+      "notes": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة.",
+      "coverage": "الكتالوج الظاهر يركز على البطولات الأمريكية. لا تُفترض ملاءمة كل مباراة أوروبية أو أنها إعادة بيع فقط.",
+      "event_authorisation": "غير مثبتة؛ تحقق خاص بالمناسبة والمنظم",
+      "inventory_and_final_price": "لم يُفحصا في إنشاء سجل الهوية هذا"
+    },
+    {
+      "id": "vivid-seats",
+      "name": "Vivid Seats",
+      "domain": "vividseats.com",
+      "category": "شراء وبيع تذاكر",
+      "verification": "confirmed",
+      "status": "public_catalogue_observed",
+      "source": [
+        {
+          "url": "https://www.vividseats.com/",
+          "requested_url": "https://www.vividseats.com/",
+          "observed_at": "2026-11-09T05:35:17+00:00",
+          "method": "direct_http_curl",
+          "http_status": 200,
+          "evidence_excerpt": "Buy and Sell Tickets: Concerts, Sports & Theater | Vivid Seats",
+          "limitation": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة."
+        }
+      ],
+      "observed_at": "2026-11-09T05:35:17+00:00",
+      "notes": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة.",
+      "coverage": "كتالوج رياضة وحفلات ومسرح؛ التغطية المحلية التي يولدها الموقع لا تثبت وجود المناسبة المطلوبة.",
+      "event_authorisation": "غير مثبتة؛ تحقق خاص بالمناسبة والمنظم",
+      "inventory_and_final_price": "لم يُفحصا في إنشاء سجل الهوية هذا"
+    },
+    {
+      "id": "gametime",
+      "name": "Gametime",
+      "domain": "gametime.co",
+      "category": "سوق تذاكر اللحظة الأخيرة",
+      "verification": "confirmed",
+      "status": "public_catalogue_observed",
+      "source": [
+        {
+          "url": "https://gametime.co/company/about/",
+          "requested_url": "https://gametime.co/company/about/",
+          "observed_at": "2026-11-09T05:35:59+00:00",
+          "method": "direct_http_curl",
+          "http_status": 200,
+          "evidence_excerpt": "Today, Gametime provides the premier marketplace for last-minute tickets to the most popular events in sports, music, and theater in more than 60 cities across the U.S. and Canada.",
+          "limitation": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة."
+        },
+        {
+          "url": "https://gametime.co/",
+          "observed_at": "2026-11-09T05:35:17+00:00",
+          "method": "direct_http_curl",
+          "http_status": 200,
+          "evidence_excerpt": "Last-Minute Sports, Music & Shows Tickets | Gametime"
+        }
+      ],
+      "observed_at": "2026-11-09T05:35:59+00:00",
+      "notes": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة.",
+      "coverage": "صفحة التعريف تنص على أكثر من 60 مدينة في الولايات المتحدة وكندا؛ لا تستبعد دولة أخرى دون دليل أحدث أو بحث مخصص.",
+      "event_authorisation": "غير مثبتة؛ تحقق خاص بالمناسبة والمنظم",
+      "inventory_and_final_price": "لم يُفحصا في إنشاء سجل الهوية هذا"
+    },
+    {
+      "id": "gigsberg",
+      "name": "Gigsberg",
+      "domain": "gigsberg.com",
+      "category": "سوق إعادة بيع",
+      "verification": "confirmed",
+      "status": "public_catalogue_observed",
+      "source": [
+        {
+          "url": "https://www.gigsberg.com/",
+          "requested_url": "https://www.gigsberg.com/",
+          "observed_at": "2026-11-09T05:35:17+00:00",
+          "method": "direct_http_curl",
+          "http_status": 200,
+          "evidence_excerpt": "Gigsberg is a secondary ticket marketplace.",
+          "limitation": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة."
+        }
+      ],
+      "observed_at": "2026-11-09T05:35:17+00:00",
+      "notes": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة.",
+      "coverage": "رياضة وحفلات ومسرح؛ البائع يحدد السعر وفق بيان الصفحة.",
+      "event_authorisation": "غير مثبتة؛ تحقق خاص بالمناسبة والمنظم",
+      "inventory_and_final_price": "لم يُفحصا في إنشاء سجل الهوية هذا"
+    },
+    {
+      "id": "livefootballtickets",
+      "name": "LiveFootballTickets",
+      "domain": "livefootballtickets.com",
+      "category": "سوق تذاكر كرة قدم",
+      "verification": "confirmed",
+      "status": "public_catalogue_observed",
+      "source": [
+        {
+          "url": "https://www.livefootballtickets.com/",
+          "requested_url": "https://www.livefootballtickets.com/",
+          "observed_at": "2026-11-09T05:35:18+00:00",
+          "method": "direct_http_curl",
+          "http_status": 200,
+          "evidence_excerpt": "Trusted Football ticket marketplace",
+          "limitation": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة."
+        }
+      ],
+      "observed_at": "2026-11-09T05:35:18+00:00",
+      "notes": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة.",
+      "coverage": "كرة القدم؛ الأسعار قد تتجاوز القيمة الاسمية. الضمان التسويقي ليس اعتمادًا من كل نادٍ.",
+      "event_authorisation": "غير مثبتة؛ تحقق خاص بالمناسبة والمنظم",
+      "inventory_and_final_price": "لم يُفحصا في إنشاء سجل الهوية هذا"
+    },
+    {
+      "id": "footballticketnet",
+      "name": "FootballTicketNet",
+      "domain": "footballticketnet.com",
+      "category": "سوق ثانوي لكرة القدم",
+      "verification": "confirmed",
+      "status": "public_catalogue_observed",
+      "source": [
+        {
+          "url": "https://www.footballticketnet.com/",
+          "requested_url": "https://www.footballticketnet.com/",
+          "observed_at": "2026-11-09T05:35:18+00:00",
+          "method": "direct_http_curl",
+          "http_status": 200,
+          "evidence_excerpt": "Football Ticket Net Is The World's Leading Football Secondary Ticket Marketplace.",
+          "limitation": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة."
+        }
+      ],
+      "observed_at": "2026-11-09T05:35:18+00:00",
+      "notes": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة.",
+      "coverage": "كرة القدم الأوروبية والدولية بحسب الكتالوج؛ الأسعار يحددها البائعون.",
+      "event_authorisation": "غير مثبتة؛ تحقق خاص بالمناسبة والمنظم",
+      "inventory_and_final_price": "لم يُفحصا في إنشاء سجل الهوية هذا"
+    },
+    {
+      "id": "sportsevents365",
+      "name": "SportsEvents365",
+      "domain": "sportsevents365.com",
+      "category": "بائع وموزع تذاكر فعاليات",
+      "verification": "confirmed",
+      "status": "public_catalogue_observed",
+      "source": [
+        {
+          "url": "https://sportsevents365.com/",
+          "requested_url": "https://sportsevents365.com/",
+          "observed_at": "2026-11-09T05:35:18+00:00",
+          "method": "direct_http_curl",
+          "http_status": 200,
+          "evidence_excerpt": "We’re a trusted vendor and reseller of live event tickets.",
+          "limitation": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة."
+        }
+      ],
+      "observed_at": "2026-11-09T05:35:18+00:00",
+      "notes": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة.",
+      "coverage": "رياضة وعروض؛ يصف نفسه vendor and reseller. صفة الاعتماد يلزم إثباتها للمناسبة.",
+      "event_authorisation": "غير مثبتة؛ تحقق خاص بالمناسبة والمنظم",
+      "inventory_and_final_price": "لم يُفحصا في إنشاء سجل الهوية هذا"
+    },
+    {
+      "id": "ticketkosta",
+      "name": "TicketKosta",
+      "domain": "ticketkosta.com",
+      "category": "بائع إعادة بيع",
+      "verification": "confirmed",
+      "status": "public_catalogue_observed",
+      "source": [
+        {
+          "url": "https://www.ticketkosta.com/ara",
+          "requested_url": "https://www.ticketkosta.com/",
+          "observed_at": "2026-11-09T05:35:18+00:00",
+          "method": "direct_http_curl",
+          "http_status": 200,
+          "evidence_excerpt": "TicketKosta هم بائعون لتذاكر الأحداث الحية. قد تكون الأسعار أعلى أو أقل من القيمة الاسمية.",
+          "limitation": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة."
+        }
+      ],
+      "observed_at": "2026-11-09T05:35:18+00:00",
+      "notes": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة.",
+      "coverage": "رياضة وحفلات بحسب الصفحة؛ الأسعار قد تعلو أو تقل عن القيمة الاسمية.",
+      "event_authorisation": "غير مثبتة؛ تحقق خاص بالمناسبة والمنظم",
+      "inventory_and_final_price": "لم يُفحصا في إنشاء سجل الهوية هذا"
+    },
+    {
+      "id": "1boxoffice",
+      "name": "1BoxOffice",
+      "domain": "1boxoffice.com",
+      "category": "سوق إعادة بيع",
+      "verification": "confirmed",
+      "status": "public_catalogue_observed",
+      "source": [
+        {
+          "url": "https://www.1boxoffice.com/en",
+          "requested_url": "https://www.1boxoffice.com/",
+          "observed_at": "2026-11-09T05:35:18+00:00",
+          "method": "direct_http_curl",
+          "http_status": 200,
+          "evidence_excerpt": "Every ticket on 1BoxOffice is sold by independent sellers on our resale marketplace.",
+          "limitation": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة."
+        }
+      ],
+      "observed_at": "2026-11-09T05:35:18+00:00",
+      "notes": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة.",
+      "coverage": "كرة قدم ورياضات وحفلات؛ الصفحة تنص على بائعين مستقلين.",
+      "event_authorisation": "غير مثبتة؛ تحقق خاص بالمناسبة والمنظم",
+      "inventory_and_final_price": "لم يُفحصا في إنشاء سجل الهوية هذا"
+    },
+    {
+      "id": "hellotickets",
+      "name": "Hellotickets",
+      "domain": "hellotickets.com",
+      "category": "منصة فعاليات وتجارب",
+      "verification": "confirmed",
+      "status": "public_catalogue_observed",
+      "source": [
+        {
+          "url": "https://www.hellotickets.com/",
+          "requested_url": "https://www.hellotickets.com/",
+          "observed_at": "2026-11-09T05:35:18+00:00",
+          "method": "direct_http_curl",
+          "http_status": 200,
+          "evidence_excerpt": "Hellotickets - Book tours, attractions and event tickets worldwide",
+          "limitation": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة."
+        }
+      ],
+      "observed_at": "2026-11-09T05:35:18+00:00",
+      "notes": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة.",
+      "coverage": "جولات ومعالم وفعاليات؛ فرّق تذكرة المباراة عن جولة الملعب وعن الضيافة.",
+      "event_authorisation": "غير مثبتة؛ تحقق خاص بالمناسبة والمنظم",
+      "inventory_and_final_price": "لم يُفحصا في إنشاء سجل الهوية هذا"
+    },
+    {
+      "id": "fanpass-net",
+      "name": "Fanpass.net",
+      "domain": "fanpass.net",
+      "category": "سوق إعادة بيع",
+      "verification": "confirmed",
+      "status": "public_catalogue_observed",
+      "source": [
+        {
+          "url": "https://www.fanpass.net/",
+          "requested_url": "https://www.fanpass.net/",
+          "observed_at": "2026-11-09T05:35:18+00:00",
+          "method": "direct_http_curl",
+          "http_status": 200,
+          "evidence_excerpt": "Fanpass is the best tickets reseller platform for buyer and seller.",
+          "limitation": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة."
+        }
+      ],
+      "observed_at": "2026-11-09T05:35:18+00:00",
+      "notes": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة.",
+      "coverage": "رياضة وفعاليات ثقافية؛ مستقل تمامًا في هذا السجل عن fanspass.sa.",
+      "event_authorisation": "غير مثبتة؛ تحقق خاص بالمناسبة والمنظم",
+      "inventory_and_final_price": "لم يُفحصا في إنشاء سجل الهوية هذا"
+    },
+    {
+      "id": "p1travel",
+      "name": "P1 Travel",
+      "domain": "p1travel.com",
+      "category": "توزيع تذاكر وباقات وضيافة",
+      "verification": "confirmed",
+      "status": "public_catalogue_observed",
+      "source": [
+        {
+          "url": "https://www.p1travel.com/en",
+          "requested_url": "https://www.p1travel.com/",
+          "observed_at": "2026-11-09T05:35:18+00:00",
+          "method": "direct_http_curl",
+          "http_status": 200,
+          "evidence_excerpt": "Through a wide range of official tickets and travel packages, we will get you to the event of your dreams!",
+          "limitation": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة."
+        }
+      ],
+      "observed_at": "2026-11-09T05:35:18+00:00",
+      "notes": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة.",
+      "coverage": "ينشر شراكات رسمية لجهات معينة؛ لا يُعمم الاعتماد على جميع المنتجات. افصل الضيافة عن المقعد العادي.",
+      "event_authorisation": "غير مثبتة؛ تحقق خاص بالمناسبة والمنظم",
+      "inventory_and_final_price": "لم يُفحصا في إنشاء سجل الهوية هذا"
+    },
+    {
+      "id": "seatunique",
+      "name": "Seat Unique",
+      "domain": "seatunique.com",
+      "category": "ضيافة وتذاكر VIP",
+      "verification": "confirmed",
+      "status": "public_catalogue_observed",
+      "source": [
+        {
+          "url": "https://www.seatunique.com/",
+          "requested_url": "https://www.seatunique.com/",
+          "observed_at": "2026-11-09T05:35:18+00:00",
+          "method": "direct_http_curl",
+          "http_status": 200,
+          "evidence_excerpt": "Hospitality & VIP Tickets For Sports, Music & Live Events",
+          "limitation": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة."
+        }
+      ],
+      "observed_at": "2026-11-09T05:35:18+00:00",
+      "notes": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة.",
+      "coverage": "رياضة وموسيقى وثقافة؛ مقارنة الضيافة مستقلة عن أدنى دخول عادي.",
+      "event_authorisation": "غير مثبتة؛ تحقق خاص بالمناسبة والمنظم",
+      "inventory_and_final_price": "لم يُفحصا في إنشاء سجل الهوية هذا"
+    },
+    {
+      "id": "fanspass-sa",
+      "name": "FansPass السعودية",
+      "domain": "fanspass.sa",
+      "category": "سوق إعادة بيع",
+      "verification": "confirmed",
+      "status": "public_catalogue_observed",
+      "source": [
+        {
+          "url": "https://fanspass.sa/ar-sa/pages/terms-and-conditions",
+          "requested_url": "https://fanspass.sa/ar-sa/pages/terms-and-conditions",
+          "observed_at": "2026-11-09T05:35:59+00:00",
+          "method": "direct_http_curl",
+          "http_status": 200,
+          "evidence_excerpt": "فانز باس منصة لإعادة بيع التذاكر (سوق ثانوي) تربط البائعين بالمشترين. ليست جهة منظمة أو مُصدِرة للتذاكر.",
+          "limitation": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة."
+        },
+        {
+          "url": "https://fanspass.sa/ar-sa",
+          "observed_at": "2026-11-09T05:35:18+00:00",
+          "method": "direct_http_curl",
+          "http_status": 200,
+          "evidence_excerpt": "وجهتك الأولى لشراء تذاكر جميع الفعاليات المحلية والعالمية – فانز باس"
+        }
+      ],
+      "observed_at": "2026-11-09T05:35:59+00:00",
+      "notes": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة.",
+      "coverage": "محلي وعالمي وفق الكتالوج. الشروط: وسيط بين البائع والمشتري، ليس مُصدرًا أو منظمًا، والأسعار للبائع. لا يخلط مع fanpass.net.",
+      "event_authorisation": "غير مثبتة؛ تحقق خاص بالمناسبة والمنظم",
+      "inventory_and_final_price": "لم يُفحصا في إنشاء سجل الهوية هذا"
+    },
+    {
+      "id": "grintahub",
+      "name": "GrintaHub",
+      "domain": "grintahub.com",
+      "category": "سوق إعادة بيع",
+      "verification": "confirmed",
+      "status": "public_catalogue_observed",
+      "source": [
+        {
+          "url": "https://grintahub.com/",
+          "requested_url": "https://grintahub.com/",
+          "observed_at": "2026-11-09T05:35:19+00:00",
+          "method": "direct_http_curl",
+          "http_status": 200,
+          "evidence_excerpt": "غرينتاهب ليست الجهة المُصدِرة للتذاكر ولا منظِّمة الفعالية.",
+          "limitation": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة."
+        }
+      ],
+      "observed_at": "2026-11-09T05:35:19+00:00",
+      "notes": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة.",
+      "coverage": "سعودي وخليجي وعالمي بحسب الكتالوج. تنص الصفحة على عدم كونها المُصدرة أو المنظمة، والأسعار من بائعين مستقلين.",
+      "event_authorisation": "غير مثبتة؛ تحقق خاص بالمناسبة والمنظم",
+      "inventory_and_final_price": "لم يُفحصا في إنشاء سجل الهوية هذا"
+    },
+    {
+      "id": "ticketmaster",
+      "name": "Ticketmaster",
+      "domain": "ticketmaster.com",
+      "category": "تذاكر أولية وإعادة بيع بحسب المناسبة",
+      "verification": "confirmed",
+      "status": "public_catalogue_observed",
+      "source": [
+        {
+          "url": "https://www.ticketmaster.com/",
+          "requested_url": "https://www.ticketmaster.com/",
+          "observed_at": "2026-11-09T05:35:19+00:00",
+          "method": "direct_http_curl",
+          "http_status": 200,
+          "evidence_excerpt": "Ticketmaster: Buy Verified Tickets for Concerts, Sports, Theater and Events",
+          "limitation": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة."
+        }
+      ],
+      "observed_at": "2026-11-09T05:35:19+00:00",
+      "notes": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة.",
+      "coverage": "حدد موقع الدولة وربط المنظم الرسمي؛ US homepage لا يثبت اعتمادًا لمناسبة في البرتغال. توجد ملاحظة browser not supported في HTML المسترجع.",
+      "event_authorisation": "غير مثبتة؛ تحقق خاص بالمناسبة والمنظم",
+      "inventory_and_final_price": "لم يُفحصا في إنشاء سجل الهوية هذا"
+    },
+    {
+      "id": "axs",
+      "name": "AXS",
+      "domain": "axs.com",
+      "category": "تذاكر وAXS Marketplace",
+      "verification": "confirmed",
+      "status": "public_catalogue_observed",
+      "source": [
+        {
+          "url": "https://www.axs.com/",
+          "requested_url": "https://www.axs.com/",
+          "observed_at": "2026-11-09T05:35:19+00:00",
+          "method": "direct_http_curl",
+          "http_status": 200,
+          "evidence_excerpt": "Official Tickets and Your Source for Live Entertainment - AXS US",
+          "limitation": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة."
+        }
+      ],
+      "observed_at": "2026-11-09T05:35:19+00:00",
+      "notes": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة.",
+      "coverage": "اختر الدولة والجهة المنظمة؛ عبارة Official في العنوان لا تثبت حصرية لكل مناسبة.",
+      "event_authorisation": "غير مثبتة؛ تحقق خاص بالمناسبة والمنظم",
+      "inventory_and_final_price": "لم يُفحصا في إنشاء سجل الهوية هذا"
+    },
+    {
+      "id": "eventim",
+      "name": "EVENTIM",
+      "domain": "eventim.com",
+      "category": "شبكة بيع أولي مرشحة",
+      "verification": "candidate",
+      "status": "technical_error",
+      "source": [
+        {
+          "url": "https://www.eventim.com/",
+          "requested_url": "https://www.eventim.com/",
+          "observed_at": "2026-11-09T05:35:19+00:00",
+          "method": "direct_http_curl",
+          "http_status": 503,
+          "evidence_excerpt": "",
+          "limitation": "upstream connect error or disconnect/reset before headers. reset reason: remote reset"
+        },
+        {
+          "url": "https://www.eventim.de/",
+          "observed_at": "2026-11-09T05:35:59+00:00",
+          "method": "direct_http_curl",
+          "http_status": 503,
+          "evidence_excerpt": "upstream connect error or disconnect/reset before headers. reset reason: remote reset"
+        }
+      ],
+      "observed_at": "2026-11-09T05:35:19+00:00",
+      "notes": "upstream connect error or disconnect/reset before headers. reset reason: remote reset",
+      "coverage": "محاولة eventim.com وeventim.de أخفقت تقنيًا؛ حدد موقع البلد المعتمد من المنظم قبل البحث.",
+      "event_authorisation": "غير مثبتة؛ تحقق خاص بالمناسبة والمنظم",
+      "inventory_and_final_price": "لم يُفحصا في إنشاء سجل الهوية هذا"
+    },
+    {
+      "id": "seetickets",
+      "name": "See Tickets",
+      "domain": "seetickets.com",
+      "category": "بيع تذاكر مرشح",
+      "verification": "candidate",
+      "status": "access_denied",
+      "source": [
+        {
+          "url": "https://www.seetickets.com/",
+          "requested_url": "https://www.seetickets.com/",
+          "observed_at": "2026-11-09T05:35:19+00:00",
+          "method": "direct_http_curl",
+          "http_status": 403,
+          "evidence_excerpt": "",
+          "limitation": "Unusual Traffic Detected"
+        }
+      ],
+      "observed_at": "2026-11-09T05:35:19+00:00",
+      "notes": "Unusual Traffic Detected",
+      "coverage": "لم يتسن تثبيت النشاط الحالي من هذه الجلسة بسبب حظر unusual traffic؛ موقع البلد وعلاقة المنظم يتطلبان تحققًا.",
+      "event_authorisation": "غير مثبتة؛ تحقق خاص بالمناسبة والمنظم",
+      "inventory_and_final_price": "لم يُفحصا في إنشاء سجل الهوية هذا"
+    },
+    {
+      "id": "dice",
+      "name": "DICE",
+      "domain": "dice.fm",
+      "category": "تذاكر حفلات وفعاليات",
+      "verification": "confirmed",
+      "status": "public_catalogue_observed",
+      "source": [
+        {
+          "url": "https://dice.fm/",
+          "requested_url": "https://dice.fm/",
+          "observed_at": "2026-11-09T05:35:19+00:00",
+          "method": "direct_http_curl",
+          "http_status": 200,
+          "evidence_excerpt": "We partner with the people and places that keep live music culture thriving around the world",
+          "limitation": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة."
+        }
+      ],
+      "observed_at": "2026-11-09T05:35:19+00:00",
+      "notes": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة.",
+      "coverage": "الموسيقى والنوادي والكوميديا وغيرها بحسب صفحة التعريف؛ الشراكات مع القاعات والمنظمين لا تعني مناسبة محددة.",
+      "event_authorisation": "غير مثبتة؛ تحقق خاص بالمناسبة والمنظم",
+      "inventory_and_final_price": "لم يُفحصا في إنشاء سجل الهوية هذا"
+    },
+    {
+      "id": "ticketline",
+      "name": "Ticketline",
+      "domain": "ticketline.pt",
+      "category": "كتالوج تذاكر برتغالي",
+      "verification": "confirmed",
+      "status": "public_catalogue_observed",
+      "source": [
+        {
+          "url": "https://www.ticketline.pt/",
+          "requested_url": "https://ticketline.pt/",
+          "observed_at": "2026-11-09T05:35:59+00:00",
+          "method": "direct_http_curl",
+          "http_status": 200,
+          "evidence_excerpt": "Ticketline – Bilhetes para eventos",
+          "limitation": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة."
+        },
+        {
+          "url": "https://ticketline.sapo.pt/",
+          "observed_at": "2026-11-09T05:35:20+00:00",
+          "method": "direct_http_curl",
+          "http_status": 503,
+          "evidence_excerpt": ""
+        }
+      ],
+      "observed_at": "2026-11-09T05:35:59+00:00",
+      "notes": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة.",
+      "coverage": "Ticketline.pt يعمل؛ ticketline.sapo.pt أعاد 503. البرتغال وقاعات ومدن أخرى في أجندة الموقع؛ تحقق اعتماد المنظم لكل مناسبة.",
+      "event_authorisation": "غير مثبتة؛ تحقق خاص بالمناسبة والمنظم",
+      "inventory_and_final_price": "لم يُفحصا في إنشاء سجل الهوية هذا"
+    },
+    {
+      "id": "bol",
+      "name": "BOL",
+      "domain": "bol.pt",
+      "category": "كتالوج بيع تذاكر برتغالي",
+      "verification": "confirmed",
+      "status": "public_catalogue_observed",
+      "source": [
+        {
+          "url": "https://www.bol.pt/",
+          "requested_url": "https://www.bol.pt/",
+          "observed_at": "2026-11-09T05:35:20+00:00",
+          "method": "direct_http_curl",
+          "http_status": 200,
+          "evidence_excerpt": "BOL - Comprar Bilhetes para Espectáculos",
+          "limitation": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة."
+        }
+      ],
+      "observed_at": "2026-11-09T05:35:20+00:00",
+      "notes": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة.",
+      "coverage": "ثقافة وموسيقى وأسرة ورياضة؛ اختر علاقة المنظم ولا تفترض بيع كل مباراة في لشبونة.",
+      "event_authorisation": "غير مثبتة؛ تحقق خاص بالمناسبة والمنظم",
+      "inventory_and_final_price": "لم يُفحصا في إنشاء سجل الهوية هذا"
+    },
+    {
+      "id": "webook",
+      "name": "webook",
+      "domain": "webook.com",
+      "category": "منصة تذاكر محلية مرشحة",
+      "verification": "candidate",
+      "status": "empty_response",
+      "source": [
+        {
+          "url": "https://webook.com/",
+          "requested_url": "https://webook.com/",
+          "observed_at": "2026-11-09T05:35:20+00:00",
+          "method": "direct_http_curl",
+          "http_status": 200,
+          "evidence_excerpt": null,
+          "limitation": "عنوان أو استجابة فارغة؛ المحتوى التشغيلي لم يُثبت."
+        },
+        {
+          "url": "https://webook.com/ar",
+          "observed_at": "2026-11-09T05:35:59+00:00",
+          "method": "direct_http_curl",
+          "http_status": 200,
+          "evidence_excerpt": null
+        }
+      ],
+      "observed_at": "2026-11-09T05:35:20+00:00",
+      "notes": "عنوان أو استجابة فارغة؛ المحتوى التشغيلي لم يُثبت.",
+      "coverage": "الاسترجاع أعاد 200 لكن HTML بلا نص أو عنوان قابل للتحقق؛ حالة تقنيّة وليست إثبات نشاط أو نفاد.",
+      "event_authorisation": "غير مثبتة؛ تحقق خاص بالمناسبة والمنظم",
+      "inventory_and_final_price": "لم يُفحصا في إنشاء سجل الهوية هذا"
+    },
+    {
+      "id": "ticketmx",
+      "name": "TicketMX",
+      "domain": "ticketmx.com",
+      "category": "منصة فعاليات محلية",
+      "verification": "confirmed",
+      "status": "public_catalogue_observed",
+      "source": [
+        {
+          "url": "https://www.ticketmx.com/ar",
+          "requested_url": "https://www.ticketmx.com/",
+          "observed_at": "2026-11-09T05:35:20+00:00",
+          "method": "direct_http_curl",
+          "http_status": 200,
+          "evidence_excerpt": "الصفحة الرئيسية - تكت مكس",
+          "limitation": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة."
+        }
+      ],
+      "observed_at": "2026-11-09T05:35:20+00:00",
+      "notes": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة.",
+      "coverage": "تعرض فعاليات ومدن سعودية وخليجية؛ يلزم رابط المنظم لإثبات الاعتماد للمناسبة.",
+      "event_authorisation": "غير مثبتة؛ تحقق خاص بالمناسبة والمنظم",
+      "inventory_and_final_price": "لم يُفحصا في إنشاء سجل الهوية هذا"
+    },
+    {
+      "id": "platinumlist",
+      "name": "Platinumlist",
+      "domain": "platinumlist.net",
+      "category": "منصة فعاليات محلية مرشحة",
+      "verification": "candidate",
+      "status": "access_denied",
+      "source": [
+        {
+          "url": "https://platinumlist.net/",
+          "requested_url": "https://platinumlist.net/",
+          "observed_at": "2026-11-09T05:35:20+00:00",
+          "method": "direct_http_curl",
+          "http_status": 403,
+          "evidence_excerpt": "Attention Required! | Cloudflare",
+          "limitation": "Cloudflare: Please enable cookies / blocked"
+        }
+      ],
+      "observed_at": "2026-11-09T05:35:20+00:00",
+      "notes": "Cloudflare: Please enable cookies / blocked",
+      "coverage": "حظر Cloudflare منع قراءة الكتالوج؛ لا تستنتج غياب مناسبة أو توقف الشركة.",
+      "event_authorisation": "غير مثبتة؛ تحقق خاص بالمناسبة والمنظم",
+      "inventory_and_final_price": "لم يُفحصا في إنشاء سجل الهوية هذا"
+    },
+    {
+      "id": "klook",
+      "name": "Klook",
+      "domain": "klook.com",
+      "category": "سوق تجارب وخدمات سفر",
+      "verification": "confirmed",
+      "status": "public_catalogue_observed",
+      "source": [
+        {
+          "url": "https://www.klook.com/",
+          "requested_url": "https://www.klook.com/",
+          "observed_at": "2026-11-09T05:35:20+00:00",
+          "method": "direct_http_curl",
+          "http_status": 200,
+          "evidence_excerpt": "Klook Travel - Things to do, Accommodation, Transport",
+          "limitation": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة."
+        }
+      ],
+      "observed_at": "2026-11-09T05:35:20+00:00",
+      "notes": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة.",
+      "coverage": "تجارب وأنشطة ونقل وإقامة؛ لا تُستهدف لمباراة إلا عند وجود منتج دخول واضح، لا جولة ملعب فقط.",
+      "event_authorisation": "غير مثبتة؛ تحقق خاص بالمناسبة والمنظم",
+      "inventory_and_final_price": "لم يُفحصا في إنشاء سجل الهوية هذا"
+    },
+    {
+      "id": "tiqets",
+      "name": "Tiqets",
+      "domain": "tiqets.com",
+      "category": "تذاكر معالم وتجارب",
+      "verification": "confirmed",
+      "status": "public_catalogue_observed",
+      "source": [
+        {
+          "url": "https://www.tiqets.com/en/",
+          "requested_url": "https://www.tiqets.com/",
+          "observed_at": "2026-11-09T05:35:20+00:00",
+          "method": "direct_http_curl",
+          "http_status": 200,
+          "evidence_excerpt": "Tiqets - Instant tickets for remarkable experiences",
+          "limitation": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة."
+        }
+      ],
+      "observed_at": "2026-11-09T05:35:20+00:00",
+      "notes": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة.",
+      "coverage": "المعالم والمتاحف والتجارب؛ فرّق الجولة والدخول العام عن تذكرة مناسبة حية.",
+      "event_authorisation": "غير مثبتة؛ تحقق خاص بالمناسبة والمنظم",
+      "inventory_and_final_price": "لم يُفحصا في إنشاء سجل الهوية هذا"
+    },
+    {
+      "id": "headout",
+      "name": "Headout",
+      "domain": "headout.com",
+      "category": "منصة تجارب وتذاكر",
+      "verification": "confirmed",
+      "status": "public_catalogue_observed",
+      "source": [
+        {
+          "url": "https://www.headout.com/",
+          "requested_url": "https://www.headout.com/",
+          "observed_at": "2026-11-09T05:35:20+00:00",
+          "method": "direct_http_curl",
+          "http_status": 200,
+          "evidence_excerpt": "Headout: Things To Do, Attractions, Tours, Events & Experiences",
+          "limitation": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة."
+        }
+      ],
+      "observed_at": "2026-11-09T05:35:20+00:00",
+      "notes": "محتوى عام ذو صلة بالتذاكر/الأنشطة ظهر مباشرة من موقع الجهة؛ لا يثبت مخزون مناسبة.",
+      "coverage": "معالم وجولات وعروض وتجارب؛ تحقق نوع المنتج ومطابقته للمناسبة.",
+      "event_authorisation": "غير مثبتة؛ تحقق خاص بالمناسبة والمنظم",
+      "inventory_and_final_price": "لم يُفحصا في إنشاء سجل الهوية هذا"
+    }
+  ]
+}

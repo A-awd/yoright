@@ -1,3 +1,15 @@
+## Resume ticket research from the implemented skill — 2026-11-09
+
+Use [skills/search-tickets/README.md](skills/search-tickets/README.md), invoke `$search-tickets` (or explicitly read its SKILL.md), then the [trial JSON](docs/research/tickets/runs/2026-11-09-sporting-barcelona-1.json), [result](docs/research/tickets/2026-11-09-test-result.md) and linked sanitized evidence. The skill source and registry are in YoRight's approved migration ref; no Uwrite mapping or move was established. Cloud installation only; Mac device offline and local browser/account access unverified. Re-discover actual tools next session.
+
+Do not repeat the old six-price table as live totals. New real-event trial has22 targets,0 confirmed finals,22 unresolved; not a cheaper-ticket recommendation. Finish the official January calendar, StubHub and Viagogo lowest-offer checkout, TicketNetwork, Gigsberg identity, FootballTicketNet permitted identification flow, SportsEvents365 all checkout tabs, and remaining ledger blockers when connection works. Repeated503 is access failure, not sold-out evidence. Grinta's conflicting venue prevents matched no-offers status. Wider34-platform registry is not a claim of event coverage on all34.
+
+Validation:18 focused unit tests plus baseline/fresh-agent skill checks and actual Chromium observations. Reproduce with `python3 -m unittest discover -s skills/search-tickets/tests -v`; validate/report via README. JSON consistency does not prove browsing evidence. No secret/private responses or checkout URLs belong in GitHub.
+
+Business: reuse the [updated plan](docs/plans/2026-11-09-sports-and-event-ticket-packages.md), [supplier evidence](docs/research/tickets/2026-11-09-supplier-evidence.md) and [data/operating proposal](docs/research/tickets/2026-11-09-capabilities-and-design.md). On-demand wholesale, affiliate, white-label and prepaid allocation are different models. Before launch confirm Saudi onboarding, event-specific rights, bundling/sub-distribution, all fees, settlement and liability; no accounts or messages have been sent. Begin with a small manual matched-quote pilot, not an API award or inventory purchase.
+
+Publication uses GitHub MCP atomic commit/ref update with expected head at baselinea946b49; final session receipt verifies the new remote SHA. A prepared file is not proof of publication: re-read remote branch/state before continuing. Cloud Git checkout may remain at baseline because shell network/auth failed; verify and reconcile without discarding work. No migration-to-main merge, app change, deployment or iCloud upload is asserted. Existing gates remain; Easy Life stays stopped.
+
 ## Deferred ticketing and travel-package plan - 2026-11-09
 
 The owner requested preserving a future sports/event ticket resale and package capability for YoRight. Resume from [the deferred plan](docs/plans/2026-11-09-sports-and-event-ticket-packages.md) and [decision 0003](decisions/0003-future-sports-and-event-ticket-packages.md) when the owner returns to this business phase. Travel Connection and TicketNetwork are named evaluation candidates, with no vendor selected or account/commercial terms verified.

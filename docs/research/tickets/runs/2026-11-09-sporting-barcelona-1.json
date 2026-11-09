@@ -1,0 +1,417 @@
+{
+  "schema_version": 1,
+  "run_id": "2026-11-09-sporting-barcelona-1",
+  "checked_at": "2026-11-09T05:44:50.570252+00:00",
+  "request": {
+    "quantity": 1,
+    "adjacent_required": false,
+    "supporter": "غير محدد؛ عروض جمهور المنزل لا تؤكد ملاءمة العميل",
+    "budget_sar": null,
+    "seat_preference": "غير محدد",
+    "age": "غير محدد",
+    "membership": "لم تثبت أهلية خاصة"
+  },
+  "event": {
+    "name": "Sporting CP vs FC Barcelona",
+    "aliases": [
+      "سبورتينغ وبرشلونة",
+      "Sporting Lisbon",
+      "Sporting Clube de Portugal",
+      "FC Barcelona"
+    ],
+    "date": "2027-01-20T20:00:00+00:00",
+    "timezone": "Europe/Lisbon",
+    "city": "Lisbon",
+    "country": "Portugal",
+    "venue": "Estádio José Alvalade",
+    "official_verified": true,
+    "official_sources": [
+      {
+        "url": "https://www.uefa.com/uefachampionsleague/match/2049670--sporting-cp-vs-barcelona/",
+        "checked_at": "2026-11-09T05:34:57Z",
+        "evidence": "عرضت صفحة UEFA مباراة Sporting CP vs Barcelona يوم Wednesday, 20 Jan 2027 في Estádio José Alvalade بمدينة Lisbon. جرى الفحص ضمن النافذة الموثقة في ملف المناسبة؛ لا يُنسب إلى الصفحة توقيت استرجاع فردي غير متاح.",
+        "timestamp_basis": "checked_at يمثل نهاية جولة التحقق الموثقة؛ لا تتوفر ساعة استرجاع فردية دقيقة لهذه الصفحة.",
+        "checked_at_window": {
+          "start": "2026-11-09T05:34:02Z",
+          "end": "2026-11-09T05:34:57Z"
+        },
+        "method": "Firecrawl scrape, maxAge: 0"
+      },
+      {
+        "url": "https://www.fcbarcelona.com/en/matches/141570/sporting-lisbon-fc-barcelona-uefa-champions-league-2026-2027",
+        "checked_at": "2026-11-09T05:34:57Z",
+        "evidence": "تصف صفحة برشلونة الرسمية المباراة يوم Wed, 20 Jan 2027، الساعة 20:00 GMT، في Estádio José Alvalade. جرى الفحص ضمن النافذة الموثقة في ملف المناسبة؛ لا يُنسب إلى الصفحة توقيت استرجاع فردي غير متاح.",
+        "timestamp_basis": "checked_at يمثل نهاية جولة التحقق الموثقة؛ لا تتوفر ساعة استرجاع فردية دقيقة لهذه الصفحة.",
+        "checked_at_window": {
+          "start": "2026-11-09T05:34:02Z",
+          "end": "2026-11-09T05:34:57Z"
+        },
+        "method": "Firecrawl scrape, maxAge: 0"
+      }
+    ]
+  },
+  "capabilities": {
+    "browser": "Chromium معزول داخل Codex Cloud عبر Playwright؛ لا متصفح محلي متصل",
+    "local_sessions_available": false,
+    "notes": "لا توجد جلسة مستخدم مسجلة في المتصفح السحابي. موصل GitHub متاح، بينما نفد رصيد Firecrawl؛ وأعادت محاولات لاحقة بالمتصفح وHTTP الخطأ 503. انظر ملف 2026-11-09-capabilities-and-design.md."
+  },
+  "targets": [
+    "stubhub-us",
+    "viagogo",
+    "ticketkosta",
+    "hellotickets",
+    "seatunique",
+    "1boxoffice",
+    "tickpick",
+    "seatgeek",
+    "vivid-seats",
+    "gametime",
+    "sporting-official",
+    "ticketnetwork",
+    "gigsberg",
+    "footballticketnet",
+    "sportsevents365",
+    "ticombo",
+    "fanpass-net",
+    "stubhub-intl",
+    "livefootballtickets",
+    "p1travel",
+    "grintahub",
+    "fanspass-sa"
+  ],
+  "coverage": [
+    {
+      "platform_id": "stubhub-us",
+      "status": "offer_fees_unconfirmed",
+      "checked_at": "2026-11-09T05:40:54.496926+00:00",
+      "url": "https://www.stubhub.com/sporting-cp-lisboa-tickets-1-20-2027/event/161831088/?quantity=1",
+      "method": "cloud_chromium_playwright",
+      "evidence_level": "checkout",
+      "evidence": "ظهر عرض Superior B لتذكرة واحدة بسعر 169 USD مع عبارة «incl. fees». فُتح العرض ثم تبويب خطوة الدفع ونافذة Start الخاصة بالعداد التلقائي؛ لم تُحسم الرسوم ولا شروط وسيلة الدفع.",
+      "blocker": "جرت محاولة المتابعة، ثم أعادت محاولة فتح الصفحة الخطأ HTTP 503: upstream connect error or disconnect/reset before headers. reset reason: remote connection failure",
+      "next_step": "أعد فتح الصفحة عند استقرار الوصول، ثم استخدم البحث الداخلي واضبط العدد على 1 ورتّب بحسب الأقل سعرًا، وافحص شروط العرض وإجمالي الرسوم قبل إدخال بيانات أو إنشاء التزام.",
+      "observed_offer": {
+        "amount": 169,
+        "currency": "USD",
+        "seat": "Superior B; Clear view",
+        "quantity": 1
+      },
+      "event_matched": true
+    },
+    {
+      "platform_id": "viagogo",
+      "status": "offer_fees_unconfirmed",
+      "checked_at": "2026-11-09T05:40:54.497951+00:00",
+      "url": "https://www.viagogo.at/Sport-Tickets/Fussball/F-C-Barcelona-Karten/E-161831088?quantity=1",
+      "method": "cloud_chromium_playwright",
+      "evidence_level": "listing",
+      "evidence": "ظهر عرض B28 لتذكرة واحدة بسعر 176 USD مع عبارة «No extra fees»؛ لم يُتحقق من إجمالي الدفع.",
+      "blocker": "تعذر فتح العرض وفحصه بسبب الخطأ HTTP 503: upstream connect error or disconnect/reset before headers. reset reason: remote connection failure",
+      "next_step": "أعد فتح الصفحة عند استقرار الوصول، ثم استخدم البحث الداخلي واضبط العدد على 1 ورتّب بحسب الأقل سعرًا، وافحص شروط العرض وإجمالي الرسوم قبل إدخال بيانات أو إنشاء التزام.",
+      "observed_offer": {
+        "amount": 176,
+        "currency": "USD",
+        "seat": "B28; Clear view",
+        "quantity": 1
+      },
+      "event_matched": true
+    },
+    {
+      "platform_id": "ticketkosta",
+      "status": "offer_fees_unconfirmed",
+      "checked_at": "2026-11-09T05:40:54.523226+00:00",
+      "url": "https://www.ticketkosta.com/en/Champions-league/Sporting-vs-barcelona-88326/",
+      "method": "cloud_chromium_playwright",
+      "evidence_level": "listing",
+      "evidence": "ظهرت عروض تبدأ بفئة B04 بسعر 564.53 USD وطريقة Mobile Tickets. عرضت قائمة الكمية الخيارين 1 و2؛ لم يثبت اختيار 1 أو الوصول إلى إجمالي الدفع.",
+      "blocker": "تعذر اختيار العرض واستكمال فحصه بسبب الخطأ HTTP 503: upstream connect error or disconnect/reset before headers. reset reason: remote connection failure",
+      "next_step": "أعد فتح الصفحة عند استقرار الوصول، ثم استخدم البحث الداخلي واضبط العدد على 1 ورتّب بحسب الأقل سعرًا، وافحص شروط العرض وإجمالي الرسوم قبل إدخال بيانات أو إنشاء التزام.",
+      "observed_offer": {
+        "amount": 564.53,
+        "currency": "USD",
+        "seat": "Block B04; MobileTickets",
+        "quantity_confirmed": false
+      },
+      "event_matched": true
+    },
+    {
+      "platform_id": "hellotickets",
+      "status": "offer_fees_unconfirmed",
+      "checked_at": "2026-11-09T05:40:55.096273+00:00",
+      "url": "https://www.hellotickets.com/portugal/lisbon/sports/sporting-cp-tickets/2027-01-20,2000/2600837/2",
+      "method": "cloud_chromium_playwright",
+      "evidence_level": "page",
+      "evidence": "صفحة المناسبة مطابقة، وظهر سعر «From 189 USD» في الجدول؛ هذا سعر بداية وليس عرضًا مفحوصًا. اتُّبع رابط View tickets المرصود، وبقي الرابط الافتراضي بكمية 2 دون تغيير.",
+      "blocker": "تعذر تحميل قائمة العروض وضبط العدد على 1 بسبب الخطأ HTTP 503: upstream connect error or disconnect/reset before headers. reset reason: remote connection failure",
+      "next_step": "أعد فتح الصفحة عند استقرار الوصول، ثم استخدم البحث الداخلي واضبط العدد على 1 ورتّب بحسب الأقل سعرًا، وافحص شروط العرض وإجمالي الرسوم قبل إدخال بيانات أو إنشاء التزام.",
+      "observed_offer": {
+        "amount": 189,
+        "currency": "USD",
+        "price_kind": "from_only",
+        "quantity_confirmed": false
+      },
+      "event_matched": true
+    },
+    {
+      "platform_id": "seatunique",
+      "status": "technical_error",
+      "checked_at": "2026-11-09T05:40:55.123842+00:00",
+      "url": "https://www.seatunique.com/sport-tickets/football/sporting-cp-tickets/0c14d94f",
+      "method": "cloud_chromium_playwright",
+      "evidence_level": "page",
+      "evidence": "صفحة المناسبة مطابقة، لكن لم يظهر مخزون في القراءة الأولى؛ لا يثبت ذلك عدم وجود عروض.",
+      "blocker": "تعذر إكمال تحميل المخزون بسبب الخطأ HTTP 503: upstream connect error or disconnect/reset before headers. reset reason: remote connection failure",
+      "next_step": "أعد فتح الصفحة عند استقرار الوصول، ثم استخدم البحث الداخلي واضبط العدد على 1 ورتّب بحسب الأقل سعرًا، وافحص شروط العرض وإجمالي الرسوم قبل إدخال بيانات أو إنشاء التزام.",
+      "observed_offer": null,
+      "event_matched": true
+    },
+    {
+      "platform_id": "1boxoffice",
+      "status": "technical_error",
+      "checked_at": "2026-11-09T05:40:55.428801+00:00",
+      "url": "https://www.1boxoffice.com/en/barcelona-tickets",
+      "method": "cloud_chromium_playwright",
+      "evidence_level": "page",
+      "evidence": "قُرئت الصفحة العامة وجرت محاولة بحث داخلي عن Sporting، دون استرجاع نتائج قابلة للاعتماد. فُتح أيضًا رابط Barcelona المرصود داخل الموقع.",
+      "blocker": "تعذر استكمال البحث لأن عناصر الواجهة لم تُحمّل؛ وأعادت محاولة فتح الصفحة الخطأ HTTP 503: upstream connect error or disconnect/reset before headers. reset reason: remote connection failure",
+      "next_step": "أعد فتح الصفحة عند استقرار الوصول، ثم استخدم البحث الداخلي واضبط العدد على 1 ورتّب بحسب الأقل سعرًا، وافحص شروط العرض وإجمالي الرسوم قبل إدخال بيانات أو إنشاء التزام.",
+      "observed_offer": null,
+      "event_matched": false
+    },
+    {
+      "platform_id": "tickpick",
+      "status": "technical_error",
+      "checked_at": "2026-11-09T05:40:55.757218+00:00",
+      "url": "https://www.tickpick.com/",
+      "method": "cloud_chromium_playwright",
+      "evidence_level": "page",
+      "evidence": "قُرئت الصفحة العامة وجرت محاولة بحث داخلي عن Sporting، دون استرجاع نتائج قابلة للاعتماد.",
+      "blocker": "تعذر استكمال البحث لأن عناصر الواجهة لم تُحمّل؛ وأعادت محاولة فتح الصفحة الخطأ HTTP 503: upstream connect error or disconnect/reset before headers. reset reason: remote connection failure",
+      "next_step": "أعد فتح الصفحة عند استقرار الوصول، ثم استخدم البحث الداخلي واضبط العدد على 1 ورتّب بحسب الأقل سعرًا، وافحص شروط العرض وإجمالي الرسوم قبل إدخال بيانات أو إنشاء التزام.",
+      "observed_offer": null,
+      "event_matched": false
+    },
+    {
+      "platform_id": "seatgeek",
+      "status": "technical_error",
+      "checked_at": "2026-11-09T05:40:55.917936+00:00",
+      "url": "https://seatgeek.com/",
+      "method": "cloud_chromium_playwright",
+      "evidence_level": "page",
+      "evidence": "قُرئت الصفحة العامة وجرت محاولة بحث داخلي عن Sporting، دون استرجاع نتائج قابلة للاعتماد.",
+      "blocker": "تعذر استكمال البحث لأن عناصر الواجهة لم تُحمّل؛ وأعادت محاولة فتح الصفحة الخطأ HTTP 503: upstream connect error or disconnect/reset before headers. reset reason: remote connection failure",
+      "next_step": "أعد فتح الصفحة عند استقرار الوصول، ثم استخدم البحث الداخلي واضبط العدد على 1 ورتّب بحسب الأقل سعرًا، وافحص شروط العرض وإجمالي الرسوم قبل إدخال بيانات أو إنشاء التزام.",
+      "observed_offer": null,
+      "event_matched": false
+    },
+    {
+      "platform_id": "vivid-seats",
+      "status": "technical_error",
+      "checked_at": "2026-11-09T05:40:56.206807+00:00",
+      "url": "https://www.vividseats.com/",
+      "method": "cloud_chromium_playwright",
+      "evidence_level": "page",
+      "evidence": "قُرئت الصفحة العامة وجرت محاولة بحث داخلي عن Sporting، دون استرجاع نتائج قابلة للاعتماد.",
+      "blocker": "تعذر استكمال البحث لأن عناصر الواجهة لم تُحمّل؛ وأعادت محاولة فتح الصفحة الخطأ HTTP 503: upstream connect error or disconnect/reset before headers. reset reason: remote connection failure",
+      "next_step": "أعد فتح الصفحة عند استقرار الوصول، ثم استخدم البحث الداخلي واضبط العدد على 1 ورتّب بحسب الأقل سعرًا، وافحص شروط العرض وإجمالي الرسوم قبل إدخال بيانات أو إنشاء التزام.",
+      "observed_offer": null,
+      "event_matched": false
+    },
+    {
+      "platform_id": "gametime",
+      "status": "technical_error",
+      "checked_at": "2026-11-09T05:40:56.397634+00:00",
+      "url": "https://gametime.co/",
+      "method": "cloud_chromium_playwright",
+      "evidence_level": "page",
+      "evidence": "قُرئت الصفحة العامة وجرت محاولة بحث داخلي عن Sporting، دون استرجاع نتائج قابلة للاعتماد.",
+      "blocker": "تعذر استكمال البحث لأن عناصر الواجهة لم تُحمّل؛ وأعادت محاولة فتح الصفحة الخطأ HTTP 503: upstream connect error or disconnect/reset before headers. reset reason: remote connection failure",
+      "next_step": "أعد فتح الصفحة عند استقرار الوصول، ثم استخدم البحث الداخلي واضبط العدد على 1 ورتّب بحسب الأقل سعرًا، وافحص شروط العرض وإجمالي الرسوم قبل إدخال بيانات أو إنشاء التزام.",
+      "observed_offer": null,
+      "event_matched": false
+    },
+    {
+      "platform_id": "sporting-official",
+      "status": "technical_error",
+      "checked_at": "2026-11-09T05:39:00Z",
+      "url": "https://tickets.sporting.pt/pt",
+      "method": "cloud_chromium_playwright",
+      "evidence_level": "page",
+      "evidence": "هذه بوابة بيع رسمية يربط إليها موقع النادي. عرضت تقويم November 2026، ولم يكتمل الانتقال إلى January 2027.",
+      "blocker": "أعادت محاولة استكمال التقويم الخطأ HTTP 503: upstream connect error or disconnect/reset before headers. reset reason: remote connection failure",
+      "next_step": "افتح January 2027 من التقويم، ثم 20 January، وافحص توافر البيع العام وشروط العضوية لهذه المباراة."
+    },
+    {
+      "platform_id": "ticketnetwork",
+      "status": "offer_fees_unconfirmed",
+      "checked_at": "2026-11-09T05:39:00Z",
+      "url": "https://www.ticketnetwork.com/tickets/8242383",
+      "method": "cloud_chromium_playwright",
+      "evidence_level": "listing",
+      "evidence": "المناسبة مطابقة. ظهر عرض B21، صف GA، لتذكرة واحدة من نوع eTickets بسعر 173 USD؛ لم يُتحقق من موعد التسليم.",
+      "blocker": "لم تصل محاولة الضغط على Continue إلى الإجمالي؛ تعثرت الواجهة وانتهت مهلة الانتظار البالغة 30000 ms.",
+      "next_step": "أعد فتح العرض المرصود بسعر 173 USD للعدد 1، وافحص جميع الرسوم وموعد التسليم.",
+      "event_matched": true,
+      "observed_offer": {
+        "amount": 173,
+        "currency": "USD",
+        "seat": "B21 Row GA",
+        "quantity": 1
+      }
+    },
+    {
+      "platform_id": "gigsberg",
+      "status": "offer_fees_unconfirmed",
+      "checked_at": "2026-11-09T05:39:00Z",
+      "url": "https://www.gigsberg.com/sport-tickets/football/champions-league-tickets/show-268751?quantity=1",
+      "method": "cloud_chromium_playwright",
+      "evidence_level": "listing",
+      "evidence": "ضُبط العدد على 1. ظهر عرض B18، Category 3، في قسم Home Fans، من نوع E-ticket، بسعر 183.76 USD يستثني الضرائب ورسوم الحجز والتسليم. عنوان الصفحة عام ولا يعرض اسمي الفريقين.",
+      "blocker": "مطابقة هوية المناسبة جزئية؛ لم تكتمل متابعة الواجهة، ثم أعادت محاولة الفتح الخطأ HTTP 503: upstream connect error or disconnect/reset before headers. reset reason: remote connection failure",
+      "next_step": "ثبّت اسمي الفريقين أولًا، ثم افحص خطوة الدفع للعدد 1 وجميع الرسوم وشروط التسليم.",
+      "event_matched": false,
+      "observed_offer": {
+        "amount": 183.76,
+        "currency": "USD",
+        "seat": "B18 Category3 HomeFans",
+        "quantity": 1
+      }
+    },
+    {
+      "platform_id": "footballticketnet",
+      "status": "offer_fees_unconfirmed",
+      "checked_at": "2026-11-09T05:38:31Z",
+      "url": "https://www.footballticketnet.com/champions-league/sporting-lisbon-vs-fc-barcelona-estadio-jose-alvalade-football-tickets/event/134206",
+      "method": "cloud_chromium_playwright",
+      "evidence_level": "checkout",
+      "evidence": "استُخدم ترتيب Lowest price، وظهر العرض 1677816 في B16 لتذكرة واحدة ضمن جمهور صاحب الأرض. رُصد سعر 187.96 USD عبر Firecrawl؛ عرض المتصفح عملة مختلفة. وصل الفحص إلى خطوة Identify 1/3 دون ظهور إجمالي.",
+      "blocker": "طلبت الصفحة First name وLast name وEmail قبل إظهار الإجمالي؛ لم تُدخل بيانات. أعادت المحاولة الأخيرة الخطأ HTTP 503: upstream connect error or disconnect/reset before headers. reset reason: remote connection failure",
+      "next_step": "استعد الوصول، ثم استخدم آلية مأذونة ليُدخل المستخدم البيانات المطلوبة عند الحاجة؛ لا تُستخدم بيانات وهمية. بعد ذلك افحص الإجمالي وشروط التسليم.",
+      "event_matched": true,
+      "observed_offer": {
+        "amount": 187.96,
+        "currency": "USD",
+        "seat": "B16 Category3 HomeSupporters",
+        "quantity": 1
+      }
+    },
+    {
+      "platform_id": "sportsevents365",
+      "status": "offer_fees_unconfirmed",
+      "checked_at": "2026-11-09T05:40:07Z",
+      "url": "https://sportsevents365.com/event/402457",
+      "method": "cloud_chromium_playwright",
+      "evidence_level": "listing",
+      "evidence": "ظهر عرض Short Side B16 لتذكرة واحدة بسعر 208 USD ومن نوع E-ticket. نُقر See important notes ثم Buy؛ لم يثبت ظهور إجمالي أو فحص تبويب جديد.",
+      "blocker": "أعادت محاولة التحقق اللاحقة الخطأ HTTP 503: upstream connect error or disconnect/reset before headers. reset reason: remote connection failure؛ لا يثبت ذلك أن تسجيل الدخول هو سبب التعذر.",
+      "next_step": "أعد فتح أرخص عرض مرصود، وافحص جميع تبويبات خطوات الدفع والملاحظات وإجمالي الرسوم.",
+      "event_matched": true,
+      "observed_offer": {
+        "amount": 208,
+        "currency": "USD",
+        "seat": "ShortSide B16",
+        "quantity": 1
+      }
+    },
+    {
+      "platform_id": "ticombo",
+      "status": "technical_error",
+      "checked_at": "2026-11-09T05:41:39Z",
+      "url": "https://www.ticombo.com/en/sports-tickets/football-tickets/sporting-cp-vs-fc-barcelona-champions-league-3001436117/03b63d2d-c6cb-44df-ad76-4fa2b0ff6ddd",
+      "method": "cloud_chromium_playwright",
+      "evidence_level": "page",
+      "evidence": "صفحة المناسبة مطابقة، لكن منطقة عرض المخزون لم تُحمّل؛ لا يوجد دليل على نفاد العروض.",
+      "blocker": "أعادت محاولة فتح الصفحة الخطأ HTTP 503: upstream connect error or disconnect/reset before headers. reset reason: remote connection failure",
+      "next_step": "أعد فتح المناسبة واضبط العدد على 1 ورتّب بحسب الأقل سعرًا، ثم افحص شروط العرض والرسوم.",
+      "event_matched": true
+    },
+    {
+      "platform_id": "fanpass-net",
+      "status": "offer_fees_unconfirmed",
+      "checked_at": "2026-11-09T05:41:39Z",
+      "url": "https://www.fanpass.net/tickets-sporting-cp-vs-fc-barcelona-champions-league-2026-2027?qty=1",
+      "method": "cloud_chromium_playwright",
+      "evidence_level": "listing",
+      "evidence": "ضُبط العدد على 1، وظهرت 13 نتيجة. كان أدنى سعر ظاهر 157.51 GBP للعرض 1323494، بوصف Unknown section وRow * وHome supporters only. التسليم E-ticket بالبريد عند الجاهزية، دون موعد محدد ظاهر.",
+      "blocker": "نقل زر Continue إلى صفحة authenticate التي عرضت رسالة «Oups ! There has been an error! Can you try again your action ?»، دون إظهار إجمالي.",
+      "next_step": "استعد مسار العرض ثم احسم فئة المقعد وموعد التسليم وجميع الرسوم. اطلب تدخل المستخدم لتسجيل الدخول إذا ثبتت الحاجة إليه.",
+      "event_matched": true,
+      "observed_offer": {
+        "amount": 157.51,
+        "currency": "GBP",
+        "seat": "Unknown section; Row *; Home supporters only",
+        "quantity": 1
+      }
+    },
+    {
+      "platform_id": "stubhub-intl",
+      "status": "human_verification",
+      "checked_at": "2026-11-09T05:41:39Z",
+      "url": "https://www.stubhub.ie/",
+      "method": "cloud_chromium_playwright",
+      "evidence_level": "page",
+      "evidence": "أعاد النطاق HTTP 403 ورسالة Access Denied من خدمة Akamai؛ لم يصل الفحص إلى البحث الداخلي.",
+      "blocker": "هذا حظر وصول موثق للمتصفح السحابي المستخدم؛ لا يثبت وجود الحظر في متصفح المستخدم المحلي.",
+      "next_step": "أعد المحاولة بمتصفح مسموح له بالوصول إلى النطاق، دون تجاوز الحظر."
+    },
+    {
+      "platform_id": "livefootballtickets",
+      "status": "offer_fees_unconfirmed",
+      "checked_at": "2026-11-09T05:41:39Z",
+      "url": "https://www.livefootballtickets.com/us/fixtures/sporting-portugal-v-fc-barcelona-tickets-champions-league.html",
+      "method": "cloud_chromium_playwright",
+      "evidence_level": "listing",
+      "evidence": "ظهرت عروض تحمل وسم Cheapest بسعر 192.90 USD، في B18 SHORTSIDE UPPER TIER، ومخصصة لجمهور Sporting Portugal. ظهر عرض بعبارة Only 1 left؛ لم يكتمل تثبيت مرشح الكمية على 1.",
+      "blocker": "تعثرت عناصر الواجهة، ثم أعادت محاولة فتح الصفحة الخطأ HTTP 503: upstream connect error or disconnect/reset before headers. reset reason: remote connection failure",
+      "next_step": "أعد فتح العرض الذي يحمل عبارة Only 1 left، وثبّت العدد على 1، ثم تحقق من إجمالي الرسوم.",
+      "event_matched": true,
+      "observed_offer": {
+        "amount": 192.9,
+        "currency": "USD",
+        "seat": "B18 shortside upper tier home fans",
+        "quantity_confirmed": false
+      }
+    },
+    {
+      "platform_id": "p1travel",
+      "status": "technical_error",
+      "checked_at": "2026-11-09T05:41:39Z",
+      "url": "https://www.p1travel.com/en/series/champions-league-2026-2027",
+      "method": "cloud_chromium_playwright",
+      "evidence_level": "internal_search",
+      "evidence": "عرضت القائمة 35 مناسبة، وقُرئت أول 10 منها. لم تكتمل متابعة Show more؛ لم يُرصد سعر للمباراة ولا يجوز استنتاج غيابها.",
+      "blocker": "أعادت محاولة استكمال القائمة الخطأ HTTP 503: upstream connect error or disconnect/reset before headers. reset reason: remote connection failure",
+      "next_step": "استكمل قائمة المناسبات الـ35 أو رشّح Lisbon داخليًا، ثم افتح المباراة إن ظهرت، مع فصل عروض الضيافة عن المقعد العادي."
+    },
+    {
+      "platform_id": "grintahub",
+      "status": "technical_error",
+      "checked_at": "2026-11-09T05:41:39Z",
+      "url": "https://grintahub.com/events/sporting-vs-barcelona-champions-league-group-stage-20262027",
+      "method": "cloud_chromium_playwright",
+      "evidence_level": "internal_search",
+      "evidence": "استُخدم البحث الداخلي عن سبورتينغ وفُتحت صفحة مرشحة تقول إنه لا توجد تذاكر. حقل الملعب الرئيسي يشير إلى سيغنال ادونا بارك، بينما النص الوصفي يشير إلى جوزيه ألفالادي.",
+      "blocker": "يوجد تعارض في الملعب والتوقيت؛ لم تُحسم مطابقة الصفحة للمناسبة الرسمية، ولا تثبت العبارة نفاد تذاكرها.",
+      "next_step": "احسم الملعب والتوقيت، ثم أعد الفحص للعدد 1 مع مراجعة جميع المرشحات.",
+      "event_matched": false
+    },
+    {
+      "platform_id": "fanspass-sa",
+      "status": "technical_error",
+      "checked_at": "2026-11-09T05:41:39Z",
+      "url": "https://fanspass.sa/ar-sa",
+      "method": "cloud_chromium_playwright",
+      "evidence_level": "page",
+      "evidence": "فُتحت واجهة البحث الداخلي وظهر حقل «ابحث عن الفعاليات». لم تكتمل محاولة البحث عن سبورتينغ.",
+      "blocker": "أعادت محاولة استكمال البحث الخطأ HTTP 503: upstream connect error or disconnect/reset before headers. reset reason: remote connection failure",
+      "next_step": "أعد البحث داخليًا باستخدام سبورتينغ وبرشلونة وSporting، وافتح صفحة الفريق أو المناسبة إذا ظهرت."
+    }
+  ],
+  "scope_note": "يشمل الاختبار 22 هدفًا: 21 منصة عامة أو رياضية من قائمة البداية، إضافة إلى بوابة النادي الرسمية. يحتوي السجل الأساسي على 34 منصة؛ اختيار المنصات الـ13 الأخرى مشروط بصلتها بنوع المناسبة أو بوجود بيع معتمد لها. لم يُفحص مخزون تلك المنصات في هذا الاختبار، ولا يُدّعى نفاد تذاكرها. تقييم موردي B2B وعقودهم مسار بحث منفصل.",
+  "evidence_files": [
+    "../2026-11-09-event-verification.md",
+    "../2026-11-09-consumer-checks.md",
+    "../2026-11-09-primary-and-four-checks.md",
+    "../2026-11-09-browser-checks.md"
+  ]
+}

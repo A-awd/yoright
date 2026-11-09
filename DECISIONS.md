@@ -4,6 +4,8 @@ Durable yoright decisions belong in this repository. ai-operating-system contain
 
 ## Active decisions
 
+- [0004 — Ticket-search skill and evidence](decisions/0004-ticket-search-skill-and-evidence.md)
+
 - [0003 - Future sports and event ticket packages](decisions/0003-future-sports-and-event-ticket-packages.md)
 
 - [0002 — WhatsApp concierge restart direction](decisions/0002-whatsapp-concierge-restart.md)

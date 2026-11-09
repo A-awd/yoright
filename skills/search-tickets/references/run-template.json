@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "run_id": "set-run-id",
+  "checked_at": "set-time-with-timezone",
+  "request": {
+    "quantity": 1,
+    "adjacent_required": false,
+    "supporter": "غير محدد",
+    "budget_sar": null,
+    "seat_preference": "غير محدد"
+  },
+  "event": {
+    "name": "لم يُتحقق بعد",
+    "aliases": [],
+    "date": "لم يُتحقق بعد",
+    "city": "لم يُتحقق بعد",
+    "country": "لم يُتحقق بعد",
+    "venue": "لم يُتحقق بعد",
+    "official_verified": false,
+    "official_sources": []
+  },
+  "capabilities": {
+    "browser": "لم يُختبر بعد",
+    "local_sessions_available": false,
+    "notes": "عدم ثبوت الوصول لا يثبت غياب الحسابات؛ اكتشف الأدوات واختبر الاتصال."
+  },
+  "targets": [],
+  "coverage": []
+}

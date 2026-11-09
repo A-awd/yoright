@@ -20,3 +20,7 @@ The project covers the travel product, its web application, and sanitized integr
 
 Do not commit credentials, default passwords, traveler information, booking records, passport or residency identifiers, payment data, or unsanitized API responses. Documentation migration does not authorize changes to live booking, hosting, database, or identity systems.
 
+
+## Ticket research
+
+[البحث عن تذكرة — التشغيل والتثبيت](skills/search-tickets/README.md) provides a reusable Codex skill, platform registry and coverage validator. [Live trial and limits](docs/research/tickets/2026-11-09-test-result.md) and [commercial evidence](docs/research/tickets/2026-11-09-supplier-evidence.md) extend the existing deferred plan; they do not activate ticket sales.
