@@ -16,3 +16,7 @@ Durable yoright decisions belong in this repository. ai-operating-system contain
 
 Add a numbered record for product scope, canonical architecture, integration policy, privacy posture, or operating-policy changes.
 
+
+## Shared conversation scope — 2026-11-12
+
+Owner consolidated travel, YoRight and ticket discussions into the current conversation. [Coordination contract](docs/coordination/2026-11-12-shared-travel-conversation.md) preserves separate source ownership, prior execution limits and private-data boundaries; it does not merge repositories or authorise Phase1 or code publication.
