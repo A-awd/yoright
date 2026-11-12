@@ -61,7 +61,7 @@ const Login: React.FC<LoginProps> = ({ lang }) => {
   };
 
   return (
-    <div className={`min-h-screen flex ${isArabic ? 'font-arabic' : 'font-sans'}`}>
+    <div className={`min-h-[calc(100vh-72px-64px)] flex ${isArabic ? 'font-arabic' : 'font-sans'}`}>
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
         <img 
           src="https://picsum.photos/id/1035/1200/1600" 

@@ -12,6 +12,8 @@ interface DatePickerProps {
   className?: string;
   layout?: 'horizontal' | 'vertical';
   lang?: Language;
+  checkInPlaceholder?: string;
+  checkOutPlaceholder?: string;
 }
 
 const CalendarIcon = () => (
@@ -259,6 +261,8 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   className = '',
   layout = 'horizontal',
   lang = Language.EN,
+  checkInPlaceholder,
+  checkOutPlaceholder,
 }) => {
   const [showCheckIn, setShowCheckIn] = useState(false);
   const [showCheckOut, setShowCheckOut] = useState(false);
@@ -266,8 +270,8 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   const isArabic = lang === Language.AR;
   const t = translations[isArabic ? 'ar' : 'en'];
 
-  const formatDateDisplay = (date?: Date): string => {
-    if (!date) return t.search.selectDate;
+  const formatDateDisplay = (date?: Date, placeholder?: string): string => {
+    if (!date) return placeholder || t.search.selectDate;
     const day = date.getDate();
     const month = t.calendar.monthsShort[date.getMonth()];
     return `${day} ${month}`;
@@ -302,26 +306,26 @@ export const DatePicker: React.FC<DatePickerProps> = ({
         <button
           type="button"
           onClick={() => setShowCheckIn(true)}
-          className="flex-1 flex items-center gap-2 px-4 h-12 bg-white rounded-xl border-2 border-charcoal-200 hover:border-charcoal-300 transition-colors"
+          className="flex-1 min-w-0 flex items-center gap-2 px-3 h-12 bg-white rounded-xl border-2 border-charcoal-200 hover:border-charcoal-300 transition-colors"
         >
-          <span className="text-charcoal-400">
+          <span className="text-charcoal-400 flex-shrink-0">
             <CalendarIcon />
           </span>
           <span className="text-charcoal-700 text-sm font-medium truncate">
-            {formatDateDisplay(checkInDate)}
+            {formatDateDisplay(checkInDate, checkInPlaceholder)}
           </span>
         </button>
 
         <button
           type="button"
           onClick={() => setShowCheckOut(true)}
-          className="flex-1 flex items-center gap-2 px-4 h-12 bg-white rounded-xl border-2 border-charcoal-200 hover:border-charcoal-300 transition-colors"
+          className="flex-1 min-w-0 flex items-center gap-2 px-3 h-12 bg-white rounded-xl border-2 border-charcoal-200 hover:border-charcoal-300 transition-colors"
         >
-          <span className="text-charcoal-400">
+          <span className="text-charcoal-400 flex-shrink-0">
             <CalendarIcon />
           </span>
           <span className="text-charcoal-700 text-sm font-medium truncate">
-            {formatDateDisplay(checkOutDate)}
+            {formatDateDisplay(checkOutDate, checkOutPlaceholder)}
           </span>
         </button>
       </div>
