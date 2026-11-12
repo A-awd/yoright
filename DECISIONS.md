@@ -4,6 +4,8 @@ Durable yoright decisions belong in this repository. ai-operating-system contain
 
 ## Active decisions
 
+- [0005 — Canonical application line and model roles](decisions/0005-canonical-line-and-model-roles.md)
+
 - [0004 — Ticket-search skill and evidence](decisions/0004-ticket-search-skill-and-evidence.md)
 
 - [0003 - Future sports and event ticket packages](decisions/0003-future-sports-and-event-ticket-packages.md)
