@@ -1,3 +1,11 @@
+## Save-only continuation to the new Mac mini — 2026-11-13
+
+Owner requested preservation and transition preparation only. Read [the current detailed handoff](docs/handoffs/2026-11-13-mac-mini-continuation.md). No project work was resumed and no chat or draft composer was created, per explicit owner instruction. Do not infer that a device name, old absolute path, GitHub access or a cloud skill symlink proves access on the new Mac.
+
+GitHub knowledge/code sources remain with their existing owners and approved refs. Current cloud metadata inventory identifies 367 items; the 30 staged project paths are 27 current published matches plus 3 older published documents, not unique unpublished source changes. Raw cloud evidence, pasted originals, old-Mac private files and the independent Claude Phase0 code/plan export remain separate preservation/access questions. The exact inventory and historical private paths stay in new private handoff notes outside GitHub; metadata inventory is not a content backup or transfer receipt.
+
+The actual next step on the receiving Mac is read-only environment/workspace/source/file/tool readiness verification and a precise gap report, before operational continuation. Do not bulk-copy, move, delete or overwrite files without the owner's approval. Preserve newer revisions and protected files. No Easy Life, source-chat deletion/archiving, bookings, commercial commitments, Phase1, feature-code push/merge or deployment from this save-only request.
+
 ## Unified travel / YoRight / personal-ticket conversation — 2026-11-12
 
 Owner consolidated two supplied summaries into the existing ticket conversation and expanded its working scope to all travel, YoRight and personal tickets. Read [the coordination contract](docs/coordination/2026-11-12-shared-travel-conversation.md); the full cross-topic index is kept in private travel. YoRight still owns commercial code/research and the ticket skill; travel/main still owns personal planning and maps continuity. No repository/history merger, private-data transfer, new chat, booking, account, supplier message or code publication occurred in this knowledge consolidation.
