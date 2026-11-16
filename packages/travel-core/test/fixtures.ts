@@ -3,7 +3,7 @@
  * and identifier below is invented for tests. None describes a real hotel,
  * supplier response, event, exchange rate or customer.
  */
-import type { FxRate, HotelOffer, PropertyRecord, RoomSignature } from '../src/index';
+import type { CancellationRule, FxRate, HotelOffer, PropertyRecord, RoomSignature, StayContext } from '../src/index';
 import { money } from '../src/index';
 
 export const SYNTHETIC_FX: FxRate = {
@@ -29,16 +29,25 @@ export const kingCity: RoomSignature = {
   roomClass: 'deluxe', bed: 'king', view: 'city', viewPartial: false, maxOccupancy: 2, sizeSqm: null, smoking: null,
 };
 
+export const stay: StayContext = { checkIn: '2027-03-10', checkOut: '2027-03-13', roomCount: 1, guestResidency: 'SA' };
+
+/** Free until 48 h before arrival, then the full amount. */
+export const freeUntil48h: readonly CancellationRule[] = [
+  { fromUtc: '2027-03-08T12:00:00Z', penalty: { type: 'PERCENT_OF_TOTAL', bps: 10000 } },
+];
+
 export function offer(over: Partial<HotelOffer> & Pick<HotelOffer, 'offerId'>): HotelOffer {
   return {
     supplierCode: 'SYN-A',
     rateKey: `rk:${over.offerId}`,
     supplierHotelId: 'A-H-0001',
     canonicalHotelId: 'ch_1',
+    stay,
     supplierRoomLabel: 'Deluxe King City View',
     roomSignature: kingCity,
     board: 'BREAKFAST',
     refundability: 'FREE',
+    cancellationPolicy: freeUntil48h,
     paymentTiming: 'PREPAID',
     occupancy: { adults: 2, childrenAges: [] },
     supplierTotal: money(61000, 'SAR'),

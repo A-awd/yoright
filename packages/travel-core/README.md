@@ -7,11 +7,11 @@ Framework-free domain rules for YoRight. Pure TypeScript, no runtime dependencie
 | `money` | Integer minor units, decimal-string parsing, basis-point margin, FX conversion that returns the rate record used |
 | `text`, `geo` | Arabic/Latin normalisation, name similarity, distinguishing tokens, haversine distance |
 | `hotel-matching` | Evidence collection and `AUTO_ACCEPT / REVIEW / REJECT` decision for two property records |
-| `room-matching` | Room signature extraction (ar/en) and conservative equivalence; unknown critical attributes never match |
+| `room-matching` | Room signature extraction (ar/en); one identity definition shared by `roomsEquivalent` and `roomGroupKey`; every attribute must be identical, no size tolerance |
 | `comparison` | SAR pricing with FX provenance, like-for-like comparable sets, data-mode propagation |
-| `hotel-offers` | Hotel offer shape and comparable key |
+| `hotel-offers` | Hotel offer shape with required stay context and cancellation schedule; comparable key and the reasons an offer is not comparable |
 | `ticket-offers` | Provisional, future-scope ticket offer shape and comparable key (decision 0003; not a sales capability) |
-| `booking-state` | Booking lifecycle transition table |
+| `booking-state` | Evidence-carrying booking transitions; an operator hold can only resume or continue what the held state allowed |
 
 ## Commands
 
@@ -33,6 +33,7 @@ npx --yes -p typescript@5.9.3 tsc -p tsconfig.json && node --test "dist/test/*.t
 
 ## Integration notes
 
+- Contracts were tightened after the 2026-11-16 independent review; see `docs/audits/2026-11-16-fable-foundation-review-response.md`.
 - Not yet imported by `apps/gateway` or `apps/web-client`. Wiring it in belongs to Phase 1 and must follow recovery of the original Phase 0 branch.
 - The unrecovered Phase 0 branch reportedly created seven package skeletons (`domain`, `money`, `mapping-core`, `supplier-sdk`, `api-client`, `i18n`, `design-tokens`). This package deliberately uses a different path so nothing collides. After recovery, either keep it as one package or move modules into those skeletons with `git mv`; the public API in `src/index.ts` is the stable surface either way.
 - Thresholds in `DEFAULT_MATCH_CONFIG` are starting values from the plan, not measured results.

@@ -91,6 +91,7 @@ export function unverifiedReasons(sig: RoomSignature): string[] {
   if (sig.bed === null) out.push('UNKNOWN_BED');
   if (sig.view === null) out.push('UNKNOWN_VIEW');
   if (sig.maxOccupancy === null) out.push('UNKNOWN_MAX_OCCUPANCY');
+  else if (!Number.isInteger(sig.maxOccupancy) || sig.maxOccupancy <= 0) out.push('INVALID_MAX_OCCUPANCY');
   return out;
 }
 
@@ -99,35 +100,73 @@ export interface RoomEquivalence {
   readonly reasons: readonly string[];
 }
 
-export function roomsEquivalent(a: RoomSignature, b: RoomSignature): RoomEquivalence {
-  const reasons = [...new Set([...unverifiedReasons(a), ...unverifiedReasons(b)])];
-  if (reasons.length) return { equivalent: false, reasons };
+/**
+ * Normalised identity of a room. This is the ONLY definition of equivalence:
+ * `roomGroupKey` serialises it and `roomsEquivalent` compares it field by
+ * field, so the pairwise answer and the grouping answer cannot disagree.
+ *
+ * Fail-closed rules:
+ * - every field must be identical, including "unknown": a room whose class,
+ *   size or smoking status is unknown never joins one where it is known;
+ * - size is compared as whole square metres with no tolerance. A relative
+ *   tolerance is not transitive (20~22, 22~24, but 20!~24) and therefore
+ *   cannot define groups; a human reviewer may merge near-equal sizes later.
+ */
+interface RoomIdentity {
+  readonly class: RoomClass | '?';
+  readonly bed: BedType;
+  readonly view: string;
+  readonly occ: number;
+  readonly size: number | '?';
+  readonly smoking: boolean | '?';
+}
 
-  if (a.bed !== b.bed) reasons.push('BED_DIFFERS');
-  if (a.view !== b.view) reasons.push('VIEW_DIFFERS');
-  else if (a.viewPartial !== b.viewPartial) reasons.push('VIEW_PARTIAL_DIFFERS');
-  if (a.maxOccupancy !== b.maxOccupancy) reasons.push('MAX_OCCUPANCY_DIFFERS');
-  if (a.roomClass !== null && b.roomClass !== null && a.roomClass !== b.roomClass) reasons.push('CLASS_DIFFERS');
-  if (a.smoking !== null && b.smoking !== null && a.smoking !== b.smoking) reasons.push('SMOKING_DIFFERS');
-  if (a.sizeSqm !== null && b.sizeSqm !== null) {
-    const big = Math.max(a.sizeSqm, b.sizeSqm);
-    if (big > 0 && Math.abs(a.sizeSqm - b.sizeSqm) / big > 0.1) reasons.push('SIZE_DIFFERS');
+function normalizedSize(sizeSqm: number | null): number | '?' {
+  if (sizeSqm === null || !Number.isFinite(sizeSqm) || sizeSqm <= 0) return '?';
+  return Math.round(sizeSqm);
+}
+
+function roomIdentity(sig: RoomSignature): RoomIdentity | null {
+  if (sig.bed === null || sig.view === null || sig.maxOccupancy === null) return null;
+  if (!Number.isInteger(sig.maxOccupancy) || sig.maxOccupancy <= 0) return null;
+  return {
+    class: sig.roomClass ?? '?',
+    bed: sig.bed,
+    view: sig.view === 'none' ? 'none' : `${sig.view}${sig.viewPartial ? ':partial' : ''}`,
+    occ: sig.maxOccupancy,
+    size: normalizedSize(sig.sizeSqm),
+    smoking: sig.smoking ?? '?',
+  };
+}
+
+const IDENTITY_FIELDS: ReadonlyArray<[keyof RoomIdentity, string]> = [
+  ['class', 'CLASS'], ['bed', 'BED'], ['view', 'VIEW'], ['occ', 'MAX_OCCUPANCY'], ['size', 'SIZE'], ['smoking', 'SMOKING'],
+];
+
+export function roomsEquivalent(a: RoomSignature, b: RoomSignature): RoomEquivalence {
+  const ia = roomIdentity(a);
+  const ib = roomIdentity(b);
+  if (ia === null || ib === null) {
+    const reasons = [...new Set([...unverifiedReasons(a), ...unverifiedReasons(b)])];
+    return { equivalent: false, reasons: reasons.length ? reasons : ['INVALID_MAX_OCCUPANCY'] };
+  }
+  const reasons: string[] = [];
+  for (const [field, label] of IDENTITY_FIELDS) {
+    if (ia[field] === ib[field]) continue;
+    const oneUnknown = ia[field] === '?' || ib[field] === '?';
+    if (field === 'view' && a.view === b.view) reasons.push('VIEW_PARTIAL_DIFFERS');
+    else reasons.push(oneUnknown ? `${label}_KNOWN_ON_ONE_SIDE_ONLY` : `${label}_DIFFERS`);
   }
   return { equivalent: reasons.length === 0, reasons };
 }
 
 /**
  * Stable grouping key for verified rooms, or null when the room must stay
- * "unverified" and separate. Class is part of the key, so an unknown class
- * groups only with other unknown-class rooms of identical critical attributes.
+ * "unverified" and separate. Two signatures share a key exactly when
+ * `roomsEquivalent` says they are equivalent.
  */
 export function roomGroupKey(sig: RoomSignature): string | null {
-  if (unverifiedReasons(sig).length) return null;
-  return [
-    `class=${sig.roomClass ?? '?'}`,
-    `bed=${sig.bed}`,
-    `view=${sig.view}${sig.viewPartial ? ':partial' : ''}`,
-    `occ=${sig.maxOccupancy}`,
-    `smoking=${sig.smoking ?? '?'}`,
-  ].join(';');
+  const id = roomIdentity(sig);
+  if (id === null) return null;
+  return IDENTITY_FIELDS.map(([field]) => `${field}=${id[field]}`).join(';');
 }

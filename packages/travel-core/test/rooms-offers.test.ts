@@ -1,10 +1,10 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  buildComparableSets, combineDataModes, extractRoomSignature, hotelComparableKey, money, priceInSar,
-  roomGroupKey, roomsEquivalent, ticketComparableKey, type EventTicketOffer,
+  buildComparableSets, combineDataModes, extractRoomSignature, hotelComparabilityIssues, hotelComparableKey, money,
+  priceInSar, roomGroupKey, roomsEquivalent, ticketComparableKey, type EventTicketOffer, type RoomSignature,
 } from '../src/index';
-import { SYNTHETIC_FX, kingCity, offer } from './fixtures';
+import { SYNTHETIC_FX, freeUntil48h, kingCity, offer, stay } from './fixtures';
 
 test('room signature is parsed from English and Arabic names', () => {
   const en = extractRoomSignature({ name: 'Deluxe King Room, Partial Sea View' });
@@ -46,7 +46,7 @@ test('acceptance 6: board, refundability, payment timing and fees split comparab
     offer({ offerId: 'a', customerTotalSar: money(65000, 'SAR') }),
     offer({ offerId: 'b', supplierCode: 'SYN-B', customerTotalSar: money(61000, 'SAR') }),
     offer({ offerId: 'c', board: 'ROOM_ONLY', customerTotalSar: money(54000, 'SAR') }),
-    offer({ offerId: 'd', refundability: 'NON_REFUNDABLE', customerTotalSar: money(50000, 'SAR') }),
+    offer({ offerId: 'd', refundability: 'NON_REFUNDABLE', cancellationPolicy: null, customerTotalSar: money(50000, 'SAR') }),
     offer({ offerId: 'e', paymentTiming: 'AT_PROPERTY', customerTotalSar: money(60000, 'SAR') }),
     offer({ offerId: 'f', mandatoryFeesAtProperty: [money(5000, 'SAR')], customerTotalSar: money(58000, 'SAR') }),
   ];
@@ -126,4 +126,139 @@ test('future scope: ticket offers compare only within verified like-for-like ter
   assert.equal(sets.length, 3);
   assert.equal(sets.find((s) => s.offers.length === 2)?.cheapest.offerId, 'official-2');
   assert.deepEqual(notComparable.map((o) => o.offerId), ['unverified-cat', 'split-unknown']);
+});
+
+// ---- Review 2026-11-16 regressions -------------------------------------------------
+
+test('YR-01: 20 m2 and 60 m2 rooms are neither equivalent nor grouped nor ranked together', () => {
+  const small: RoomSignature = { ...kingCity, sizeSqm: 20 };
+  const large: RoomSignature = { ...kingCity, sizeSqm: 60 };
+  assert.deepEqual(roomsEquivalent(small, large), { equivalent: false, reasons: ['SIZE_DIFFERS'] });
+  assert.notEqual(roomGroupKey(small), roomGroupKey(large));
+  const { sets } = buildComparableSets(
+    [
+      offer({ offerId: 'small', roomSignature: small, customerTotalSar: money(40000, 'SAR') }),
+      offer({ offerId: 'large', roomSignature: large, customerTotalSar: money(90000, 'SAR') }),
+    ],
+    hotelComparableKey,
+  );
+  assert.equal(sets.length, 2);
+});
+
+test('YR-01: no tolerance chain can bridge sizes (20, 22, 24 stay three groups)', () => {
+  const keys = [20, 22, 24].map((sizeSqm) => roomGroupKey({ ...kingCity, sizeSqm }));
+  assert.equal(new Set(keys).size, 3);
+});
+
+test('YR-01: pairwise equivalence and group key agree for every pair in a mixed matrix', () => {
+  const variants: RoomSignature[] = [];
+  for (const sizeSqm of [null, 20, 20.4, 22, 60, 0, -5, Number.NaN])
+    for (const roomClass of [null, 'deluxe', 'superior'] as const)
+      for (const smoking of [null, true, false])
+        for (const bed of [null, 'king', 'queen'] as const)
+          for (const viewPartial of [false, true])
+            variants.push({ ...kingCity, sizeSqm, roomClass, smoking, bed, viewPartial });
+  let pairs = 0;
+  let equivalentPairs = 0;
+  for (const a of variants) {
+    for (const b of variants) {
+      const ka = roomGroupKey(a);
+      const sameGroup = ka !== null && ka === roomGroupKey(b);
+      const eq = roomsEquivalent(a, b);
+      assert.equal(eq.equivalent, sameGroup, `${JSON.stringify(a)} vs ${JSON.stringify(b)}`);
+      assert.equal(eq.reasons.length === 0, eq.equivalent);
+      pairs++;
+      if (sameGroup) equivalentPairs++;
+    }
+  }
+  assert.equal(pairs, variants.length ** 2);
+  assert.ok(equivalentPairs > 0 && equivalentPairs < pairs);
+});
+
+test('YR-01: unknown size, class or smoking never joins a known value; identical data still groups', () => {
+  const sized: RoomSignature = { ...kingCity, sizeSqm: 32 };
+  assert.deepEqual(roomsEquivalent(sized, kingCity).reasons, ['SIZE_KNOWN_ON_ONE_SIDE_ONLY']);
+  assert.deepEqual(roomsEquivalent(kingCity, { ...kingCity, roomClass: null }).reasons, ['CLASS_KNOWN_ON_ONE_SIDE_ONLY']);
+  assert.deepEqual(roomsEquivalent(kingCity, { ...kingCity, smoking: false }).reasons, ['SMOKING_KNOWN_ON_ONE_SIDE_ONLY']);
+  // Normal success: two suppliers describing the same room identically.
+  assert.ok(roomsEquivalent(sized, { ...sized }).equivalent);
+  assert.ok(roomsEquivalent({ ...sized, sizeSqm: 32.2 }, sized).equivalent); // same whole square metre
+  assert.equal(roomGroupKey({ ...kingCity, maxOccupancy: 0 }), null);
+  assert.ok(roomsEquivalent({ ...kingCity, maxOccupancy: 2.5 }, kingCity).reasons.includes('INVALID_MAX_OCCUPANCY'));
+});
+
+test('YR-03: different stay dates, room counts or residency are never ranked together', () => {
+  const offers = [
+    offer({ offerId: 'base' }),
+    offer({ offerId: 'same-context', supplierCode: 'SYN-B', customerTotalSar: money(60000, 'SAR') }),
+    offer({ offerId: 'other-dates', stay: { ...stay, checkOut: '2027-03-14' }, customerTotalSar: money(100, 'SAR') }),
+    offer({ offerId: 'shifted', stay: { ...stay, checkIn: '2027-03-11', checkOut: '2027-03-14' }, customerTotalSar: money(100, 'SAR') }),
+    offer({ offerId: 'two-rooms', stay: { ...stay, roomCount: 2 }, customerTotalSar: money(100, 'SAR') }),
+    offer({ offerId: 'other-residency', stay: { ...stay, guestResidency: 'AE' }, customerTotalSar: money(100, 'SAR') }),
+  ];
+  const { sets, notComparable } = buildComparableSets(offers, hotelComparableKey);
+  assert.equal(notComparable.length, 0);
+  assert.equal(sets.length, 5);
+  const main = sets.find((s) => s.offers.length === 2);
+  assert.deepEqual(main?.offers.map((o) => o.offerId), ['same-context', 'base']);
+});
+
+test('YR-03: equal labels with different deadlines or penalties are different products', () => {
+  const laterDeadline = [{ ...freeUntil48h[0]!, fromUtc: '2027-03-09T12:00:00Z' }];
+  const halfPenalty = [{ ...freeUntil48h[0]!, penalty: { type: 'PERCENT_OF_TOTAL' as const, bps: 5000 } }];
+  const amountPenalty = [{ ...freeUntil48h[0]!, penalty: { type: 'AMOUNT' as const, amount: money(61000, 'SAR') } }];
+  const twoStep = [
+    { fromUtc: '2027-03-05T12:00:00Z', penalty: { type: 'PERCENT_OF_TOTAL' as const, bps: 5000 } },
+    ...freeUntil48h,
+  ];
+  const offers = [
+    offer({ offerId: 'base' }),
+    offer({ offerId: 'later', cancellationPolicy: laterDeadline, customerTotalSar: money(100, 'SAR') }),
+    offer({ offerId: 'half', cancellationPolicy: halfPenalty, customerTotalSar: money(100, 'SAR') }),
+    offer({ offerId: 'amount', cancellationPolicy: amountPenalty, customerTotalSar: money(100, 'SAR') }),
+    offer({ offerId: 'two-step', cancellationPolicy: twoStep, customerTotalSar: money(100, 'SAR') }),
+  ];
+  const { sets } = buildComparableSets(offers, hotelComparableKey);
+  assert.equal(sets.length, 5);
+  assert.ok(sets.every((s) => s.offers.length === 1));
+});
+
+test('YR-03: the same schedule written differently still matches', () => {
+  const sameInstantOtherOffset = [{ ...freeUntil48h[0]!, fromUtc: '2027-03-08T15:00:00+03:00' }];
+  const twoStep = [
+    { fromUtc: '2027-03-05T12:00:00Z', penalty: { type: 'PERCENT_OF_TOTAL' as const, bps: 5000 } },
+    ...freeUntil48h,
+  ];
+  assert.equal(hotelComparableKey(offer({ offerId: 'a' })), hotelComparableKey(offer({ offerId: 'b', cancellationPolicy: sameInstantOtherOffset })));
+  assert.equal(
+    hotelComparableKey(offer({ offerId: 'a', cancellationPolicy: twoStep })),
+    hotelComparableKey(offer({ offerId: 'b', cancellationPolicy: [...twoStep].reverse() })),
+  );
+});
+
+test('YR-03: missing or malformed context fails closed with a stated reason', () => {
+  const cases: Array<[string, Parameters<typeof offer>[0]]> = [
+    ['CANCELLATION_POLICY_MISSING', { offerId: 'x', cancellationPolicy: null }],
+    ['CANCELLATION_POLICY_MISSING', { offerId: 'x', refundability: 'PARTIAL', cancellationPolicy: [] }],
+    ['CANCELLATION_DEADLINE_INVALID', { offerId: 'x', cancellationPolicy: [{ ...freeUntil48h[0]!, fromUtc: '2027-03-08 12:00' }] }],
+    ['CANCELLATION_DEADLINE_INVALID', { offerId: 'x', cancellationPolicy: [{ ...freeUntil48h[0]!, fromUtc: '2027-03-08T12:00:00' }] }],
+    ['CANCELLATION_PENALTY_INVALID', { offerId: 'x', cancellationPolicy: [{ ...freeUntil48h[0]!, penalty: { type: 'PERCENT_OF_TOTAL', bps: 10001 } }] }],
+    ['CANCELLATION_DEADLINE_DUPLICATED', { offerId: 'x', cancellationPolicy: [...freeUntil48h, { ...freeUntil48h[0]!, penalty: { type: 'PERCENT_OF_TOTAL', bps: 5000 } }] }],
+    ['CHECK_IN_INVALID', { offerId: 'x', stay: { ...stay, checkIn: '2027-02-30' } }],
+    ['CHECK_OUT_NOT_AFTER_CHECK_IN', { offerId: 'x', stay: { ...stay, checkOut: stay.checkIn } }],
+    ['ROOM_COUNT_INVALID', { offerId: 'x', stay: { ...stay, roomCount: 0 } }],
+    ['GUEST_RESIDENCY_INVALID', { offerId: 'x', stay: { ...stay, guestResidency: 'sa' } }],
+    ['STAY_CONTEXT_MISSING', { offerId: 'x', stay: undefined as never }],
+  ];
+  for (const [reason, over] of cases) {
+    const o = offer(over);
+    assert.ok(hotelComparabilityIssues(o).includes(reason), reason);
+    assert.equal(hotelComparableKey(o), null, reason);
+  }
+  const { sets, notComparable } = buildComparableSets(cases.map(([, over]) => offer(over)), hotelComparableKey);
+  assert.equal(sets.length, 0);
+  assert.equal(notComparable.length, cases.length);
+  // Normal success: a non-refundable offer needs no schedule, a refundable one needs a valid one.
+  assert.deepEqual(hotelComparabilityIssues(offer({ offerId: 'nr', refundability: 'NON_REFUNDABLE', cancellationPolicy: null })), []);
+  assert.deepEqual(hotelComparabilityIssues(offer({ offerId: 'ok' })), []);
 });
