@@ -1,3 +1,7 @@
+## Independent Fable review — 2026-11-16
+
+Owner authorized review and GitHub preservation without merge/paid activation. Fable foundation code was published at7cefc64deaa972ab964c4c89e1898ca5d86b2078 on foundation/fable-52-code; older “not pushed” lines below are historical. [Review](docs/audits/2026-11-16-fable-foundation-review.md): independent Mac TypeScript build +31/31 tests passed, but reproduced room-size grouping and manual-review lifecycle bypass, plus incomplete comparison context. Changes requested before integration; code is preserved unchanged. Original Phase0 recovery and existing app security findings remain unresolved. No live supplier/payment/model API, deployment or merge. Next: targeted regression fixes on a follow-up branch, then recover/reconcile Phase0 before application integration.
+
 ## Gap-aware plan and isolated foundation core — 2026-11-16
 
 Owner authorized one Claude Code session for foundation planning and isolated foundation implementation ([decision 0006](decisions/0006-isolated-foundation-core.md)). Work is on LOCAL branch `foundation/fable-52-code`, created from `migration/one-brain-foundation` at `d673ba5e752b4728bbcebf701b6e24cb78ac2aa4`. Nothing was pushed, merged or deployed.

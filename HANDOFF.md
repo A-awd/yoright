@@ -1,3 +1,7 @@
+## Independent Fable review — 2026-11-16
+
+Owner authorized review and GitHub preservation without merge/paid activation. Fable foundation code was published at7cefc64deaa972ab964c4c89e1898ca5d86b2078 on foundation/fable-52-code; older “not pushed” lines below are historical. [Review](docs/audits/2026-11-16-fable-foundation-review.md): independent Mac TypeScript build +31/31 tests passed, but reproduced room-size grouping and manual-review lifecycle bypass, plus incomplete comparison context. Changes requested before integration; code is preserved unchanged. Original Phase0 recovery and existing app security findings remain unresolved. No live supplier/payment/model API, deployment or merge. Next: targeted regression fixes on a follow-up branch, then recover/reconcile Phase0 before application integration.
+
 ## Handoff — gap-aware plan and isolated foundation core — 2026-11-16
 
 Where the work is: local branch `foundation/fable-52-code` in the Claude Code cloud session container, one commit on top of `d673ba5`. It is NOT on GitHub. The container is ephemeral; if the branch is not pushed or exported with owner authorization, it is lost when the session is reclaimed.
