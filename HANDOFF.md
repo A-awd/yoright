@@ -1,3 +1,7 @@
+## Existing-work audit on the new Mac — 2026-11-16
+
+Owner requested inspection and recovery without paid services. [Audit](docs/audits/2026-11-16-existing-work.md) distinguishes approved gateway/web code, older iCloud copies, the original Claude Phase0 work and missing iOS implementation. The complete original plan was recovered privately (SHA2565901e5d9f545b82af9857e83a3616552ad6dfb7b2e90494b47bffef48557611a); full five-commit code/history export remains incomplete. Historical Claude test results were read, not rerun on this Mac. No feature-code push, merge, live integration, model prompt, paid activation or Phase1. Next: preserve exact original Phase0 branch, then reconcile and run isolated mock checks; do not reconstruct it from the summary. Earlier records below remain preserved.
+
 ## Save-only continuation to the new Mac mini — 2026-11-13
 
 Owner requested preservation and transition preparation only. Read [the current detailed handoff](docs/handoffs/2026-11-13-mac-mini-continuation.md). No project work was resumed and no chat or draft composer was created, per explicit owner instruction. Do not infer that a device name, old absolute path, GitHub access or a cloud skill symlink proves access on the new Mac.
