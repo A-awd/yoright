@@ -1,3 +1,13 @@
+## Gap-aware plan and isolated foundation core — 2026-11-16
+
+Owner authorized one Claude Code session for foundation planning and isolated foundation implementation ([decision 0006](decisions/0006-isolated-foundation-core.md)). Work is on LOCAL branch `foundation/fable-52-code`, created from `migration/one-brain-foundation` at `d673ba5e752b4728bbcebf701b6e24cb78ac2aa4`. Nothing was pushed, merged or deployed.
+
+Verified: `feat/phase-0-foundation` and commits `ba5aeb8`, `e0e4eb2`, `b48d3b8`, `8e5da0e` are absent from the remote and from this clone. The original Phase 0 work was therefore NOT recreated and its reported results were NOT rerun. The insecure defaults it reportedly fixed are still present on the approved base.
+
+Added: [gap-aware plan](docs/plans/2026-11-16-gap-aware-foundation-plan.md); the recovered [2026-11-03 plan](docs/plans/2026-11-03-cross-platform-implementation-plan.md) (SHA-256 `5901e5d9f545b82af9857e83a3616552ad6dfb7b2e90494b47bffef48557611a` verified); new package `packages/travel-core` (money, Arabic/Latin matching, room equivalence, like-for-like comparison, booking states, provisional ticket comparison type). Executed here: TypeScript 5.9.3 compile with no diagnostics; `node --test` 31 tests, 31 pass, synthetic data only. No existing application file, root manifest, lockfile, schema or config was changed; the gateway and web client were not built or run.
+
+Next: owner chooses the recovery route for the original Phase 0 branch (plan section 3, R0). After recovery, verification and reconciliation, integrate this branch and start Phase 1b. Earlier records below remain preserved.
+
 ## Existing-work audit on the new Mac — 2026-11-16
 
 Owner requested inspection and recovery without paid services. [Audit](docs/audits/2026-11-16-existing-work.md) distinguishes approved gateway/web code, older iCloud copies, the original Claude Phase0 work and missing iOS implementation. The complete original plan was recovered privately (SHA2565901e5d9f545b82af9857e83a3616552ad6dfb7b2e90494b47bffef48557611a); full five-commit code/history export remains incomplete. Historical Claude test results were read, not rerun on this Mac. No feature-code push, merge, live integration, model prompt, paid activation or Phase1. Next: preserve exact original Phase0 branch, then reconcile and run isolated mock checks; do not reconstruct it from the summary. Earlier records below remain preserved.
